@@ -1,0 +1,42 @@
+name: github-pages
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pack site without reference footage
+        run: |
+          mkdir -p _site
+          cp index.html works.html admin.html 404.html .nojekyll _site/
+          cp -r css js supabase assets _site/
+      - name: Inject Supabase public keys if provided
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          if [ -n "$SUPABASE_URL" ] && [ -n "$SUPABASE_ANON_KEY" ]; then
+            python3 -c 'import json,os,pathlib; pathlib.Path("_site/js/config.js").write_text("window.DAWN_CONFIG = {\n  supabaseUrl: %s,\n  supabaseAnonKey: %s,\n};\n" % (json.dumps(os.environ["SUPABASE_URL"]), json.dumps(os.environ["SUPABASE_ANON_KEY"])), encoding="utf-8")'
+          fi
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4

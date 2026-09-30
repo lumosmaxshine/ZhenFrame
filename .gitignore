@@ -1,0 +1,17 @@
+# Local preview / caches
+.DS_Store
+Thumbs.db
+*.pyc
+__pycache__/
+.venv/
+venv/
+.env
+.env.local
+.idea/
+.vscode/
+
+# Local reference clips stay on this computer
+refer/
+_video_frames/
+_inbox_frames/
+*.zip

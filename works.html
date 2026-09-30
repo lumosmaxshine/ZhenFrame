@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZhenFrame — Works</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body data-page="works">
+  <header class="works-top">
+    <a class="works-brand" href="index.html">ZhenFrame</a>
+    <nav class="works-nav">
+      <a class="is-active" href="works.html">Works</a>
+      <a href="index.html">About</a>
+      <a href="index.html">Resume</a>
+    </nav>
+    <a class="works-mail" data-bind-mailto href="mailto:15004320356@qq.com">15004320356@qq.com</a>
+  </header>
+
+  <section class="works-hero">
+    <h1>ZhenFrame</h1>
+    <p>a visual design studio exploring brands, objects, stories and image systems through graphic, packaging and AI-driven design.</p>
+  </section>
+
+  <section class="works-list" id="worksList">
+    <!-- filled by js -->
+  </section>
+
+  <footer class="works-foot">
+    <div>
+      <p>Designing Identities</p>
+      <p>Building Visual Systems</p>
+      <p>Shaping Stories</p>
+    </div>
+    <div>
+      <p>Changsha, China</p>
+      <p>Available Worldwide</p>
+    </div>
+    <div class="works-foot__social">
+      <div class="fake-qr fake-qr--sm"></div>
+      <a href="#">WeChat</a>
+      <a href="#">REDNOTE</a>
+      <a href="mailto:15004320356@qq.com">Email</a>
+    </div>
+    <div>
+      <p>ZhenFrame© 2026</p>
+      <p>All Rights Reserved</p>
+    </div>
+  </footer>
+
+  <div class="modal" id="modal-project" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__panel modal__panel--project" role="dialog" aria-modal="true">
+      <div class="project-gallery">
+        <button class="gallery-nav gallery-nav--prev" type="button" id="galleryPrev" aria-label="Previous">‹</button>
+        <div class="gallery-main" id="galleryMain"></div>
+        <button class="gallery-nav gallery-nav--next" type="button" id="galleryNext" aria-label="Next">›</button>
+        <div class="gallery-thumbs" id="galleryThumbs"></div>
+      </div>
+      <aside class="project-side" id="projectSide">
+        <div class="project-side__tools">
+          <button type="button" id="projPrev" aria-label="Previous project">‹</button>
+          <button type="button" id="projNext" aria-label="Next project">›</button>
+          <button type="button" data-close aria-label="Close">×</button>
+        </div>
+        <p class="project-side__meta" id="projMeta"></p>
+        <h2 id="projTitle" data-work-field="name"></h2>
+        <div class="project-side__row">
+          <span>PROJECT</span><span id="projName" data-work-field="name"></span>
+        </div>
+        <div class="project-side__row">
+          <span>YEAR</span><span id="projYear" data-work-field="year"></span>
+        </div>
+        <p class="project-side__desc" id="projDesc" data-work-field="desc"></p>
+      </aside>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/defaults.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/works.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/editor.js"></script>
+</body>
+</html>

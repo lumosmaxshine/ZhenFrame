@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZhenFrame</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body data-page="board">
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__mark">
+      <span class="loader__brand">ZhenFrame</span>
+      <span class="loader__sub">PORTFOLIO</span>
+    </div>
+    <div class="loader__pct" id="loaderPct">0%</div>
+  </div>
+
+  <div class="stage">
+    <aside class="sidebar">
+      <header class="sidebar__head">
+        <p class="sidebar__brand" data-bind="brand">ZhenFrame</p>
+        <p class="sidebar__tag" data-bind="tagline">WHERE IDEAS MEET NEW BEGINNINGS.</p>
+      </header>
+
+      <div class="sidebar__status">
+        <span class="sidebar__status-label">WHY NOT MODE</span>
+        <span class="sidebar__status-dot"></span>
+        <span>CURIOSITY ACTIVE</span>
+      </div>
+
+      <div class="sidebar__legend">
+        <p class="sidebar__legend-title">Board Legend</p>
+        <ul>
+          <li><span>01 Key Tag</span><span>About</span></li>
+          <li><span>02 Clear File</span><span>Works</span></li>
+          <li><span>03 ID Card</span><span>Resume</span></li>
+          <li><span>04 Black Badge</span><span>Skills</span></li>
+          <li><span>05 Airmail Card</span><span>Contact</span></li>
+          <li><span>06 Note Tag</span><span>Updates</span></li>
+        </ul>
+      </div>
+
+      <div class="sidebar__hint">
+        <p>Object Interface</p>
+        <p>→ Hover for details</p>
+        <p>→ Click to unfold</p>
+      </div>
+
+      <p class="sidebar__manifesto" data-bind="manifesto">BRANDS / OBJECTS<br />STORIES &amp;<br />IMAGE SYSTEMS.</p>
+
+      <footer class="sidebar__foot">
+        <div class="qr-row">
+          <div class="qr-block" data-edit-media="wechatQr" aria-hidden="true"></div>
+          <div class="qr-block qr-block--alt" data-edit-media="rednoteQr" aria-hidden="true"></div>
+        </div>
+        <p class="sidebar__connect">CONNECT &amp; FOLLOW</p>
+        <p class="sidebar__cta" data-bind="cta">Discover my works — let's cooperate.</p>
+      </footer>
+    </aside>
+
+    <main class="board" id="board">
+      <div class="board__grid" aria-hidden="true"></div>
+
+      <button class="obj obj--key" data-modal="about" style="--x: 10%; --y: 7%; --sway: 5.8s; --delay: 0.1s;" type="button">
+        <span class="peg" aria-hidden="true"></span>
+        <span class="obj__sway">
+          <span class="hanger hanger--keys" aria-hidden="true">
+            <span class="keyring"></span>
+            <span class="key-blade key-blade--a"></span>
+            <span class="key-blade key-blade--b"></span>
+          </span>
+          <span class="obj__body">
+            <span class="obj__num">01</span>
+            <span class="obj__title">ABOUT ME<br /><em>个人简介</em></span>
+            <span class="obj__desc">Know more about my background and vision.</span>
+            <span class="obj__arrow">→</span>
+          </span>
+        </span>
+      </button>
+
+      <a class="obj obj--file" href="works.html" style="--x: 30%; --y: 3.5%; --sway: 6.6s; --delay: 0.7s;">
+        <span class="peg" aria-hidden="true"></span>
+        <span class="obj__sway">
+          <span class="hanger hanger--clip" aria-hidden="true"></span>
+          <span class="obj__body">
+            <span class="obj__paper">
+              <span class="obj__num">02 SELECTED WORKS</span>
+              <span class="obj__title">精选作品</span>
+              <span class="obj__desc">A selection of projects in branding, packaging, poster &amp; more.</span>
+              <ul class="work-list">
+                <li><span>01 BRANDING <em>品牌设计</em></span><span class="thumb thumb--0"></span></li>
+                <li><span>02 POSTER <em>海报设计</em></span><span class="thumb thumb--1"></span></li>
+                <li><span>03 PACKAGING <em>包装设计</em></span><span class="thumb thumb--2"></span></li>
+                <li><span>04 AI VISUAL <em>AI视觉</em></span><span class="thumb thumb--3"></span></li>
+                <li><span>05 EDITORIAL <em>编辑设计</em></span><span class="thumb thumb--4"></span></li>
+              </ul>
+            </span>
+          </span>
+        </span>
+      </a>
+
+      <button class="obj obj--id" data-modal="resume" style="--x: 66%; --y: 5%; --sway: 5.2s; --delay: 0.35s;" type="button">
+        <span class="peg" aria-hidden="true"></span>
+        <span class="obj__sway">
+          <span class="hanger hanger--strap" aria-hidden="true"></span>
+          <span class="obj__body">
+            <span class="obj__num">03 ABOUT ME <em>简介信息</em></span>
+            <span class="id-row">
+              <span class="id-photo" data-edit-media="portrait"></span>
+              <span class="id-meta">
+                <span>Work experience</span>
+                <span>Education</span>
+                <span class="id-link">VIEW CV →</span>
+              </span>
+            </span>
+          </span>
+        </span>
+      </button>
+
+      <button class="obj obj--badge" data-modal="skills" style="--x: 14%; --y: 52%; --sway: 4.9s; --delay: 1s;" type="button">
+        <span class="peg" aria-hidden="true"></span>
+        <span class="obj__sway">
+          <span class="hanger hanger--chain" aria-hidden="true"></span>
+          <span class="obj__body">
+            <span class="obj__num">04 SKILLS<br /><em>技能标签</em></span>
+            <span class="pill-row">
+              <span>BRANDING</span><span>POSTER</span>
+              <span>PACKAGING</span><span>AI VISUAL</span>
+            </span>
+            <span class="pill-row pill-row--solo"><span>SOCIAL MEDIA</span></span>
+          </span>
+        </span>
+      </button>
+
+      <button class="obj obj--airmail" data-modal="contact" style="--x: 47%; --y: 63%; --sway: 6s; --delay: 0.55s;" type="button">
+        <span class="peg" aria-hidden="true"></span>
+        <span class="obj__sway">
+          <span class="hanger hanger--hook" aria-hidden="true"></span>
+          <span class="obj__body">
+            <span class="obj__num">05 CONTACT<br /><em>联系方法</em></span>
+            <span class="contact-lines">
+              <span>15004320356@qq.com</span>
+              <span>183 7396 8105</span>
+              <span>Changsha, China</span>
+            </span>
+            <span class="stamp" aria-hidden="true">☺</span>
+          </span>
+        </span>
+      </button>
+
+      <button class="obj obj--note" data-modal="updates" style="--x: 79%; --y: 47%; --sway: 4.6s; --delay: 1.3s;" type="button">
+        <span class="peg" aria-hidden="true"></span>
+        <span class="obj__sway">
+          <span class="hanger hanger--chain hanger--chain-long" aria-hidden="true"></span>
+          <span class="obj__body">
+            <span class="obj__title" data-bind="updatesTitle">OPEN TO WORK</span>
+            <span class="obj__desc" data-bind="updatesBlurb">Let's create something great together. Available for full-time roles &amp; projects.</span>
+            <span class="barcode"></span>
+          </span>
+        </span>
+      </button>
+    </main>
+  </div>
+
+  <!-- Modals -->
+  <div class="modal" id="modal-about" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__panel modal__panel--about" role="dialog" aria-modal="true">
+      <button class="modal__close" data-close type="button" aria-label="Close">×</button>
+      <div class="about-split">
+        <div class="about-split__top">
+          <h2>ABOUT ME / 个人简介</h2>
+          <p data-bind="about.zh">对我来说，设计能把复杂想法变得更容易理解，化解限制，再找出满足创造欲的路径。我相信灵感藏在最平凡的地方，把这些想法变成可触摸的东西，是我一直好奇的事。</p>
+        </div>
+        <div class="about-split__bottom">
+          <p data-bind="about.en">For me, design makes complex ideas easier to understand, overcomes limits, and opens room for creativity. Inspiration lives in ordinary things — turning them into something tangible is what keeps me curious.</p>
+          <div class="about-door" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-skills" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__panel modal__panel--skills" role="dialog" aria-modal="true">
+      <button class="modal__close modal__close--light" data-close type="button" aria-label="Close">×</button>
+      <h2>SKILLS / 技能标签</h2>
+      <div class="skill-ovals">
+        <figure><div class="oval oval--1"></div><figcaption>MOTION</figcaption></figure>
+        <figure><div class="oval oval--2"></div><figcaption>IP DESIGN</figcaption></figure>
+        <figure><div class="oval oval--3"></div><figcaption>TYPOGRAPHY</figcaption></figure>
+        <figure><div class="oval oval--4"></div><figcaption>BRANDING</figcaption></figure>
+        <figure><div class="oval oval--5"></div><figcaption>POSTER</figcaption></figure>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-contact" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__panel modal__panel--contact" role="dialog" aria-modal="true">
+      <button class="modal__close" data-close type="button" aria-label="Close">×</button>
+      <div class="contact-accordion" id="contactAccordion">
+        <button class="acc-card acc-card--wechat" type="button" data-acc="0">
+          <div class="acc-card__face"><div class="fake-qr"></div><span>CONNECT</span></div>
+          <span class="acc-card__label">WECHAT</span>
+        </button>
+        <button class="acc-card acc-card--red" type="button" data-acc="1">
+          <div class="acc-card__face"><div class="fake-qr fake-qr--red"></div><span>INSPIRATION</span></div>
+          <span class="acc-card__label">REDNOTE</span>
+        </button>
+        <button class="acc-card acc-card--city is-open" type="button" data-acc="2">
+          <div class="acc-card__face">
+            <div class="city-stamp">
+              <span class="city-stamp__city" data-bind="contact.city">长沙</span>
+              <span class="city-stamp__en" data-bind="contact.cityEn">CHANG SHA</span>
+              <span class="city-stamp__note">CONNECT LOCALLY</span>
+            </div>
+          </div>
+          <span class="acc-card__label">CITY</span>
+        </button>
+        <button class="acc-card acc-card--phone" type="button" data-acc="3">
+          <div class="acc-card__face"><span class="acc-icon">☎</span><span>183 7396 8105</span></div>
+          <span class="acc-card__label">PHONE</span>
+        </button>
+        <button class="acc-card acc-card--email" type="button" data-acc="4">
+          <div class="acc-card__face"><span class="acc-icon">@</span><span>15004320356@qq.com</span></div>
+          <span class="acc-card__label">EMAIL</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-resume" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__panel modal__panel--resume" role="dialog" aria-modal="true">
+      <button class="modal__close" data-close type="button" aria-label="Close">×</button>
+      <h2>RESUME / 简历</h2>
+      <div class="resume-grid">
+        <div>
+          <h3>Experience</h3>
+          <ul>
+            <li><strong>2024 — Now</strong> Independent Designer · Brand &amp; Visual</li>
+            <li><strong>2022 — 2024</strong> Studio Associate · Packaging Systems</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Education</h3>
+          <ul>
+            <li><strong>2018 — 2022</strong> BFA Visual Communication · Fiction University</li>
+          </ul>
+        </div>
+      </div>
+      <p class="resume-note">CV PDF 占位 — 后续替换真实文件</p>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-updates" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__panel modal__panel--updates" role="dialog" aria-modal="true">
+      <button class="modal__close" data-close type="button" aria-label="Close">×</button>
+      <h2>UPDATES</h2>
+      <ul class="updates-list">
+        <li><time>2026.03</time><span>Open to full-time &amp; project collabs</span></li>
+        <li><time>2026.01</time><span>New packaging series in progress</span></li>
+        <li><time>2025.11</time><span>Website refresh — this board</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/defaults.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/editor.js"></script>
+</body>
+</html>
