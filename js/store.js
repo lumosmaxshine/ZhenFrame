@@ -1,6 +1,11 @@
 (() => {
   const cfg = () => window.DAWN_CONFIG || {};
-  const configured = () => Boolean(cfg().supabaseUrl && cfg().supabaseAnonKey);
+  const configured = () => {
+    const url = String(cfg().supabaseUrl || "").trim().replace(/\/rest\/v1\/?$/i, "").replace(/\/+$/, "");
+    const key = String(cfg().supabaseAnonKey || "").trim();
+    if (url) cfg().supabaseUrl = url;
+    return Boolean(url && key);
+  };
 
   let client = null;
   const getClient = () => {

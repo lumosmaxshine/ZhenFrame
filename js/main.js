@@ -21,6 +21,42 @@
     tick();
   }
 
+  const layoutBoard = () => {
+    const board = document.getElementById("board");
+    if (!board) return;
+    const sample = board.querySelector(".obj");
+    if (!sample || getComputedStyle(sample).position !== "absolute") return;
+    const grid = 26;
+    const W = board.clientWidth;
+    const H = board.clientHeight;
+    if (W < 200 || H < 200) return;
+    board.querySelectorAll(".obj").forEach((el) => {
+      const px = Number(el.dataset.px);
+      const py = Number(el.dataset.py);
+      if (Number.isNaN(px) || Number.isNaN(py)) return;
+      const w = el.offsetWidth || parseFloat(getComputedStyle(el).getPropertyValue("--w")) || 120;
+      const h = el.offsetHeight || 160;
+      let col = Math.round((px * W) / grid) + Number(el.dataset.dcol || 0);
+      let row = Math.round((py * H) / grid) + Number(el.dataset.drow || 0);
+      const minCol = Math.max(1, Math.round((w / 2) / grid));
+      const maxCol = Math.max(minCol, Math.round((W - w / 2) / grid) - 1);
+      const minRow = 1;
+      const maxRow = Math.max(1, Math.round((H - h - 8) / grid));
+      col = Math.min(Math.max(col, minCol), maxCol);
+      row = Math.min(Math.max(row, minRow), maxRow);
+      el.style.left = `${col * grid + grid / 2 - w / 2}px`;
+      el.style.top = `${row * grid + grid / 2 - 7}px`;
+    });
+  };
+
+  window.layoutBoard = layoutBoard;
+  layoutBoard();
+  requestAnimationFrame(layoutBoard);
+  window.addEventListener("load", layoutBoard);
+  window.addEventListener("resize", layoutBoard);
+  setTimeout(layoutBoard, 80);
+  setTimeout(layoutBoard, 400);
+
   const openModal = (id) => {
     const el = document.getElementById(`modal-${id}`);
     if (!el) return;
@@ -38,8 +74,10 @@
 
   document.querySelectorAll("[data-modal]").forEach((btn) => {
     btn.addEventListener("click", (e) => {
-      if (e.target.closest(".id-link") && window.DAWN_CONTENT?.resume?.cvUrl) {
-        window.open(window.DAWN_CONTENT.resume.cvUrl, "_blank", "noopener");
+      if (e.target.closest("[data-lightbox], .id-link, .contact-qr, .id-photo")) {
+        if (e.target.closest(".id-link") && window.DAWN_CONTENT?.resume?.cvUrl) {
+          window.open(window.DAWN_CONTENT.resume.cvUrl, "_blank", "noopener");
+        }
         return;
       }
       openModal(btn.dataset.modal);
@@ -54,6 +92,11 @@
 
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape") return;
+    const light = document.getElementById("qrLightbox");
+    if (light && !light.hidden) {
+      light.hidden = true;
+      return;
+    }
     document.querySelectorAll(".modal").forEach((m) => {
       if (!m.hidden) closeModal(m);
     });
@@ -77,4 +120,42 @@
       });
     });
   }
+
+  const lightbox = document.getElementById("qrLightbox");
+  const lightboxImg = document.getElementById("qrLightboxImg");
+  const openLightbox = (url) => {
+    if (!lightbox || !lightboxImg || !url) return;
+    lightboxImg.src = url;
+    lightbox.hidden = false;
+  };
+  const closeLightbox = () => {
+    if (!lightbox) return;
+    lightbox.hidden = true;
+    if (lightboxImg) lightboxImg.removeAttribute("src");
+  };
+
+  document.querySelectorAll("[data-close-lightbox]").forEach((el) => {
+    el.addEventListener("click", closeLightbox);
+  });
+
+  document.addEventListener(
+    "click",
+    (e) => {
+      const slot = e.target.closest("[data-lightbox='qr']");
+      if (!slot) return;
+      if (document.body.classList.contains("is-owner")) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const url =
+        slot.style.backgroundImage?.match(/url\(["']?(.*?)["']?\)/)?.[1] ||
+        window.DAWN_CONTENT?.contact?.wechatQr ||
+        "";
+      if (!url) {
+        openModal("contact");
+        return;
+      }
+      openLightbox(url);
+    },
+    true
+  );
 })();

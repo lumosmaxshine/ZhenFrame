@@ -182,12 +182,14 @@
         </div>
         ${field("简介", `work.${w.id}.desc`, w.desc, true)}
         <div class="media-grid">
-          ${(w.media || []).map((m, i) => mediaThumb(m, w.id, i)).join("")}
+          ${(w.media || [])
+            .map((m, i) => ((m.kind === "image" || m.kind === "video") && m.src ? mediaThumb(m, w.id, i) : ""))
+            .join("")}
         </div>
-        <label class="file-btn btn btn--ghost">添加图片
+        <label class="file-btn btn btn--ghost">上传照片
           <input type="file" accept="image/*" data-upload="work-image:${w.id}" />
         </label>
-        <label class="file-btn btn btn--ghost">添加视频
+        <label class="file-btn btn btn--ghost">上传视频
           <input type="file" accept="video/*" data-upload="work-video:${w.id}" />
         </label>
         <button class="btn btn--danger" type="button" data-del-work="${esc(w.id)}">删除这个项目</button>
@@ -222,15 +224,13 @@
   };
 
   const draw = async () => {
-    if (!DawnStore.configured()) {
-      main.innerHTML = setupView();
-      logoutBtn.hidden = true;
-      return;
-    }
-    const sess = await DawnStore.session();
+    const sess = DawnStore.configured() ? await DawnStore.session() : null;
     if (!sess) {
       main.innerHTML = loginView();
       logoutBtn.hidden = true;
+      if (!DawnStore.configured()) {
+        say("还没读到云端配置。请用 Ctrl+F5 强制刷新本页。若打开的是网上地址，需要先把配置推到 GitHub。");
+      }
       return;
     }
     logoutBtn.hidden = false;
@@ -261,13 +261,13 @@
         const id = kind.split(":")[1];
         const url = await DawnStore.upload(file, `works/${id}`);
         const work = content.works.find((w) => w.id === id);
-        work.media = work.media || [];
+        work.media = (work.media || []).filter((m) => (m.kind === "image" || m.kind === "video") && m.src);
         work.media.push({ kind: "image", src: url });
       } else if (kind.startsWith("work-video:")) {
         const id = kind.split(":")[1];
         const url = await DawnStore.upload(file, `works/${id}`);
         const work = content.works.find((w) => w.id === id);
-        work.media = work.media || [];
+        work.media = (work.media || []).filter((m) => (m.kind === "image" || m.kind === "video") && m.src);
         work.media.push({ kind: "video", src: url });
       }
       say("上传完成，记得点「保存到网站」。");

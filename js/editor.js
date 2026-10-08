@@ -116,6 +116,7 @@
       location.reload();
     });
     enableInline();
+    window.DawnWorks?.refresh?.();
   };
 
   const bindMediaClicks = () => {
@@ -148,8 +149,11 @@
     );
 
     document.addEventListener("dawn:work-media", async (e) => {
-      if (!document.body.classList.contains("is-owner")) return;
       const { action } = e.detail || {};
+      if (!document.body.classList.contains("is-owner")) {
+        say("请先点右下角「开通编辑」登录，才能上传照片和视频");
+        return;
+      }
       const work = window.DawnWorks?.active?.();
       if (!work) return;
       try {
@@ -191,20 +195,13 @@
     bindMediaClicks();
 
     if (!window.DawnStore) return;
-    if (!DawnStore.configured()) {
-      const bar = ensureBar();
-      bar.classList.add("editor-bar--fab");
-      bar.innerHTML = `<a href="admin.html">开通编辑</a>`;
-      return;
-    }
-    const sess = await DawnStore.session();
+    const bar = ensureBar();
+    bar.classList.add("editor-bar--fab");
+    bar.innerHTML = `<button type="button" id="editorEnter">开通编辑</button>`;
+    bar.querySelector("#editorEnter").addEventListener("click", loginPanel);
+
+    const sess = DawnStore.configured() ? await DawnStore.session() : null;
     if (sess) showOwnerBar();
-    else {
-      const bar = ensureBar();
-      bar.classList.add("editor-bar--fab");
-      bar.innerHTML = `<button type="button" id="editorEnter">编辑</button>`;
-      bar.querySelector("#editorEnter").addEventListener("click", loginPanel);
-    }
 
     const params = new URLSearchParams(location.search);
     if (params.get("edit") === "1" && !(await DawnStore.session())) loginPanel();

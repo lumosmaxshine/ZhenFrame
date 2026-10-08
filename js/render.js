@@ -16,9 +16,12 @@
     if (url) {
       el.style.backgroundImage = `url("${url}")`;
       el.style.backgroundSize = "cover";
+      el.style.backgroundPosition = "center";
+      el.style.backgroundBlendMode = "normal";
       el.classList.add("has-media");
     } else {
       el.style.backgroundImage = "";
+      el.style.backgroundBlendMode = "";
       el.classList.remove("has-media");
     }
   };
@@ -44,6 +47,7 @@
 
     fillQr(document.querySelector(".qr-block:not(.qr-block--alt)"), c.contact?.wechatQr);
     fillQr(document.querySelector(".qr-block--alt"), c.contact?.rednoteQr);
+    fillQr(document.querySelector(".contact-qr"), c.contact?.wechatQr);
     fillQr(document.querySelector(".acc-card--wechat .fake-qr"), c.contact?.wechatQr);
     fillQr(document.querySelector(".acc-card--red .fake-qr"), c.contact?.rednoteQr);
     fillQr(document.querySelector(".id-photo"), c.contact?.portrait);

@@ -18,31 +18,37 @@
   const projDesc = document.getElementById("projDesc");
 
   const mediaOf = (p) => {
-    if (p.media?.length) return p.media;
-    if (p.slides?.length) return p.slides.map((color) => ({ kind: "color", color }));
-    return [{ kind: "color", color: p.color || "#ccc" }];
+    const list = p?.media || [];
+    const real = list.filter((m) => (m.kind === "image" || m.kind === "video") && m.src);
+    return real;
   };
 
   const previewStyle = (p) => {
     const first = mediaOf(p)[0];
     if (first?.kind === "image") return `background-image:url('${first.src}');background-size:cover;background-position:center`;
-    return `background:${p.color || first?.color || "#ccc"}`;
+    if (first?.kind === "video") return `background:#1a1a1a`;
+    return `background:${p.color || "#d8d2c6"}`;
   };
 
   const slideHtml = (item) => {
     if (item.kind === "video") {
       return `<video class="gallery-slide gallery-slide--media" src="${item.src}" controls playsinline></video>`;
     }
-    if (item.kind === "image") {
-      return `<img class="gallery-slide gallery-slide--media" src="${item.src}" alt="" />`;
-    }
-    return `<div class="gallery-slide" style="background:${item.color || "#ccc"}"></div>`;
+    return `<img class="gallery-slide gallery-slide--media" src="${item.src}" alt="" />`;
+  };
+
+  const emptyHtml = () => {
+    const owner = document.body.classList.contains("is-owner");
+    return `
+      <div class="gallery-empty">
+        <p>还没有照片或视频</p>
+        <p>${owner ? "点下面的按钮，把作品图或短视频加进来" : "登录后可以在这里上传照片和视频"}</p>
+      </div>`;
   };
 
   const thumbStyle = (item) => {
-    if (item.kind === "image") return `background-image:url('${item.src}');background-size:cover`;
-    if (item.kind === "video") return `background:#111`;
-    return `background:${item.color || "#ccc"}`;
+    if (item.kind === "image") return `background-image:url('${item.src}');background-size:cover;background-position:center`;
+    return `background:#111`;
   };
 
   const renderList = () => {
@@ -62,9 +68,13 @@
 
   const paintSlides = (project) => {
     const media = mediaOf(project);
+    const ownerBar = document.getElementById("galleryOwner");
+    const delBtn = document.getElementById("galleryDel");
+    if (ownerBar) ownerBar.hidden = false;
     if (!media.length) {
-      galleryMain.innerHTML = `<div class="gallery-slide" style="background:${project.color || "#ccc"}"></div>`;
+      galleryMain.innerHTML = emptyHtml();
       galleryThumbs.innerHTML = "";
+      if (delBtn) delBtn.hidden = true;
     } else {
       slideIndex = Math.min(slideIndex, media.length - 1);
       const item = media[slideIndex] || media[0];
@@ -72,23 +82,10 @@
       galleryThumbs.innerHTML = media
         .map(
           (m, i) =>
-            `<button type="button" data-slide="${i}" class="${i === slideIndex ? "is-active" : ""}" style="${thumbStyle(m)}" aria-label="Slide ${i + 1}"></button>`
+            `<button type="button" data-slide="${i}" class="${i === slideIndex ? "is-active" : ""} ${m.kind === "video" ? "is-video" : ""}" style="${thumbStyle(m)}" aria-label="${m.kind === "video" ? "视频" : "图片"} ${i + 1}"></button>`
         )
         .join("");
-    }
-    let tools = galleryMain.parentElement.querySelector(".gallery-owner");
-    if (document.body.classList.contains("is-owner")) {
-      if (!tools) {
-        tools = document.createElement("div");
-        tools.className = "gallery-owner";
-        tools.innerHTML = `
-          <button type="button" data-owner="add-image">+ 图片</button>
-          <button type="button" data-owner="add-video">+ 视频</button>
-          <button type="button" data-owner="del-slide">删除当前</button>`;
-        galleryMain.parentElement.appendChild(tools);
-      }
-    } else if (tools) {
-      tools.remove();
+      if (delBtn) delBtn.hidden = false;
     }
   };
 
@@ -125,11 +122,13 @@
     });
     document.getElementById("galleryPrev")?.addEventListener("click", () => {
       const media = mediaOf(projects[activeIndex]);
+      if (!media.length) return;
       slideIndex = (slideIndex - 1 + media.length) % media.length;
       paintSlides(projects[activeIndex]);
     });
     document.getElementById("galleryNext")?.addEventListener("click", () => {
       const media = mediaOf(projects[activeIndex]);
+      if (!media.length) return;
       slideIndex = (slideIndex + 1) % media.length;
       paintSlides(projects[activeIndex]);
     });
@@ -178,15 +177,16 @@
     addMedia(item) {
       const p = projects[activeIndex];
       if (!p) return;
-      const current = p.media?.length ? p.media : mediaOf(p);
-      const onlyColors = current.every((m) => m.kind === "color" && !m.src);
-      p.media = onlyColors ? [item] : current.concat(item);
+      const current = mediaOf(p);
+      p.media = current.concat(item);
       slideIndex = p.media.length - 1;
       this.refresh();
     },
     removeCurrent() {
       const p = projects[activeIndex];
-      if (!p?.media?.length) return;
+      if (!p) return;
+      p.media = mediaOf(p);
+      if (!p.media.length) return;
       p.media.splice(slideIndex, 1);
       slideIndex = Math.max(0, slideIndex - 1);
       this.refresh();

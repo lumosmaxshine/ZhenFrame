@@ -59,6 +59,11 @@
         <div class="gallery-main" id="galleryMain"></div>
         <button class="gallery-nav gallery-nav--next" type="button" id="galleryNext" aria-label="Next">›</button>
         <div class="gallery-thumbs" id="galleryThumbs"></div>
+        <div class="gallery-owner" id="galleryOwner" hidden>
+          <button type="button" data-owner="add-image">上传照片</button>
+          <button type="button" data-owner="add-video">上传视频</button>
+          <button type="button" data-owner="del-slide" id="galleryDel">删除当前</button>
+        </div>
       </div>
       <aside class="project-side" id="projectSide">
         <div class="project-side__tools">
@@ -80,7 +85,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/config.js"></script>
+  <script src="js/config.js?v=cloud1"></script>
   <script src="js/defaults.js"></script>
   <script src="js/store.js"></script>
   <script src="js/render.js"></script>

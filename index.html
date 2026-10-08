@@ -53,8 +53,8 @@
 
       <footer class="sidebar__foot">
         <div class="qr-row">
-          <div class="qr-block" data-edit-media="wechatQr" aria-hidden="true"></div>
-          <div class="qr-block qr-block--alt" data-edit-media="rednoteQr" aria-hidden="true"></div>
+          <button class="qr-block" type="button" data-edit-media="wechatQr" data-lightbox="qr" aria-label="微信二维码"></button>
+          <button class="qr-block qr-block--alt" type="button" data-edit-media="rednoteQr" data-lightbox="qr" aria-label="小红书二维码"></button>
         </div>
         <p class="sidebar__connect">CONNECT &amp; FOLLOW</p>
         <p class="sidebar__cta" data-bind="cta">Discover my works — let's cooperate.</p>
@@ -64,14 +64,9 @@
     <main class="board" id="board">
       <div class="board__grid" aria-hidden="true"></div>
 
-      <button class="obj obj--key" data-modal="about" style="--x: 10%; --y: 7%; --sway: 5.8s; --delay: 0.1s;" type="button">
+      <button class="obj obj--key" data-modal="about" data-px="0.12" data-py="0.07" style="--w: 124px; --px: 0.12; --py: 0.07;" type="button">
         <span class="peg" aria-hidden="true"></span>
         <span class="obj__sway">
-          <span class="hanger hanger--keys" aria-hidden="true">
-            <span class="keyring"></span>
-            <span class="key-blade key-blade--a"></span>
-            <span class="key-blade key-blade--b"></span>
-          </span>
           <span class="obj__body">
             <span class="obj__num">01</span>
             <span class="obj__title">ABOUT ME<br /><em>个人简介</em></span>
@@ -81,49 +76,64 @@
         </span>
       </button>
 
-      <a class="obj obj--file" href="works.html" style="--x: 30%; --y: 3.5%; --sway: 6.6s; --delay: 0.7s;">
+      <a class="obj obj--file" href="works.html" data-px="0.46" data-py="0.05" style="--w: 278px; --px: 0.46; --py: 0.05;">
         <span class="peg" aria-hidden="true"></span>
         <span class="obj__sway">
-          <span class="hanger hanger--clip" aria-hidden="true"></span>
-          <span class="obj__body">
-            <span class="obj__paper">
-              <span class="obj__num">02 SELECTED WORKS</span>
-              <span class="obj__title">精选作品</span>
-              <span class="obj__desc">A selection of projects in branding, packaging, poster &amp; more.</span>
-              <ul class="work-list">
-                <li><span>01 BRANDING <em>品牌设计</em></span><span class="thumb thumb--0"></span></li>
-                <li><span>02 POSTER <em>海报设计</em></span><span class="thumb thumb--1"></span></li>
-                <li><span>03 PACKAGING <em>包装设计</em></span><span class="thumb thumb--2"></span></li>
-                <li><span>04 AI VISUAL <em>AI视觉</em></span><span class="thumb thumb--3"></span></li>
-                <li><span>05 EDITORIAL <em>编辑设计</em></span><span class="thumb thumb--4"></span></li>
-              </ul>
+          <span class="obj__body sleeve">
+            <span class="sleeve__shell">
+              <span class="sleeve__rivet sleeve__rivet--tl"></span>
+              <span class="sleeve__rivet sleeve__rivet--tr"></span>
+              <span class="sleeve__rivet sleeve__rivet--bl"></span>
+              <span class="sleeve__rivet sleeve__rivet--br"></span>
+              <span class="sleeve__glare" aria-hidden="true"></span>
+              <span class="obj__paper">
+                <span class="obj__num">02</span>
+                <span class="obj__title">SELECTED WORKS<br /><em>精选作品</em></span>
+                <span class="obj__rule" aria-hidden="true"></span>
+                <span class="obj__desc">A selection of projects in branding, packaging, poster &amp; more.</span>
+                <ul class="work-list">
+                  <li><span>01 BRANDING <em>品牌设计</em></span><span class="thumb thumb--0"></span></li>
+                  <li><span>02 POSTER <em>海报设计</em></span><span class="thumb thumb--1"></span></li>
+                  <li><span>03 PACKAGING <em>包装设计</em></span><span class="thumb thumb--2"></span></li>
+                  <li><span>04 AI VISUAL <em>AI视觉</em></span><span class="thumb thumb--3"></span></li>
+                  <li><span>05 EDITORIAL <em>编辑设计</em></span><span class="thumb thumb--4"></span></li>
+                </ul>
+              </span>
             </span>
           </span>
         </span>
       </a>
 
-      <button class="obj obj--id" data-modal="resume" style="--x: 66%; --y: 5%; --sway: 5.2s; --delay: 0.35s;" type="button">
+      <button class="obj obj--id" data-modal="resume" data-px="0.80" data-py="0.16" data-drow="-2" style="--w: 248px; --px: 0.80; --py: 0.16; --drow: -2;" type="button">
         <span class="peg" aria-hidden="true"></span>
         <span class="obj__sway">
-          <span class="hanger hanger--strap" aria-hidden="true"></span>
-          <span class="obj__body">
-            <span class="obj__num">03 ABOUT ME <em>简介信息</em></span>
-            <span class="id-row">
-              <span class="id-photo" data-edit-media="portrait"></span>
-              <span class="id-meta">
-                <span>Work experience</span>
-                <span>Education</span>
-                <span class="id-link">VIEW CV →</span>
+          <span class="obj__body leather-badge">
+            <span class="leather-badge__frame">
+              <span class="leather-badge__window">
+                <span class="id-head">
+                  <span class="obj__num">03 ABOUT ME</span>
+                  <span class="id-zh">简介<br />信息</span>
+                </span>
+                <span class="id-row">
+                  <span class="id-photo" data-edit-media="portrait" title="证件照"></span>
+                  <span class="id-meta">
+                    <span>Work experience</span>
+                    <span>Education</span>
+                  </span>
+                </span>
+                <span class="id-foot">
+                  <span class="id-link">VIEW CV</span>
+                  <span class="id-arrow" aria-hidden="true">→</span>
+                </span>
               </span>
             </span>
           </span>
         </span>
       </button>
 
-      <button class="obj obj--badge" data-modal="skills" style="--x: 14%; --y: 52%; --sway: 4.9s; --delay: 1s;" type="button">
+      <button class="obj obj--badge" data-modal="skills" data-px="0.15" data-py="0.56" style="--w: 208px; --px: 0.15; --py: 0.56;" type="button">
         <span class="peg" aria-hidden="true"></span>
         <span class="obj__sway">
-          <span class="hanger hanger--chain" aria-hidden="true"></span>
           <span class="obj__body">
             <span class="obj__num">04 SKILLS<br /><em>技能标签</em></span>
             <span class="pill-row">
@@ -135,26 +145,31 @@
         </span>
       </button>
 
-      <button class="obj obj--airmail" data-modal="contact" style="--x: 47%; --y: 63%; --sway: 6s; --delay: 0.55s;" type="button">
+      <button class="obj obj--airmail" data-modal="contact" data-px="0.70" data-py="0.66" data-dcol="-5" style="--w: 262px; --px: 0.70; --py: 0.66; --dcol: -5;" type="button">
         <span class="peg" aria-hidden="true"></span>
         <span class="obj__sway">
-          <span class="hanger hanger--hook" aria-hidden="true"></span>
-          <span class="obj__body">
-            <span class="obj__num">05 CONTACT<br /><em>联系方法</em></span>
-            <span class="contact-lines">
-              <span>15004320356@qq.com</span>
-              <span>183 7396 8105</span>
-              <span>Changsha, China</span>
+          <span class="obj__body stamp-card">
+            <span class="stamp-card__face">
+              <span class="stamp-card__top">
+                <span class="obj__num">05 CONTACT<br /><em>联系方法</em></span>
+                <span class="contact-qr" role="button" tabindex="0" data-edit-media="wechatQr" data-lightbox="qr" aria-label="查看联系二维码">
+                  <span class="contact-qr__hint">扫码添加</span>
+                </span>
+              </span>
+              <span class="contact-lines">
+                <span>15004320356@qq.com</span>
+                <span>183 7396 8105</span>
+                <span>Changsha, China</span>
+              </span>
+              <span class="stamp-serial">ZF.12·2003</span>
             </span>
-            <span class="stamp" aria-hidden="true">☺</span>
           </span>
         </span>
       </button>
 
-      <button class="obj obj--note" data-modal="updates" style="--x: 79%; --y: 47%; --sway: 4.6s; --delay: 1.3s;" type="button">
+      <button class="obj obj--note" data-modal="updates" data-px="0.91" data-py="0.46" style="--w: 112px; --px: 0.91; --py: 0.46;" type="button">
         <span class="peg" aria-hidden="true"></span>
         <span class="obj__sway">
-          <span class="hanger hanger--chain hanger--chain-long" aria-hidden="true"></span>
           <span class="obj__body">
             <span class="obj__title" data-bind="updatesTitle">OPEN TO WORK</span>
             <span class="obj__desc" data-bind="updatesBlurb">Let's create something great together. Available for full-time roles &amp; projects.</span>
@@ -204,11 +219,11 @@
       <button class="modal__close" data-close type="button" aria-label="Close">×</button>
       <div class="contact-accordion" id="contactAccordion">
         <button class="acc-card acc-card--wechat" type="button" data-acc="0">
-          <div class="acc-card__face"><div class="fake-qr"></div><span>CONNECT</span></div>
+          <div class="acc-card__face"><div class="fake-qr" data-edit-media="wechatQr" data-lightbox="qr"></div><span>CONNECT</span></div>
           <span class="acc-card__label">WECHAT</span>
         </button>
         <button class="acc-card acc-card--red" type="button" data-acc="1">
-          <div class="acc-card__face"><div class="fake-qr fake-qr--red"></div><span>INSPIRATION</span></div>
+          <div class="acc-card__face"><div class="fake-qr fake-qr--red" data-edit-media="rednoteQr" data-lightbox="qr"></div><span>INSPIRATION</span></div>
           <span class="acc-card__label">REDNOTE</span>
         </button>
         <button class="acc-card acc-card--city is-open" type="button" data-acc="2">
@@ -270,8 +285,16 @@
     </div>
   </div>
 
+  <div class="lightbox" id="qrLightbox" hidden>
+    <button class="lightbox__backdrop" type="button" data-close-lightbox aria-label="关闭"></button>
+    <figure class="lightbox__panel">
+      <img id="qrLightboxImg" alt="联系二维码" />
+      <figcaption>扫码添加 · 再点空白处关闭</figcaption>
+    </figure>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/config.js"></script>
+  <script src="js/config.js?v=cloud1"></script>
   <script src="js/defaults.js"></script>
   <script src="js/store.js"></script>
   <script src="js/render.js"></script>
