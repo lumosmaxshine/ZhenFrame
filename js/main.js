@@ -21,7 +21,56 @@
     tick();
   }
 
+  const isCompact = () => window.matchMedia("(max-width: 980px)").matches;
+
+  const fitStage = () => {
+    const stage = document.getElementById("stage");
+    const shell = document.getElementById("stageShell");
+    const hint = document.getElementById("rotateHint");
+    if (!stage) return;
+    if (!isCompact()) {
+      stage.style.cssText = "";
+      if (shell) shell.style.cssText = "";
+      if (hint) hint.hidden = true;
+      return;
+    }
+    const designW = 1200;
+    const designH = 800;
+    const landscape = window.matchMedia("(orientation: landscape)").matches;
+    const padX = landscape ? 8 : 12;
+    const padY = landscape ? 6 : 10;
+    const hintH = landscape ? 0 : 40;
+    const fabH = landscape ? 44 : 56;
+    const availW = Math.max(280, window.innerWidth - padX * 2);
+    const availH = Math.max(220, window.innerHeight - padY * 2 - hintH - fabH);
+    const scale = Math.min(availW / designW, availH / designH);
+    const showW = Math.floor(designW * scale);
+    const showH = Math.floor(designH * scale);
+
+    stage.style.width = `${designW}px`;
+    stage.style.minWidth = `${designW}px`;
+    stage.style.height = `${designH}px`;
+    stage.style.minHeight = `${designH}px`;
+    stage.style.transformOrigin = "top left";
+    stage.style.transform = `scale(${scale})`;
+    stage.style.position = "absolute";
+    stage.style.left = "0";
+    stage.style.top = "0";
+
+    if (shell) {
+      shell.style.display = "block";
+      shell.style.position = "relative";
+      shell.style.width = `${showW}px`;
+      shell.style.height = `${showH}px`;
+      shell.style.margin = "0 auto";
+      shell.style.overflow = "hidden";
+      shell.style.flex = "0 0 auto";
+    }
+    if (hint) hint.hidden = landscape;
+  };
+
   const layoutBoard = () => {
+    fitStage();
     const board = document.getElementById("board");
     if (!board) return;
     const sample = board.querySelector(".obj");
@@ -54,6 +103,7 @@
   requestAnimationFrame(layoutBoard);
   window.addEventListener("load", layoutBoard);
   window.addEventListener("resize", layoutBoard);
+  window.addEventListener("orientationchange", () => setTimeout(layoutBoard, 120));
   setTimeout(layoutBoard, 80);
   setTimeout(layoutBoard, 400);
 

@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=mobile1" />
+  <link rel="stylesheet" href="css/main.css?v=mobile2" />
 </head>
 <body data-page="board">
   <div class="loader" id="loader" aria-hidden="true">
@@ -18,7 +18,9 @@
     <div class="loader__pct" id="loaderPct">0%</div>
   </div>
 
-  <div class="stage">
+  <p class="rotate-hint" id="rotateHint" hidden>竖屏可看完整洞板 · 手机横过来更大更清楚</p>
+  <div class="stage-shell" id="stageShell">
+  <div class="stage" id="stage">
     <aside class="sidebar">
       <header class="sidebar__head">
         <p class="sidebar__brand" data-bind="brand">ZhenFrame</p>
@@ -179,6 +181,7 @@
       </button>
     </main>
   </div>
+  </div>
 
   <!-- Modals -->
   <div class="modal" id="modal-about" hidden>
@@ -298,7 +301,7 @@
   <script src="js/defaults.js"></script>
   <script src="js/store.js"></script>
   <script src="js/render.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/main.js?v=mobile2"></script>
   <script src="js/editor.js"></script>
 </body>
 </html>
