@@ -67,6 +67,9 @@ button {
 
 .loader__mark {
   text-align: center;
+  width: min(92vw, 28rem);
+  padding: 0 0.75rem;
+  box-sizing: border-box;
   animation: loaderPulse 1.2s ease-in-out infinite alternate;
 }
 
@@ -74,9 +77,14 @@ button {
   display: block;
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(3rem, 8vw, 5.5rem);
-  letter-spacing: -0.04em;
+  font-size: clamp(1.85rem, 9.5vw, 5.5rem);
+  letter-spacing: -0.03em;
   line-height: 1;
+  white-space: nowrap;
+  max-width: 92vw;
+  margin: 0 auto;
+  overflow: visible;
+  text-align: center;
 }
 
 .loader__sub {
@@ -1616,11 +1624,39 @@ body[data-page="works"] {
 
 @media (max-width: 980px) and (orientation: landscape) {
   body[data-page="board"] {
-    padding: 0.25rem 0.35rem 3.6rem;
+    padding: 0;
+    justify-content: center;
   }
 
   .rotate-hint {
     display: none !important;
+  }
+
+  .stage-shell {
+    width: 100vw !important;
+    max-width: 100vw;
+  }
+}
+
+/* 竖屏点图标后的「横屏模式」：旋转铺满 */
+@media (max-width: 980px) {
+  body[data-page="board"].is-force-landscape {
+    padding: 0;
+    overflow: hidden;
+  }
+
+  body[data-page="board"].is-force-landscape .stage-shell {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin: 0;
+    transform: translate(-50%, -50%) rotate(90deg);
+    transform-origin: center center;
+    z-index: 2;
+  }
+
+  body[data-page="board"].is-force-landscape .editor-bar--fab {
+    z-index: 20;
   }
 }
 

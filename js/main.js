@@ -28,24 +28,40 @@
     const shell = document.getElementById("stageShell");
     const hint = document.getElementById("rotateHint");
     if (!stage) return;
+    if (hint) hint.hidden = true;
     if (!isCompact()) {
       stage.style.cssText = "";
       if (shell) shell.style.cssText = "";
-      if (hint) hint.hidden = true;
+      document.body.classList.remove("is-force-landscape");
       return;
     }
     const designW = 1200;
     const designH = 800;
-    const landscape = window.matchMedia("(orientation: landscape)").matches;
-    const padX = landscape ? 8 : 12;
-    const padY = landscape ? 6 : 10;
-    const hintH = landscape ? 0 : 40;
-    const fabH = landscape ? 44 : 56;
-    const availW = Math.max(280, window.innerWidth - padX * 2);
-    const availH = Math.max(220, window.innerHeight - padY * 2 - hintH - fabH);
-    const scale = Math.min(availW / designW, availH / designH);
+    const forceLand = document.body.classList.contains("is-force-landscape");
+    const nativeLand = window.matchMedia("(orientation: landscape)").matches;
+    const landscape = forceLand || nativeLand;
+    const padX = landscape ? 4 : 12;
+    const padY = landscape ? 4 : 10;
+    const fabH = landscape ? 8 : 56;
+    let availW = Math.max(280, window.innerWidth - padX * 2);
+    let availH = Math.max(220, window.innerHeight - padY * 2 - fabH);
+
+    // 竖屏点「横屏模式」时：按横屏可用区域计算，再整体旋转铺满
+    if (forceLand && !nativeLand) {
+      availW = Math.max(280, window.innerHeight - padY * 2 - fabH);
+      availH = Math.max(220, window.innerWidth - padX * 2);
+    }
+
+    // 横屏：铺满屏幕（可略裁边）；竖屏：完整放入
+    const scale = landscape
+      ? Math.max(availW / designW, availH / designH)
+      : Math.min(availW / designW, availH / designH);
     const showW = Math.floor(designW * scale);
     const showH = Math.floor(designH * scale);
+    const frameW = landscape ? Math.floor(availW) : showW;
+    const frameH = landscape ? Math.floor(availH) : showH;
+    const offsetX = Math.floor((frameW - showW) / 2);
+    const offsetY = Math.floor((frameH - showH) / 2);
 
     stage.style.width = `${designW}px`;
     stage.style.minWidth = `${designW}px`;
@@ -54,19 +70,18 @@
     stage.style.transformOrigin = "top left";
     stage.style.transform = `scale(${scale})`;
     stage.style.position = "absolute";
-    stage.style.left = "0";
-    stage.style.top = "0";
+    stage.style.left = `${offsetX}px`;
+    stage.style.top = `${offsetY}px`;
 
     if (shell) {
       shell.style.display = "block";
       shell.style.position = "relative";
-      shell.style.width = `${showW}px`;
-      shell.style.height = `${showH}px`;
+      shell.style.width = `${frameW}px`;
+      shell.style.height = `${frameH}px`;
       shell.style.margin = "0 auto";
       shell.style.overflow = "hidden";
       shell.style.flex = "0 0 auto";
     }
-    if (hint) hint.hidden = landscape;
   };
 
   const layoutBoard = () => {
