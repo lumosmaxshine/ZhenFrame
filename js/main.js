@@ -120,6 +120,8 @@
     const W = board.clientWidth;
     const H = board.clientHeight;
     if (W < 200 || H < 200) return;
+    // 洞心在每格中心 (13 + 26n)；图钉中心在卡片顶边水平居中、y=7
+    const pegR = 7;
     board.querySelectorAll(".obj").forEach((el) => {
       const px = Number(el.dataset.px);
       const py = Number(el.dataset.py);
@@ -131,11 +133,13 @@
       const minCol = Math.max(1, Math.round((w / 2) / grid));
       const maxCol = Math.max(minCol, Math.round((W - w / 2) / grid) - 1);
       const minRow = 1;
-      const maxRow = Math.max(1, Math.round((H - h - 8) / grid));
+      const maxRow = Math.max(1, Math.round((H - h - pegR) / grid));
       col = Math.min(Math.max(col, minCol), maxCol);
       row = Math.min(Math.max(row, minRow), maxRow);
-      el.style.left = `${col * grid + grid / 2 - w / 2}px`;
-      el.style.top = `${row * grid + grid / 2 - 7}px`;
+      const holeX = col * grid + grid / 2;
+      const holeY = row * grid + grid / 2;
+      el.style.left = `${holeX - w / 2}px`;
+      el.style.top = `${holeY - pegR}px`;
     });
   };
 

@@ -313,6 +313,7 @@ button {
   inset: 0;
   background-image: radial-gradient(circle at 50% 50%, #6d665c 1.7px, #4e4942 2.3px, transparent 2.5px);
   background-size: 26px 26px;
+  /* 与 layoutBoard 洞心 (13+26n) 对齐 */
   background-position: 0 0;
   pointer-events: none;
   opacity: 0.55;
@@ -330,7 +331,7 @@ a.obj {
   --grid: 26px;
   position: absolute;
   left: calc(var(--px, 0.5) * 100% - var(--w) / 2 + var(--dcol, 0) * 26px);
-  top: calc(var(--py, 0.2) * 100% - 8px + var(--drow, 0) * 26px);
+  top: calc(var(--py, 0.2) * 100% - 7px + var(--drow, 0) * 26px);
   width: var(--w);
   overflow: visible;
   text-decoration: none;
@@ -348,7 +349,7 @@ a.obj {
   outline: none;
 }
 
-/* Thumbtack — sits on a pegboard hole, pins the card */
+/* Thumbtack — 圆心压在洞心，卡片顶边过圆心（一半在板上、一半在卡上） */
 .peg {
   position: absolute;
   left: 50%;
@@ -364,6 +365,7 @@ a.obj {
     0 2px 3px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.8),
     0 0 0 1px rgba(40, 35, 28, 0.25);
+  pointer-events: none;
 }
 
 .obj__sway {
@@ -633,22 +635,44 @@ a.obj {
   z-index: 2;
 }
 
+/* 邮票齿孔边：四周半圆打孔 */
 .stamp-card__face {
+  --stamp-tooth: 6px;
+  --stamp-step: 12px;
   display: block;
   position: relative;
   z-index: 1;
-  padding: 0.95rem 1rem 1.25rem;
+  padding: 1rem 1.05rem 1.35rem;
   color: #1a1a1a;
   background: #fffaf4;
-  border: 2px dashed #3a5f9e;
-  border-radius: 2px;
-  box-shadow:
-    0 0 0 4px #fffaf4,
-    0 0 0 7px #c45c4a,
-    0 10px 20px rgba(40, 30, 15, 0.12);
+  border: none;
+  border-radius: 0;
+  box-shadow: 0 10px 20px rgba(40, 30, 15, 0.14);
+  -webkit-mask-image: radial-gradient(
+    circle at var(--stamp-tooth) var(--stamp-tooth),
+    transparent calc(var(--stamp-tooth) - 0.35px),
+    #000 calc(var(--stamp-tooth) + 0.35px)
+  );
+  -webkit-mask-size: var(--stamp-step) var(--stamp-step);
+  -webkit-mask-position: calc(var(--stamp-tooth) * -1) calc(var(--stamp-tooth) * -1);
+  mask-image: radial-gradient(
+    circle at var(--stamp-tooth) var(--stamp-tooth),
+    transparent calc(var(--stamp-tooth) - 0.35px),
+    #000 calc(var(--stamp-tooth) + 0.35px)
+  );
+  mask-size: var(--stamp-step) var(--stamp-step);
+  mask-position: calc(var(--stamp-tooth) * -1) calc(var(--stamp-tooth) * -1);
 }
 
-.stamp-card__face::before,
+.stamp-card__face::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px solid rgba(26, 26, 26, 0.16);
+  pointer-events: none;
+  z-index: 0;
+}
+
 .stamp-card__face::after {
   display: none;
 }
@@ -1771,6 +1795,18 @@ body[data-page="works"] {
 
 .brand-menu[hidden] {
   display: none !important;
+}
+
+/* 强制横屏时：菜单与洞板同向 */
+.brand-menu.is-force-land {
+  max-height: min(72vw, 420px);
+  overflow: auto;
+}
+
+.settings-panel.is-force-land .settings-panel__card {
+  transform: rotate(90deg);
+  max-width: min(72vh, 420px);
+  max-height: min(86vw, 640px);
 }
 
 .brand-menu__item {

@@ -67,7 +67,12 @@
 
   const closeBrandMenu = () => {
     const menu = document.getElementById("brandMenu");
-    if (menu) menu.hidden = true;
+    if (menu) {
+      menu.hidden = true;
+      menu.dataset.open = "0";
+      menu.classList.remove("is-force-land");
+      menu.style.transform = "";
+    }
     const btn = document.getElementById("brandMenuBtn");
     if (btn) btn.setAttribute("aria-expanded", "false");
   };
@@ -155,11 +160,23 @@
           : ""
       }`;
 
-    const rect = btn.getBoundingClientRect();
+    const forceLand = document.body.classList.contains("is-force-landscape");
     menu.hidden = false;
     menu.dataset.open = "1";
-    menu.style.left = `${Math.min(rect.left, window.innerWidth - 240)}px`;
-    menu.style.top = `${rect.bottom + 8}px`;
+    menu.classList.toggle("is-force-land", forceLand);
+    if (forceLand) {
+      // 跟洞板同一阅读方向：屏幕正中并旋转 90°
+      menu.style.left = "50%";
+      menu.style.top = "50%";
+      menu.style.right = "auto";
+      menu.style.transform = "translate(-50%, -50%) rotate(90deg)";
+    } else {
+      const rect = btn.getBoundingClientRect();
+      menu.style.transform = "";
+      menu.style.left = `${Math.min(rect.left, window.innerWidth - 240)}px`;
+      menu.style.top = `${rect.bottom + 8}px`;
+      menu.style.right = "auto";
+    }
     btn.setAttribute("aria-expanded", "true");
 
     menu.querySelectorAll("[data-go]").forEach((el) => {
@@ -239,9 +256,10 @@
   const openSettings = async () => {
     closeSettings();
     const sess = DawnStore.configured() ? await DawnStore.session() : null;
+    const forceLand = document.body.classList.contains("is-force-landscape");
     const wrap = document.createElement("div");
     wrap.id = "settingsPanel";
-    wrap.className = "settings-panel";
+    wrap.className = `settings-panel${forceLand ? " is-force-land" : ""}`;
     wrap.innerHTML = `
       <div class="settings-panel__card">
         <header class="settings-panel__head">
