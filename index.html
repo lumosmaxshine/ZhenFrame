@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=set1" />
+  <link rel="stylesheet" href="css/main.css?v=menu1" />
 </head>
 <body data-page="board">
   <div class="loader" id="loader" aria-hidden="true">
@@ -19,13 +19,19 @@
   </div>
 
   <button class="landscape-toggle" id="landscapeToggle" type="button" hidden aria-label="切换横屏模式" title="切换横屏模式">
-    <img src="assets/icons/landscape-a.jpg" alt="" width="44" height="44" />
+    <svg viewBox="0 0 48 48" width="34" height="34" aria-hidden="true">
+      <rect x="8" y="16" width="32" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/>
+      <path d="M15 12c2.2-3.2 6-5 10.2-4.6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M23.5 5.8l1.8 4.4-4.5.7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M33 36c-2.2 3.2-6 5-10.2 4.6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M24.5 42.2l-1.8-4.4 4.5-.7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
   </button>
   <div class="stage-shell" id="stageShell">
   <div class="stage" id="stage">
     <aside class="sidebar">
       <header class="sidebar__head">
-        <p class="sidebar__brand" data-bind="brand">ZhenFrame</p>
+        <button class="sidebar__brand" id="brandMenuBtn" type="button" data-bind="brand" aria-haspopup="menu" aria-expanded="false">ZhenFrame</button>
         <p class="sidebar__tag" data-bind="tagline">WHERE IDEAS MEET NEW BEGINNINGS.</p>
       </header>
 
@@ -303,7 +309,7 @@
   <script src="js/defaults.js"></script>
   <script src="js/store.js?v=set1"></script>
   <script src="js/render.js"></script>
-  <script src="js/main.js?v=set1"></script>
-  <script src="js/editor.js?v=set1"></script>
+  <script src="js/main.js?v=menu1"></script>
+  <script src="js/editor.js?v=menu1"></script>
 </body>
 </html>

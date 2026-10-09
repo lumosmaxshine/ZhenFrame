@@ -36,6 +36,7 @@
 
   const enableInline = () => {
     document.querySelectorAll("[data-bind], [data-work-field]").forEach((el) => {
+      if (el.id === "brandMenuBtn") return;
       el.contentEditable = "true";
       el.classList.add("is-editable");
       el.addEventListener("mousedown", (e) => e.stopPropagation());
@@ -61,26 +62,128 @@
     }
   };
 
-  const ensureSettingsFab = () => {
-    let btn = document.getElementById("settingsFab");
-    if (btn) return btn;
-    btn = document.createElement("button");
-    btn.id = "settingsFab";
-    btn.className = "settings-fab";
-    btn.type = "button";
-    btn.setAttribute("aria-label", "设置");
-    btn.title = "设置";
-    btn.innerHTML = `
-      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
-        <path fill="currentColor" d="M19.14 12.94c.04-.31.06-.63.06-.94s-.02-.63-.06-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.1 7.1 0 0 0-1.63-.94l-.36-2.54a.5.5 0 0 0-.5-.42h-3.84a.5.5 0 0 0-.5.42l-.36 2.54c-.59.24-1.13.55-1.63.94l-2.39-.96a.5.5 0 0 0-.6.22L2.77 8.84a.5.5 0 0 0 .12.64l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.5.5 0 0 0-.12.64l1.92 3.32c.13.23.4.32.6.22l2.39-.96c.5.39 1.04.7 1.63.94l.36 2.54c.05.24.26.42.5.42h3.84c.24 0 .45-.18.5-.42l.36-2.54c.59-.24 1.13-.55 1.63-.94l2.39.96c.23.1.48 0 .6-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58zM12 15.6A3.6 3.6 0 1 1 12 8.4a3.6 3.6 0 0 1 0 7.2z"/>
-      </svg>`;
-    document.body.appendChild(btn);
-    btn.addEventListener("click", () => openSettings());
-    return btn;
+  const icon = (path) =>
+    `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="${path}"/></svg>`;
+
+  const closeBrandMenu = () => {
+    const menu = document.getElementById("brandMenu");
+    if (menu) menu.hidden = true;
+    const btn = document.getElementById("brandMenuBtn");
+    if (btn) btn.setAttribute("aria-expanded", "false");
   };
 
   const closeSettings = () => {
     document.getElementById("settingsPanel")?.remove();
+  };
+
+  const goSection = (key) => {
+    closeBrandMenu();
+    if (key === "works") {
+      location.href = "works.html";
+      return;
+    }
+    const map = {
+      about: "about",
+      resume: "resume",
+      skills: "skills",
+      contact: "contact",
+      updates: "updates",
+    };
+    const id = map[key];
+    if (!id) return;
+    const modal = document.getElementById(`modal-${id}`);
+    const trigger = document.querySelector(`[data-modal="${id}"]`);
+    if (trigger) trigger.click();
+    else if (modal) {
+      modal.hidden = false;
+      document.body.style.overflow = "hidden";
+    }
+  };
+
+  const openBrandMenu = async () => {
+    const btn = document.getElementById("brandMenuBtn");
+    if (!btn) return;
+    let menu = document.getElementById("brandMenu");
+    if (!menu) {
+      menu = document.createElement("div");
+      menu.id = "brandMenu";
+      menu.className = "brand-menu";
+      menu.setAttribute("role", "menu");
+      document.body.appendChild(menu);
+      document.addEventListener("click", (e) => {
+        if (e.target.closest("#brandMenu") || e.target.closest("#brandMenuBtn")) return;
+        closeBrandMenu();
+      });
+    }
+    if (!menu.hidden && menu.dataset.open === "1") {
+      closeBrandMenu();
+      return;
+    }
+    const sess = DawnStore.configured() ? await DawnStore.session() : null;
+    menu.innerHTML = `
+      <button type="button" class="brand-menu__item" data-go="about" role="menuitem">
+        ${icon("M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-4 0-7 2-7 4v1h14v-1c0-2-3-4-7-4z")}简介 About
+      </button>
+      <button type="button" class="brand-menu__item" data-go="works" role="menuitem">
+        ${icon("M4 5h16v3H4zm0 5h10v3H4zm0 5h14v3H4z")}作品 Works
+      </button>
+      <button type="button" class="brand-menu__item" data-go="resume" role="menuitem">
+        ${icon("M7 3h10a2 2 0 0 1 2 2v14l-7-3-7 3V5a2 2 0 0 1 2-2z")}简历 Resume
+      </button>
+      <button type="button" class="brand-menu__item" data-go="skills" role="menuitem">
+        ${icon("M12 2l2.4 7.2H22l-6 4.4 2.3 7L12 16.8 5.7 20.6 8 13.6 2 9.2h7.6z")}技能 Skills
+      </button>
+      <button type="button" class="brand-menu__item" data-go="contact" role="menuitem">
+        ${icon("M4 5h16v14H4zm2 2v2h12V7zm0 4v2h8v-2zm0 4v2h10v-2z")}联系 Contact
+      </button>
+      <button type="button" class="brand-menu__item" data-go="updates" role="menuitem">
+        ${icon("M5 4h14v2H5zm0 5h14v11H5zm3 3v2h8v-2z")}动态 Updates
+      </button>
+      <div class="brand-menu__sep"></div>
+      <button type="button" class="brand-menu__item" data-act="settings" role="menuitem">
+        ${icon("M19.14 12.94c.04-.31.06-.63.06-.94s-.02-.63-.06-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.1 7.1 0 0 0-1.63-.94l-.36-2.54a.5.5 0 0 0-.5-.42h-3.84a.5.5 0 0 0-.5.42l-.36 2.54c-.59.24-1.13.55-1.63.94l-2.39-.96a.5.5 0 0 0-.6.22L2.77 8.84a.5.5 0 0 0 .12.64l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.5.5 0 0 0-.12.64l1.92 3.32c.13.23.4.32.6.22l2.39-.96c.5.39 1.04.7 1.63.94l.36 2.54c.05.24.26.42.5.42h3.84c.24 0 .45-.18.5-.42l.36-2.54c.59-.24 1.13-.55 1.63-.94l2.39.96c.23.1.48 0 .6-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58zM12 15.6A3.6 3.6 0 1 1 12 8.4a3.6 3.6 0 0 1 0 7.2z")}
+        ${sess ? "设置 / 保存" : "设置 / 登录"}
+      </button>
+      <a class="brand-menu__item" href="admin.html" role="menuitem">
+        ${icon("M4 4h16v4H4zm0 6h10v4H4zm0 6h16v4H4z")}完整后台
+      </a>
+      ${
+        sess
+          ? `<button type="button" class="brand-menu__item" data-act="logout" role="menuitem">
+        ${icon("M10 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h5M14 12H7m7-4l4 4-4 4")}退出登录
+      </button>`
+          : ""
+      }`;
+
+    const rect = btn.getBoundingClientRect();
+    menu.hidden = false;
+    menu.dataset.open = "1";
+    menu.style.left = `${Math.min(rect.left, window.innerWidth - 240)}px`;
+    menu.style.top = `${rect.bottom + 8}px`;
+    btn.setAttribute("aria-expanded", "true");
+
+    menu.querySelectorAll("[data-go]").forEach((el) => {
+      el.addEventListener("click", () => goSection(el.dataset.go));
+    });
+    menu.querySelector("[data-act='settings']")?.addEventListener("click", () => {
+      closeBrandMenu();
+      openSettings();
+    });
+    menu.querySelector("[data-act='logout']")?.addEventListener("click", async () => {
+      await DawnStore.logout();
+      location.reload();
+    });
+  };
+
+  const bindBrandMenu = () => {
+    const btn = document.getElementById("brandMenuBtn");
+    if (!btn || btn.dataset.bound) return;
+    btn.dataset.bound = "1";
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openBrandMenu();
+    });
   };
 
   const applyContent = (content) => {
@@ -93,11 +196,11 @@
 
   const renderHistory = async (box) => {
     if (!box) return;
-    box.innerHTML = `<p class="settings-muted">读取历史…</p>`;
+    box.innerHTML = "";
     try {
       const list = await DawnStore.listHistory();
       if (!list.length) {
-        box.innerHTML = `<p class="settings-muted">还没有历史记录。每次「保存到网上」会自动留一份。</p>`;
+        box.innerHTML = "";
         return;
       }
       box.innerHTML = list
@@ -149,7 +252,6 @@
         <section class="settings-section" id="settingsAuth"></section>
         <section class="settings-section">
           <h3>历史记录</h3>
-          <p class="settings-muted">改完如果后悔，可从这里恢复到之前的版本。</p>
           <div id="settingsHistory" class="settings-history"></div>
         </section>
       </div>`;
@@ -301,7 +403,8 @@
     if (!window.DawnStore) return;
 
     document.getElementById("editorBar")?.remove();
-    ensureSettingsFab();
+    document.getElementById("settingsFab")?.remove();
+    bindBrandMenu();
 
     const sess = DawnStore.configured() ? await DawnStore.session() : null;
     if (sess) showOwnerBar();
