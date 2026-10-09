@@ -38,38 +38,41 @@
       }
       return;
     }
-    if (toggle) {
-      toggle.hidden = false;
-      toggle.setAttribute(
-        "aria-pressed",
-        document.body.classList.contains("is-force-landscape") ? "true" : "false"
-      );
-    }
-    const designW = 1200;
-    const designH = 800;
     const forceLand = document.body.classList.contains("is-force-landscape");
     const nativeLand = window.matchMedia("(orientation: landscape)").matches;
-    const landscape = forceLand || nativeLand;
-    const padX = landscape ? 4 : 12;
-    const padY = landscape ? 4 : 10;
-    const fabH = landscape ? 8 : 56;
-    let availW = Math.max(280, window.innerWidth - padX * 2);
-    let availH = Math.max(220, window.innerHeight - padY * 2 - fabH);
-
-    // 竖屏点「横屏模式」时：按横屏可用区域计算，再整体旋转铺满
-    if (forceLand && !nativeLand) {
-      availW = Math.max(280, window.innerHeight - padY * 2 - fabH);
-      availH = Math.max(220, window.innerWidth - padX * 2);
+    if (toggle) {
+      // 手机已横过来时不需要按钮
+      toggle.hidden = nativeLand;
+      toggle.setAttribute("aria-pressed", forceLand ? "true" : "false");
     }
 
-    // 横屏：铺满屏幕（可略裁边）；竖屏：完整放入
-    const scale = landscape
-      ? Math.max(availW / designW, availH / designH)
-      : Math.min(availW / designW, availH / designH);
+    const designW = 1200;
+    const designH = 800;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    let frameW;
+    let frameH;
+    let scale;
+
+    if (forceLand && !nativeLand) {
+      // 壳子会旋转 90°：CSS 宽 → 屏幕高，CSS 高 → 屏幕宽；用完整装入，不裁切
+      frameW = Math.max(280, Math.floor(vh - 12));
+      frameH = Math.max(220, Math.floor(vw - 12));
+      scale = Math.min(frameW / designW, frameH / designH);
+    } else if (nativeLand) {
+      frameW = Math.max(280, Math.floor(vw - 8));
+      frameH = Math.max(220, Math.floor(vh - 8));
+      scale = Math.min(frameW / designW, frameH / designH);
+    } else {
+      frameW = Math.max(280, Math.floor(vw - 24));
+      frameH = Math.max(220, Math.floor(vh - 72));
+      scale = Math.min(frameW / designW, frameH / designH);
+      frameW = Math.floor(designW * scale);
+      frameH = Math.floor(designH * scale);
+    }
+
     const showW = Math.floor(designW * scale);
     const showH = Math.floor(designH * scale);
-    const frameW = landscape ? Math.floor(availW) : showW;
-    const frameH = landscape ? Math.floor(availH) : showH;
     const offsetX = Math.floor((frameW - showW) / 2);
     const offsetY = Math.floor((frameH - showH) / 2);
 
@@ -85,12 +88,25 @@
 
     if (shell) {
       shell.style.display = "block";
-      shell.style.position = "relative";
+      shell.style.position = forceLand && !nativeLand ? "fixed" : "relative";
       shell.style.width = `${frameW}px`;
       shell.style.height = `${frameH}px`;
-      shell.style.margin = "0 auto";
+      shell.style.margin = forceLand && !nativeLand ? "0" : "0 auto";
       shell.style.overflow = "hidden";
       shell.style.flex = "0 0 auto";
+      if (forceLand && !nativeLand) {
+        shell.style.left = "50%";
+        shell.style.top = "50%";
+        shell.style.transform = "translate(-50%, -50%) rotate(90deg)";
+        shell.style.transformOrigin = "center center";
+        shell.style.zIndex = "2";
+      } else {
+        shell.style.left = "";
+        shell.style.top = "";
+        shell.style.transform = "";
+        shell.style.transformOrigin = "";
+        shell.style.zIndex = "";
+      }
     }
   };
 
