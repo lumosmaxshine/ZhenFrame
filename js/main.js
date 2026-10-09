@@ -26,14 +26,24 @@
   const fitStage = () => {
     const stage = document.getElementById("stage");
     const shell = document.getElementById("stageShell");
-    const hint = document.getElementById("rotateHint");
+    const toggle = document.getElementById("landscapeToggle");
     if (!stage) return;
-    if (hint) hint.hidden = true;
     if (!isCompact()) {
       stage.style.cssText = "";
       if (shell) shell.style.cssText = "";
       document.body.classList.remove("is-force-landscape");
+      if (toggle) {
+        toggle.hidden = true;
+        toggle.setAttribute("aria-pressed", "false");
+      }
       return;
+    }
+    if (toggle) {
+      toggle.hidden = false;
+      toggle.setAttribute(
+        "aria-pressed",
+        document.body.classList.contains("is-force-landscape") ? "true" : "false"
+      );
     }
     const designW = 1200;
     const designH = 800;
@@ -118,9 +128,18 @@
   requestAnimationFrame(layoutBoard);
   window.addEventListener("load", layoutBoard);
   window.addEventListener("resize", layoutBoard);
-  window.addEventListener("orientationchange", () => setTimeout(layoutBoard, 120));
+  window.addEventListener("orientationchange", () => {
+    document.body.classList.remove("is-force-landscape");
+    setTimeout(layoutBoard, 120);
+  });
   setTimeout(layoutBoard, 80);
   setTimeout(layoutBoard, 400);
+
+  document.getElementById("landscapeToggle")?.addEventListener("click", () => {
+    if (!isCompact()) return;
+    document.body.classList.toggle("is-force-landscape");
+    layoutBoard();
+  });
 
   const openModal = (id) => {
     const el = document.getElementById(`modal-${id}`);

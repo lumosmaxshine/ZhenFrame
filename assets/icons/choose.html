@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>选一个横屏图标</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "DM Sans", "Microsoft YaHei", sans-serif;
+      background: #ebe4d8;
+      color: #1a1a1a;
+      padding: 1.25rem;
+    }
+    h1 { font-size: 1.15rem; margin: 0 0 0.35rem; }
+    p { margin: 0 0 1.25rem; color: #5a554c; font-size: 0.92rem; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      max-width: 720px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 0.85rem;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(40, 30, 15, 0.08);
+    }
+    .card img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: contain;
+      background: #f7f4ef;
+      border-radius: 10px;
+    }
+    .card strong {
+      display: block;
+      margin-top: 0.65rem;
+      font-size: 1.05rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>选一个横屏切换图标</h1>
+  <p>看清楚后，回到 Cursor 聊天里回复：选 A / 选 B / 选 C / 选 D</p>
+  <div class="grid">
+    <div class="card"><img src="landscape-a.jpg" alt="图标 A" /><strong>A</strong></div>
+    <div class="card"><img src="landscape-b.jpg" alt="图标 B" /><strong>B</strong></div>
+    <div class="card"><img src="landscape-c.jpg" alt="图标 C" /><strong>C</strong></div>
+    <div class="card"><img src="landscape-d.jpg" alt="图标 D" /><strong>D</strong></div>
+  </div>
+</body>
+</html>
