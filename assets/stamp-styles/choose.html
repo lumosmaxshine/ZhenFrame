@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>选卡片05边框样式</title>
+<style>
+body{margin:0;font-family:Microsoft YaHei,sans-serif;background:#ebe4d8;color:#1a1a1a;padding:1.2rem}
+h1{font-size:1.15rem;margin:0 0 .35rem}
+p{margin:0 0 1rem;color:#5a554c}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;max-width:1100px}
+.card{background:#fff;border-radius:14px;padding:.85rem;box-shadow:0 8px 20px rgba(40,30,15,.08)}
+.card img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;background:#f7f4ef}
+.card strong{display:block;margin-top:.65rem;font-size:1.1rem}
+.card span{display:block;margin-top:.25rem;font-size:.85rem;color:#5a554c;line-height:1.4}
+</style>
+</head>
+<body>
+<h1>卡片05边框样式 — 请选一个</h1>
+<p>看完后回 Cursor 聊天回复：选 A / B / C / D / E</p>
+<div class="grid">
+  <div class="card"><img src="a.jpg" alt="A" /><strong>A · 经典齿孔</strong><span>四周半圆齿孔，中间干净可读</span></div>
+  <div class="card"><img src="b.jpg" alt="B" /><strong>B · 双线邮票框</strong><span>外齿孔 + 内细线框</span></div>
+  <div class="card"><img src="c.jpg" alt="C" /><strong>C · 齿孔 + 航信虚线</strong><span>齿孔外缘，红蓝虚线只在靠边</span></div>
+  <div class="card"><img src="d.jpg" alt="D" /><strong>D · 大波浪齿孔</strong><span>更柔和的大半圆边</span></div>
+  <div class="card"><img src="e.jpg" alt="E" /><strong>E · 锯齿齿孔</strong><span>小方齿/锯齿撕边感</span></div>
+</div>
+</body>
+</html>

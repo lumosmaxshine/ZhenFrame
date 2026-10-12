@@ -635,49 +635,62 @@ a.obj {
   z-index: 2;
 }
 
-/* 邮票齿孔边：四周半圆打孔 */
+/* 样式 A：整张邮票外形四周半圆齿边，中间实心可读（无层 mask，无内框盖住上下） */
 .stamp-card__face {
-  --stamp-tooth: 6px;
-  --stamp-step: 12px;
   display: block;
   position: relative;
   z-index: 1;
-  padding: 1rem 1.05rem 1.35rem;
   color: #1a1a1a;
-  background: #fffaf4;
   border: none;
   border-radius: 0;
-  box-shadow: 0 10px 20px rgba(40, 30, 15, 0.14);
-  -webkit-mask-image: radial-gradient(
-    circle at var(--stamp-tooth) var(--stamp-tooth),
-    transparent calc(var(--stamp-tooth) - 0.35px),
-    #000 calc(var(--stamp-tooth) + 0.35px)
-  );
-  -webkit-mask-size: var(--stamp-step) var(--stamp-step);
-  -webkit-mask-position: calc(var(--stamp-tooth) * -1) calc(var(--stamp-tooth) * -1);
-  mask-image: radial-gradient(
-    circle at var(--stamp-tooth) var(--stamp-tooth),
-    transparent calc(var(--stamp-tooth) - 0.35px),
-    #000 calc(var(--stamp-tooth) + 0.35px)
-  );
-  mask-size: var(--stamp-step) var(--stamp-step);
-  mask-position: calc(var(--stamp-tooth) * -1) calc(var(--stamp-tooth) * -1);
+  padding: 0;
 }
 
-.stamp-card__face::before {
-  content: "";
-  position: absolute;
-  inset: 7px;
-  border: 1px solid rgba(26, 26, 26, 0.16);
-  pointer-events: none;
-  z-index: 0;
-}
-
+.stamp-card__face::before,
 .stamp-card__face::after {
   display: none;
 }
 
-.stamp-card__face > * {
+.stamp-card__face--a {
+  /* 矢量 SVG：四边同一套向内半圆齿孔 */
+  width: 250px;
+  height: 170px;
+  box-sizing: border-box;
+  background: transparent;
+  /* 轻阴影，避免糊进右/下齿孔里看起来像反齿 */
+  filter: drop-shadow(0 4px 6px rgba(40, 30, 15, 0.14));
+}
+
+.stamp-card__svg {
+  position: absolute;
+  inset: 0;
+  width: 250px;
+  height: 170px;
+  display: block;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.stamp-card__svg path {
+  stroke: rgba(40, 30, 15, 0.1);
+  stroke-width: 0.6;
+  paint-order: stroke fill;
+}
+
+.stamp-card__content {
+  position: relative;
+  z-index: 1;
+  display: block;
+  height: 100%;
+  margin: 0;
+  padding: 14px 16px 16px;
+  box-sizing: border-box;
+  background: transparent;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+.stamp-card__content > * {
   position: relative;
   z-index: 1;
 }
@@ -724,8 +737,8 @@ a.obj {
 
 .stamp-serial {
   position: absolute;
-  right: 14px;
-  bottom: 12px;
+  right: 12px;
+  bottom: 10px;
   font-size: 0.58rem;
   letter-spacing: 0.04em;
   color: rgba(26, 26, 26, 0.55);
