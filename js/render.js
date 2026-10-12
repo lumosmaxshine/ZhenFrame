@@ -1,4 +1,13 @@
 (() => {
+  const getPath = (obj, path) =>
+    String(path || "")
+      .split(".")
+      .reduce((o, k) => {
+        if (o == null) return o;
+        const key = /^\d+$/.test(k) ? Number(k) : k;
+        return o[key];
+      }, obj);
+
   const setText = (sel, value) => {
     document.querySelectorAll(sel).forEach((el) => {
       el.textContent = value ?? "";
@@ -26,24 +35,35 @@
     }
   };
 
-  const applyBoard = (c) => {
-    setText("[data-bind='brand']", c.brand);
-    setText("[data-bind='tagline']", c.tagline);
-    const manifesto = document.querySelector("[data-bind='manifesto']");
-    if (manifesto) manifesto.innerHTML = String(c.manifesto || "").replace(/\n/g, "<br />");
-    setText("[data-bind='cta']", c.cta);
-    setText("[data-bind='about.zh']", c.about?.zh);
-    setText("[data-bind='about.en']", c.about?.en);
-    setText("[data-bind='contact.email']", c.contact?.email);
-    setText("[data-bind='contact.phone']", c.contact?.phone);
-    setText("[data-bind='updatesTitle']", c.updatesTitle);
-    setText("[data-bind='updatesBlurb']", c.updatesBlurb);
-    setHref("[data-bind-mailto]", c.contact?.email ? `mailto:${c.contact.email}` : "#");
+  const applyBoundText = (c) => {
+    document.querySelectorAll("[data-bind]").forEach((el) => {
+      const path = el.dataset.bind;
+      if (!path) return;
+      if (path === "manifesto") {
+        el.innerHTML = String(c.manifesto || "").replace(/\n/g, "<br />");
+        return;
+      }
+      const val = getPath(c, path);
+      if (val == null) return;
+      const text = String(val);
+      if (text.includes("\n")) {
+        el.innerHTML = text.replace(/\n/g, "<br />");
+      } else {
+        el.textContent = text;
+      }
+    });
+  };
 
-    const city = document.querySelector("[data-bind='contact.city']");
-    if (city) city.textContent = c.contact?.city || "";
-    const cityEn = document.querySelector("[data-bind='contact.cityEn']");
-    if (cityEn) cityEn.textContent = c.contact?.cityEn || "";
+  const thumbStyle = (tag, i) => {
+    if (tag?.image) {
+      return `style="background-image:url('${tag.image}');background-size:cover;background-position:center"`;
+    }
+    return "";
+  };
+
+  const applyBoard = (c) => {
+    applyBoundText(c);
+    setHref("[data-bind-mailto]", c.contact?.email ? `mailto:${c.contact.email}` : "#");
 
     fillQr(document.querySelector(".qr-block:not(.qr-block--alt)"), c.contact?.wechatQr);
     fillQr(document.querySelector(".qr-block--alt"), c.contact?.rednoteQr);
@@ -54,22 +74,30 @@
     fillQr(document.querySelector(".works-foot__social .fake-qr"), c.contact?.wechatQr);
 
     const list = document.querySelector(".work-list");
-    if (list && c.boardTags) {
+    if (list && c.boardTags?.length) {
       list.innerHTML = c.boardTags
-        .map(
-          (tag, i) =>
-            `<li><span>${String(i + 1).padStart(2, "0")} ${tag.en} <em>${tag.zh || ""}</em></span><span class="thumb thumb--${i % 5}"></span></li>`
-        )
+        .map((tag, i) => {
+          const imgClass = tag.image ? " has-media" : "";
+          return `<li>
+            <span><span data-bind="boardTags.${i}.en">${tag.en || ""}</span> <em data-bind="boardTags.${i}.zh">${tag.zh || ""}</em></span>
+            <span class="thumb thumb--${i % 5}${imgClass}" data-edit-media="boardTag:${i}" title="换缩略图" ${thumbStyle(tag, i)}></span>
+            <button type="button" class="list-del" data-list-del="boardTags:${i}" title="删除" hidden aria-label="删除">×</button>
+          </li>`;
+        })
         .join("");
     }
 
-    const pills = document.querySelector(".obj--badge .pill-row");
-    const pills2 = document.querySelector(".pill-row--solo");
-    if (pills && c.skills?.length) {
-      const names = c.skills.map((s) => s.name);
-      pills.innerHTML = names.slice(0, 4).map((n) => `<span>${n}</span>`).join("");
-      if (pills2) {
-        pills2.innerHTML = names[4] ? `<span>${names[4]}</span>` : "";
+    const pillRows = document.querySelectorAll(".obj--badge .pill-row");
+    if (pillRows.length && c.skills?.length) {
+      const names = c.skills.map((s) => s.name || "");
+      if (pillRows[0]) {
+        pillRows[0].innerHTML = names
+          .slice(0, 4)
+          .map((n, i) => `<span data-bind="skills.${i}.name">${n}</span>`)
+          .join("");
+      }
+      if (pillRows[1]) {
+        pillRows[1].innerHTML = names[4] != null ? `<span data-bind="skills.4.name">${names[4]}</span>` : "";
       }
     }
 
@@ -77,35 +105,64 @@
     if (ovals && c.skills) {
       ovals.innerHTML = c.skills
         .map((s, i) => {
-          const bg = s.photo ? `style="background-image:url('${s.photo}');background-size:cover;background-position:center"` : "";
-          return `<figure><div class="oval oval--${(i % 5) + 1}" ${bg}></div><figcaption>${s.name}</figcaption></figure>`;
+          const bg = s.photo
+            ? `style="background-image:url('${s.photo}');background-size:cover;background-position:center"`
+            : "";
+          return `<figure>
+            <div class="oval oval--${(i % 5) + 1}" data-edit-media="skill:${i}" ${bg}></div>
+            <figcaption data-bind="skills.${i}.name">${s.name || ""}</figcaption>
+            <button type="button" class="list-del" data-list-del="skills:${i}" title="删除" hidden aria-label="删除">×</button>
+          </figure>`;
         })
         .join("");
     }
 
-    const exp = document.querySelector(".resume-grid div:first-child ul");
-    const edu = document.querySelector(".resume-grid div:last-child ul");
+    const exp = document.querySelector('.resume-grid [data-list="resume.experience"]') ||
+      document.querySelector(".resume-grid div:first-child ul");
+    const edu = document.querySelector('.resume-grid [data-list="resume.education"]') ||
+      document.querySelector(".resume-grid div:last-child ul");
     if (exp && c.resume?.experience) {
-      exp.innerHTML = c.resume.experience.map((row) => `<li><strong>${row.when}</strong> ${row.what}</li>`).join("");
+      exp.innerHTML = c.resume.experience
+        .map(
+          (row, i) =>
+            `<li>
+              <strong data-bind="resume.experience.${i}.when">${row.when || ""}</strong>
+              <span data-bind="resume.experience.${i}.what">${row.what || ""}</span>
+              <button type="button" class="list-del" data-list-del="resume.experience:${i}" title="删除" hidden aria-label="删除">×</button>
+            </li>`
+        )
+        .join("");
     }
     if (edu && c.resume?.education) {
-      edu.innerHTML = c.resume.education.map((row) => `<li><strong>${row.when}</strong> ${row.what}</li>`).join("");
+      edu.innerHTML = c.resume.education
+        .map(
+          (row, i) =>
+            `<li>
+              <strong data-bind="resume.education.${i}.when">${row.when || ""}</strong>
+              <span data-bind="resume.education.${i}.what">${row.what || ""}</span>
+              <button type="button" class="list-del" data-list-del="resume.education:${i}" title="删除" hidden aria-label="删除">×</button>
+            </li>`
+        )
+        .join("");
     }
-    setText(".resume-note", c.resume?.note || "");
+
     const cv = document.querySelector(".id-link");
     if (cv && c.resume?.cvUrl) {
-      cv.closest("button, a") || cv;
       cv.dataset.cv = c.resume.cvUrl;
     }
 
     const updates = document.querySelector(".updates-list");
     if (updates && c.updates) {
-      updates.innerHTML = c.updates.map((u) => `<li><time>${u.date}</time><span>${u.text}</span></li>`).join("");
-    }
-
-    const contactLines = document.querySelector(".contact-lines");
-    if (contactLines) {
-      contactLines.innerHTML = `<span>${c.contact?.email || ""}</span><span>${c.contact?.phone || ""}</span><span>${c.contact?.cityEn || c.contact?.city || ""}</span>`;
+      updates.innerHTML = c.updates
+        .map(
+          (u, i) =>
+            `<li>
+              <time data-bind="updates.${i}.date">${u.date || ""}</time>
+              <span data-bind="updates.${i}.text">${u.text || ""}</span>
+              <button type="button" class="list-del" data-list-del="updates:${i}" title="删除" hidden aria-label="删除">×</button>
+            </li>`
+        )
+        .join("");
     }
   };
 
@@ -115,7 +172,12 @@
     setText(".works-mail", c.contact?.email);
     setHref(".works-mail", c.contact?.email ? `mailto:${c.contact.email}` : "#");
     const city = document.querySelector(".works-foot div:nth-child(2) p:first-child");
-    if (city) city.textContent = `${c.contact?.cityEn || c.contact?.city || ""}${c.contact?.city ? ", China" : ""}`.replace("CHANG SHA, China", "Changsha, China");
+    if (city) {
+      city.textContent = `${c.contact?.cityEn || c.contact?.city || ""}${c.contact?.city ? ", China" : ""}`.replace(
+        "CHANG SHA, China",
+        "Changsha, China"
+      );
+    }
   };
 
   window.DawnRender = {

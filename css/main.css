@@ -813,6 +813,7 @@ a.obj {
 }
 
 .work-list li {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -868,6 +869,48 @@ a.obj {
   background:
     repeating-linear-gradient(90deg, #ece7dc 0 8px, #c8c2b6 8px 16px),
     linear-gradient(#8d99ae, #edf2f4);
+}
+
+.thumb.has-media {
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+.list-del {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 50%;
+  background: #161616;
+  color: #fff;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 3;
+  padding: 0;
+}
+
+.owner-list-actions {
+  margin-top: 0.85rem;
+}
+
+.owner-list-actions button {
+  font: inherit;
+  font-size: 0.78rem;
+  padding: 0.45rem 0.75rem;
+  border: 1px dashed rgba(26, 26, 26, 0.35);
+  background: transparent;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+body.is-owner .updates-list li,
+body.is-owner .resume-grid li,
+body.is-owner .skill-ovals figure {
+  position: relative;
 }
 
 .id-row {
@@ -1126,6 +1169,11 @@ a.obj {
   transition: flex 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   min-width: 0;
   padding: 0;
+  border: none;
+  cursor: pointer;
+  text-align: inherit;
+  color: inherit;
+  font: inherit;
 }
 
 .acc-card.is-open {

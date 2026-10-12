@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=stampA11" />
+  <link rel="stylesheet" href="css/main.css?v=editAll2" />
 </head>
 <body data-page="board">
   <div class="loader" id="loader" aria-hidden="true">
@@ -36,27 +36,27 @@
       </header>
 
       <div class="sidebar__status">
-        <span class="sidebar__status-label">WHY NOT MODE</span>
+        <span class="sidebar__status-label" data-bind="statusLabel">WHY NOT MODE</span>
         <span class="sidebar__status-dot"></span>
-        <span>CURIOSITY ACTIVE</span>
+        <span data-bind="statusText">CURIOSITY ACTIVE</span>
       </div>
 
       <div class="sidebar__legend">
-        <p class="sidebar__legend-title">Board Legend</p>
+        <p class="sidebar__legend-title" data-bind="legendTitle">Board Legend</p>
         <ul>
-          <li><span>01 Key Tag</span><span>About</span></li>
-          <li><span>02 Clear File</span><span>Works</span></li>
-          <li><span>03 ID Card</span><span>Resume</span></li>
-          <li><span>04 Black Badge</span><span>Skills</span></li>
-          <li><span>05 Airmail Card</span><span>Contact</span></li>
-          <li><span>06 Note Tag</span><span>Updates</span></li>
+          <li><span data-bind="legend.0.left">01 Key Tag</span><span data-bind="legend.0.right">About</span></li>
+          <li><span data-bind="legend.1.left">02 Clear File</span><span data-bind="legend.1.right">Works</span></li>
+          <li><span data-bind="legend.2.left">03 ID Card</span><span data-bind="legend.2.right">Resume</span></li>
+          <li><span data-bind="legend.3.left">04 Black Badge</span><span data-bind="legend.3.right">Skills</span></li>
+          <li><span data-bind="legend.4.left">05 Airmail Card</span><span data-bind="legend.4.right">Contact</span></li>
+          <li><span data-bind="legend.5.left">06 Note Tag</span><span data-bind="legend.5.right">Updates</span></li>
         </ul>
       </div>
 
       <div class="sidebar__hint">
-        <p>Object Interface</p>
-        <p>→ Hover for details</p>
-        <p>→ Click to unfold</p>
+        <p data-bind="hintTitle">Object Interface</p>
+        <p data-bind="hintHover">→ Hover for details</p>
+        <p data-bind="hintClick">→ Click to unfold</p>
       </div>
 
       <p class="sidebar__manifesto" data-bind="manifesto">BRANDS / OBJECTS<br />STORIES &amp;<br />IMAGE SYSTEMS.</p>
@@ -66,7 +66,7 @@
           <button class="qr-block" type="button" data-edit-media="wechatQr" data-lightbox="qr" aria-label="微信二维码"></button>
           <button class="qr-block qr-block--alt" type="button" data-edit-media="rednoteQr" data-lightbox="qr" aria-label="小红书二维码"></button>
         </div>
-        <p class="sidebar__connect">CONNECT &amp; FOLLOW</p>
+        <p class="sidebar__connect" data-bind="connectLabel">CONNECT &amp; FOLLOW</p>
         <p class="sidebar__cta" data-bind="cta">Discover my works — let's cooperate.</p>
       </footer>
     </aside>
@@ -78,9 +78,9 @@
         <span class="peg" aria-hidden="true"></span>
         <span class="obj__sway">
           <span class="obj__body">
-            <span class="obj__num">01</span>
-            <span class="obj__title">ABOUT ME<br /><em>个人简介</em></span>
-            <span class="obj__desc">Know more about my background and vision.</span>
+            <span class="obj__num" data-bind="cards.about.num">01</span>
+            <span class="obj__title"><span data-bind="cards.about.title">ABOUT ME</span><br /><em data-bind="cards.about.titleZh">个人简介</em></span>
+            <span class="obj__desc" data-bind="cards.about.desc">Know more about my background and vision.</span>
             <span class="obj__arrow">→</span>
           </span>
         </span>
@@ -97,17 +97,20 @@
               <span class="sleeve__rivet sleeve__rivet--br"></span>
               <span class="sleeve__glare" aria-hidden="true"></span>
               <span class="obj__paper">
-                <span class="obj__num">02</span>
-                <span class="obj__title">SELECTED WORKS<br /><em>精选作品</em></span>
+                <span class="obj__num" data-bind="cards.works.num">02</span>
+                <span class="obj__title"><span data-bind="cards.works.title">SELECTED WORKS</span><br /><em data-bind="cards.works.titleZh">精选作品</em></span>
                 <span class="obj__rule" aria-hidden="true"></span>
-                <span class="obj__desc">A selection of projects in branding, packaging, poster &amp; more.</span>
+                <span class="obj__desc" data-bind="cards.works.desc">A selection of projects in branding, packaging, poster &amp; more.</span>
                 <ul class="work-list">
-                  <li><span>01 BRANDING <em>品牌设计</em></span><span class="thumb thumb--0"></span></li>
-                  <li><span>02 POSTER <em>海报设计</em></span><span class="thumb thumb--1"></span></li>
-                  <li><span>03 PACKAGING <em>包装设计</em></span><span class="thumb thumb--2"></span></li>
-                  <li><span>04 AI VISUAL <em>AI视觉</em></span><span class="thumb thumb--3"></span></li>
-                  <li><span>05 EDITORIAL <em>编辑设计</em></span><span class="thumb thumb--4"></span></li>
+                  <li><span><span data-bind="boardTags.0.en">BRANDING</span> <em data-bind="boardTags.0.zh">品牌设计</em></span><span class="thumb thumb--0" data-edit-media="boardTag:0" title="换缩略图"></span></li>
+                  <li><span><span data-bind="boardTags.1.en">POSTER</span> <em data-bind="boardTags.1.zh">海报设计</em></span><span class="thumb thumb--1" data-edit-media="boardTag:1" title="换缩略图"></span></li>
+                  <li><span><span data-bind="boardTags.2.en">PACKAGING</span> <em data-bind="boardTags.2.zh">包装设计</em></span><span class="thumb thumb--2" data-edit-media="boardTag:2" title="换缩略图"></span></li>
+                  <li><span><span data-bind="boardTags.3.en">AI VISUAL</span> <em data-bind="boardTags.3.zh">AI视觉</em></span><span class="thumb thumb--3" data-edit-media="boardTag:3" title="换缩略图"></span></li>
+                  <li><span><span data-bind="boardTags.4.en">EDITORIAL</span> <em data-bind="boardTags.4.zh">编辑设计</em></span><span class="thumb thumb--4" data-edit-media="boardTag:4" title="换缩略图"></span></li>
                 </ul>
+                <div class="owner-list-actions" data-owner-only hidden>
+                  <button type="button" data-list-add="boardTags">＋ 加分类</button>
+                </div>
               </span>
             </span>
           </span>
@@ -121,18 +124,18 @@
             <span class="leather-badge__frame">
               <span class="leather-badge__window">
                 <span class="id-head">
-                  <span class="obj__num">03 ABOUT ME</span>
-                  <span class="id-zh">简介<br />信息</span>
+                  <span class="obj__num" data-bind="cards.resume.num">03 ABOUT ME</span>
+                  <span class="id-zh" data-bind="cards.resume.titleZh">简介<br />信息</span>
                 </span>
                 <span class="id-row">
                   <span class="id-photo" data-edit-media="portrait" title="证件照"></span>
                   <span class="id-meta">
-                    <span>Work experience</span>
-                    <span>Education</span>
+                    <span data-bind="cards.resume.meta1">Work experience</span>
+                    <span data-bind="cards.resume.meta2">Education</span>
                   </span>
                 </span>
                 <span class="id-foot">
-                  <span class="id-link">VIEW CV</span>
+                  <span class="id-link" data-bind="cards.resume.link">VIEW CV</span>
                   <span class="id-arrow" aria-hidden="true">→</span>
                 </span>
               </span>
@@ -145,12 +148,12 @@
         <span class="peg" aria-hidden="true"></span>
         <span class="obj__sway">
           <span class="obj__body">
-            <span class="obj__num">04 SKILLS<br /><em>技能标签</em></span>
+            <span class="obj__num"><span data-bind="cards.skills.title">04 SKILLS</span><br /><em data-bind="cards.skills.titleZh">技能标签</em></span>
             <span class="pill-row">
-              <span>BRANDING</span><span>POSTER</span>
-              <span>PACKAGING</span><span>AI VISUAL</span>
+              <span data-bind="skills.0.name">MOTION</span><span data-bind="skills.1.name">IP DESIGN</span>
+              <span data-bind="skills.2.name">TYPOGRAPHY</span><span data-bind="skills.3.name">BRANDING</span>
             </span>
-            <span class="pill-row pill-row--solo"><span>SOCIAL MEDIA</span></span>
+            <span class="pill-row pill-row--solo"><span data-bind="skills.4.name">POSTER</span></span>
           </span>
         </span>
       </button>
@@ -163,17 +166,17 @@
               <svg class="stamp-card__svg" viewBox="0 0 250 170" width="250" height="170" aria-hidden="true" focusable="false"><path fill="#fffaf4" d="M 5.000,0.000 L 5.125,1.113 L 5.495,2.169 L 6.091,3.117 L 6.883,3.909 L 7.831,4.505 L 8.887,4.875 L 10.000,5.000 L 11.113,4.875 L 12.169,4.505 L 13.117,3.909 L 13.909,3.117 L 14.505,2.169 L 14.875,1.113 L 15.000,0.000 L 15.125,1.113 L 15.495,2.169 L 16.091,3.117 L 16.883,3.909 L 17.831,4.505 L 18.887,4.875 L 20.000,5.000 L 21.113,4.875 L 22.169,4.505 L 23.117,3.909 L 23.909,3.117 L 24.505,2.169 L 24.875,1.113 L 25.000,0.000 L 25.125,1.113 L 25.495,2.169 L 26.091,3.117 L 26.883,3.909 L 27.831,4.505 L 28.887,4.875 L 30.000,5.000 L 31.113,4.875 L 32.169,4.505 L 33.117,3.909 L 33.909,3.117 L 34.505,2.169 L 34.875,1.113 L 35.000,0.000 L 35.125,1.113 L 35.495,2.169 L 36.091,3.117 L 36.883,3.909 L 37.831,4.505 L 38.887,4.875 L 40.000,5.000 L 41.113,4.875 L 42.169,4.505 L 43.117,3.909 L 43.909,3.117 L 44.505,2.169 L 44.875,1.113 L 45.000,0.000 L 45.125,1.113 L 45.495,2.169 L 46.091,3.117 L 46.883,3.909 L 47.831,4.505 L 48.887,4.875 L 50.000,5.000 L 51.113,4.875 L 52.169,4.505 L 53.117,3.909 L 53.909,3.117 L 54.505,2.169 L 54.875,1.113 L 55.000,0.000 L 55.125,1.113 L 55.495,2.169 L 56.091,3.117 L 56.883,3.909 L 57.831,4.505 L 58.887,4.875 L 60.000,5.000 L 61.113,4.875 L 62.169,4.505 L 63.117,3.909 L 63.909,3.117 L 64.505,2.169 L 64.875,1.113 L 65.000,0.000 L 65.125,1.113 L 65.495,2.169 L 66.091,3.117 L 66.883,3.909 L 67.831,4.505 L 68.887,4.875 L 70.000,5.000 L 71.113,4.875 L 72.169,4.505 L 73.117,3.909 L 73.909,3.117 L 74.505,2.169 L 74.875,1.113 L 75.000,0.000 L 75.125,1.113 L 75.495,2.169 L 76.091,3.117 L 76.883,3.909 L 77.831,4.505 L 78.887,4.875 L 80.000,5.000 L 81.113,4.875 L 82.169,4.505 L 83.117,3.909 L 83.909,3.117 L 84.505,2.169 L 84.875,1.113 L 85.000,0.000 L 85.125,1.113 L 85.495,2.169 L 86.091,3.117 L 86.883,3.909 L 87.831,4.505 L 88.887,4.875 L 90.000,5.000 L 91.113,4.875 L 92.169,4.505 L 93.117,3.909 L 93.909,3.117 L 94.505,2.169 L 94.875,1.113 L 95.000,0.000 L 95.125,1.113 L 95.495,2.169 L 96.091,3.117 L 96.883,3.909 L 97.831,4.505 L 98.887,4.875 L 100.000,5.000 L 101.113,4.875 L 102.169,4.505 L 103.117,3.909 L 103.909,3.117 L 104.505,2.169 L 104.875,1.113 L 105.000,0.000 L 105.125,1.113 L 105.495,2.169 L 106.091,3.117 L 106.883,3.909 L 107.831,4.505 L 108.887,4.875 L 110.000,5.000 L 111.113,4.875 L 112.169,4.505 L 113.117,3.909 L 113.909,3.117 L 114.505,2.169 L 114.875,1.113 L 115.000,0.000 L 115.125,1.113 L 115.495,2.169 L 116.091,3.117 L 116.883,3.909 L 117.831,4.505 L 118.887,4.875 L 120.000,5.000 L 121.113,4.875 L 122.169,4.505 L 123.117,3.909 L 123.909,3.117 L 124.505,2.169 L 124.875,1.113 L 125.000,0.000 L 125.125,1.113 L 125.495,2.169 L 126.091,3.117 L 126.883,3.909 L 127.831,4.505 L 128.887,4.875 L 130.000,5.000 L 131.113,4.875 L 132.169,4.505 L 133.117,3.909 L 133.909,3.117 L 134.505,2.169 L 134.875,1.113 L 135.000,0.000 L 135.125,1.113 L 135.495,2.169 L 136.091,3.117 L 136.883,3.909 L 137.831,4.505 L 138.887,4.875 L 140.000,5.000 L 141.113,4.875 L 142.169,4.505 L 143.117,3.909 L 143.909,3.117 L 144.505,2.169 L 144.875,1.113 L 145.000,0.000 L 145.125,1.113 L 145.495,2.169 L 146.091,3.117 L 146.883,3.909 L 147.831,4.505 L 148.887,4.875 L 150.000,5.000 L 151.113,4.875 L 152.169,4.505 L 153.117,3.909 L 153.909,3.117 L 154.505,2.169 L 154.875,1.113 L 155.000,0.000 L 155.125,1.113 L 155.495,2.169 L 156.091,3.117 L 156.883,3.909 L 157.831,4.505 L 158.887,4.875 L 160.000,5.000 L 161.113,4.875 L 162.169,4.505 L 163.117,3.909 L 163.909,3.117 L 164.505,2.169 L 164.875,1.113 L 165.000,0.000 L 165.125,1.113 L 165.495,2.169 L 166.091,3.117 L 166.883,3.909 L 167.831,4.505 L 168.887,4.875 L 170.000,5.000 L 171.113,4.875 L 172.169,4.505 L 173.117,3.909 L 173.909,3.117 L 174.505,2.169 L 174.875,1.113 L 175.000,0.000 L 175.125,1.113 L 175.495,2.169 L 176.091,3.117 L 176.883,3.909 L 177.831,4.505 L 178.887,4.875 L 180.000,5.000 L 181.113,4.875 L 182.169,4.505 L 183.117,3.909 L 183.909,3.117 L 184.505,2.169 L 184.875,1.113 L 185.000,0.000 L 185.125,1.113 L 185.495,2.169 L 186.091,3.117 L 186.883,3.909 L 187.831,4.505 L 188.887,4.875 L 190.000,5.000 L 191.113,4.875 L 192.169,4.505 L 193.117,3.909 L 193.909,3.117 L 194.505,2.169 L 194.875,1.113 L 195.000,0.000 L 195.125,1.113 L 195.495,2.169 L 196.091,3.117 L 196.883,3.909 L 197.831,4.505 L 198.887,4.875 L 200.000,5.000 L 201.113,4.875 L 202.169,4.505 L 203.117,3.909 L 203.909,3.117 L 204.505,2.169 L 204.875,1.113 L 205.000,0.000 L 205.125,1.113 L 205.495,2.169 L 206.091,3.117 L 206.883,3.909 L 207.831,4.505 L 208.887,4.875 L 210.000,5.000 L 211.113,4.875 L 212.169,4.505 L 213.117,3.909 L 213.909,3.117 L 214.505,2.169 L 214.875,1.113 L 215.000,0.000 L 215.125,1.113 L 215.495,2.169 L 216.091,3.117 L 216.883,3.909 L 217.831,4.505 L 218.887,4.875 L 220.000,5.000 L 221.113,4.875 L 222.169,4.505 L 223.117,3.909 L 223.909,3.117 L 224.505,2.169 L 224.875,1.113 L 225.000,0.000 L 225.125,1.113 L 225.495,2.169 L 226.091,3.117 L 226.883,3.909 L 227.831,4.505 L 228.887,4.875 L 230.000,5.000 L 231.113,4.875 L 232.169,4.505 L 233.117,3.909 L 233.909,3.117 L 234.505,2.169 L 234.875,1.113 L 235.000,0.000 L 235.125,1.113 L 235.495,2.169 L 236.091,3.117 L 236.883,3.909 L 237.831,4.505 L 238.887,4.875 L 240.000,5.000 L 241.113,4.875 L 242.169,4.505 L 243.117,3.909 L 243.909,3.117 L 244.505,2.169 L 244.875,1.113 L 245.000,0.000 L 245.031,0.560 L 245.125,1.113 L 245.281,1.651 L 245.495,2.169 L 245.766,2.660 L 246.091,3.117 L 246.464,3.536 L 246.883,3.909 L 247.340,4.234 L 247.831,4.505 L 248.349,4.719 L 248.887,4.875 L 249.440,4.969 L 250.000,5.000 L 248.887,5.125 L 247.831,5.495 L 246.883,6.091 L 246.091,6.883 L 245.495,7.831 L 245.125,8.887 L 245.000,10.000 L 245.125,11.113 L 245.495,12.169 L 246.091,13.117 L 246.883,13.909 L 247.831,14.505 L 248.887,14.875 L 250.000,15.000 L 248.887,15.125 L 247.831,15.495 L 246.883,16.091 L 246.091,16.883 L 245.495,17.831 L 245.125,18.887 L 245.000,20.000 L 245.125,21.113 L 245.495,22.169 L 246.091,23.117 L 246.883,23.909 L 247.831,24.505 L 248.887,24.875 L 250.000,25.000 L 248.887,25.125 L 247.831,25.495 L 246.883,26.091 L 246.091,26.883 L 245.495,27.831 L 245.125,28.887 L 245.000,30.000 L 245.125,31.113 L 245.495,32.169 L 246.091,33.117 L 246.883,33.909 L 247.831,34.505 L 248.887,34.875 L 250.000,35.000 L 248.887,35.125 L 247.831,35.495 L 246.883,36.091 L 246.091,36.883 L 245.495,37.831 L 245.125,38.887 L 245.000,40.000 L 245.125,41.113 L 245.495,42.169 L 246.091,43.117 L 246.883,43.909 L 247.831,44.505 L 248.887,44.875 L 250.000,45.000 L 248.887,45.125 L 247.831,45.495 L 246.883,46.091 L 246.091,46.883 L 245.495,47.831 L 245.125,48.887 L 245.000,50.000 L 245.125,51.113 L 245.495,52.169 L 246.091,53.117 L 246.883,53.909 L 247.831,54.505 L 248.887,54.875 L 250.000,55.000 L 248.887,55.125 L 247.831,55.495 L 246.883,56.091 L 246.091,56.883 L 245.495,57.831 L 245.125,58.887 L 245.000,60.000 L 245.125,61.113 L 245.495,62.169 L 246.091,63.117 L 246.883,63.909 L 247.831,64.505 L 248.887,64.875 L 250.000,65.000 L 248.887,65.125 L 247.831,65.495 L 246.883,66.091 L 246.091,66.883 L 245.495,67.831 L 245.125,68.887 L 245.000,70.000 L 245.125,71.113 L 245.495,72.169 L 246.091,73.117 L 246.883,73.909 L 247.831,74.505 L 248.887,74.875 L 250.000,75.000 L 248.887,75.125 L 247.831,75.495 L 246.883,76.091 L 246.091,76.883 L 245.495,77.831 L 245.125,78.887 L 245.000,80.000 L 245.125,81.113 L 245.495,82.169 L 246.091,83.117 L 246.883,83.909 L 247.831,84.505 L 248.887,84.875 L 250.000,85.000 L 248.887,85.125 L 247.831,85.495 L 246.883,86.091 L 246.091,86.883 L 245.495,87.831 L 245.125,88.887 L 245.000,90.000 L 245.125,91.113 L 245.495,92.169 L 246.091,93.117 L 246.883,93.909 L 247.831,94.505 L 248.887,94.875 L 250.000,95.000 L 248.887,95.125 L 247.831,95.495 L 246.883,96.091 L 246.091,96.883 L 245.495,97.831 L 245.125,98.887 L 245.000,100.000 L 245.125,101.113 L 245.495,102.169 L 246.091,103.117 L 246.883,103.909 L 247.831,104.505 L 248.887,104.875 L 250.000,105.000 L 248.887,105.125 L 247.831,105.495 L 246.883,106.091 L 246.091,106.883 L 245.495,107.831 L 245.125,108.887 L 245.000,110.000 L 245.125,111.113 L 245.495,112.169 L 246.091,113.117 L 246.883,113.909 L 247.831,114.505 L 248.887,114.875 L 250.000,115.000 L 248.887,115.125 L 247.831,115.495 L 246.883,116.091 L 246.091,116.883 L 245.495,117.831 L 245.125,118.887 L 245.000,120.000 L 245.125,121.113 L 245.495,122.169 L 246.091,123.117 L 246.883,123.909 L 247.831,124.505 L 248.887,124.875 L 250.000,125.000 L 248.887,125.125 L 247.831,125.495 L 246.883,126.091 L 246.091,126.883 L 245.495,127.831 L 245.125,128.887 L 245.000,130.000 L 245.125,131.113 L 245.495,132.169 L 246.091,133.117 L 246.883,133.909 L 247.831,134.505 L 248.887,134.875 L 250.000,135.000 L 248.887,135.125 L 247.831,135.495 L 246.883,136.091 L 246.091,136.883 L 245.495,137.831 L 245.125,138.887 L 245.000,140.000 L 245.125,141.113 L 245.495,142.169 L 246.091,143.117 L 246.883,143.909 L 247.831,144.505 L 248.887,144.875 L 250.000,145.000 L 248.887,145.125 L 247.831,145.495 L 246.883,146.091 L 246.091,146.883 L 245.495,147.831 L 245.125,148.887 L 245.000,150.000 L 245.125,151.113 L 245.495,152.169 L 246.091,153.117 L 246.883,153.909 L 247.831,154.505 L 248.887,154.875 L 250.000,155.000 L 248.887,155.125 L 247.831,155.495 L 246.883,156.091 L 246.091,156.883 L 245.495,157.831 L 245.125,158.887 L 245.000,160.000 L 245.125,161.113 L 245.495,162.169 L 246.091,163.117 L 246.883,163.909 L 247.831,164.505 L 248.887,164.875 L 250.000,165.000 L 249.440,165.031 L 248.887,165.125 L 248.349,165.281 L 247.831,165.495 L 247.340,165.766 L 246.883,166.091 L 246.464,166.464 L 246.091,166.883 L 245.766,167.340 L 245.495,167.831 L 245.281,168.349 L 245.125,168.887 L 245.031,169.440 L 245.000,170.000 L 244.875,168.887 L 244.505,167.831 L 243.909,166.883 L 243.117,166.091 L 242.169,165.495 L 241.113,165.125 L 240.000,165.000 L 238.887,165.125 L 237.831,165.495 L 236.883,166.091 L 236.091,166.883 L 235.495,167.831 L 235.125,168.887 L 235.000,170.000 L 234.875,168.887 L 234.505,167.831 L 233.909,166.883 L 233.117,166.091 L 232.169,165.495 L 231.113,165.125 L 230.000,165.000 L 228.887,165.125 L 227.831,165.495 L 226.883,166.091 L 226.091,166.883 L 225.495,167.831 L 225.125,168.887 L 225.000,170.000 L 224.875,168.887 L 224.505,167.831 L 223.909,166.883 L 223.117,166.091 L 222.169,165.495 L 221.113,165.125 L 220.000,165.000 L 218.887,165.125 L 217.831,165.495 L 216.883,166.091 L 216.091,166.883 L 215.495,167.831 L 215.125,168.887 L 215.000,170.000 L 214.875,168.887 L 214.505,167.831 L 213.909,166.883 L 213.117,166.091 L 212.169,165.495 L 211.113,165.125 L 210.000,165.000 L 208.887,165.125 L 207.831,165.495 L 206.883,166.091 L 206.091,166.883 L 205.495,167.831 L 205.125,168.887 L 205.000,170.000 L 204.875,168.887 L 204.505,167.831 L 203.909,166.883 L 203.117,166.091 L 202.169,165.495 L 201.113,165.125 L 200.000,165.000 L 198.887,165.125 L 197.831,165.495 L 196.883,166.091 L 196.091,166.883 L 195.495,167.831 L 195.125,168.887 L 195.000,170.000 L 194.875,168.887 L 194.505,167.831 L 193.909,166.883 L 193.117,166.091 L 192.169,165.495 L 191.113,165.125 L 190.000,165.000 L 188.887,165.125 L 187.831,165.495 L 186.883,166.091 L 186.091,166.883 L 185.495,167.831 L 185.125,168.887 L 185.000,170.000 L 184.875,168.887 L 184.505,167.831 L 183.909,166.883 L 183.117,166.091 L 182.169,165.495 L 181.113,165.125 L 180.000,165.000 L 178.887,165.125 L 177.831,165.495 L 176.883,166.091 L 176.091,166.883 L 175.495,167.831 L 175.125,168.887 L 175.000,170.000 L 174.875,168.887 L 174.505,167.831 L 173.909,166.883 L 173.117,166.091 L 172.169,165.495 L 171.113,165.125 L 170.000,165.000 L 168.887,165.125 L 167.831,165.495 L 166.883,166.091 L 166.091,166.883 L 165.495,167.831 L 165.125,168.887 L 165.000,170.000 L 164.875,168.887 L 164.505,167.831 L 163.909,166.883 L 163.117,166.091 L 162.169,165.495 L 161.113,165.125 L 160.000,165.000 L 158.887,165.125 L 157.831,165.495 L 156.883,166.091 L 156.091,166.883 L 155.495,167.831 L 155.125,168.887 L 155.000,170.000 L 154.875,168.887 L 154.505,167.831 L 153.909,166.883 L 153.117,166.091 L 152.169,165.495 L 151.113,165.125 L 150.000,165.000 L 148.887,165.125 L 147.831,165.495 L 146.883,166.091 L 146.091,166.883 L 145.495,167.831 L 145.125,168.887 L 145.000,170.000 L 144.875,168.887 L 144.505,167.831 L 143.909,166.883 L 143.117,166.091 L 142.169,165.495 L 141.113,165.125 L 140.000,165.000 L 138.887,165.125 L 137.831,165.495 L 136.883,166.091 L 136.091,166.883 L 135.495,167.831 L 135.125,168.887 L 135.000,170.000 L 134.875,168.887 L 134.505,167.831 L 133.909,166.883 L 133.117,166.091 L 132.169,165.495 L 131.113,165.125 L 130.000,165.000 L 128.887,165.125 L 127.831,165.495 L 126.883,166.091 L 126.091,166.883 L 125.495,167.831 L 125.125,168.887 L 125.000,170.000 L 124.875,168.887 L 124.505,167.831 L 123.909,166.883 L 123.117,166.091 L 122.169,165.495 L 121.113,165.125 L 120.000,165.000 L 118.887,165.125 L 117.831,165.495 L 116.883,166.091 L 116.091,166.883 L 115.495,167.831 L 115.125,168.887 L 115.000,170.000 L 114.875,168.887 L 114.505,167.831 L 113.909,166.883 L 113.117,166.091 L 112.169,165.495 L 111.113,165.125 L 110.000,165.000 L 108.887,165.125 L 107.831,165.495 L 106.883,166.091 L 106.091,166.883 L 105.495,167.831 L 105.125,168.887 L 105.000,170.000 L 104.875,168.887 L 104.505,167.831 L 103.909,166.883 L 103.117,166.091 L 102.169,165.495 L 101.113,165.125 L 100.000,165.000 L 98.887,165.125 L 97.831,165.495 L 96.883,166.091 L 96.091,166.883 L 95.495,167.831 L 95.125,168.887 L 95.000,170.000 L 94.875,168.887 L 94.505,167.831 L 93.909,166.883 L 93.117,166.091 L 92.169,165.495 L 91.113,165.125 L 90.000,165.000 L 88.887,165.125 L 87.831,165.495 L 86.883,166.091 L 86.091,166.883 L 85.495,167.831 L 85.125,168.887 L 85.000,170.000 L 84.875,168.887 L 84.505,167.831 L 83.909,166.883 L 83.117,166.091 L 82.169,165.495 L 81.113,165.125 L 80.000,165.000 L 78.887,165.125 L 77.831,165.495 L 76.883,166.091 L 76.091,166.883 L 75.495,167.831 L 75.125,168.887 L 75.000,170.000 L 74.875,168.887 L 74.505,167.831 L 73.909,166.883 L 73.117,166.091 L 72.169,165.495 L 71.113,165.125 L 70.000,165.000 L 68.887,165.125 L 67.831,165.495 L 66.883,166.091 L 66.091,166.883 L 65.495,167.831 L 65.125,168.887 L 65.000,170.000 L 64.875,168.887 L 64.505,167.831 L 63.909,166.883 L 63.117,166.091 L 62.169,165.495 L 61.113,165.125 L 60.000,165.000 L 58.887,165.125 L 57.831,165.495 L 56.883,166.091 L 56.091,166.883 L 55.495,167.831 L 55.125,168.887 L 55.000,170.000 L 54.875,168.887 L 54.505,167.831 L 53.909,166.883 L 53.117,166.091 L 52.169,165.495 L 51.113,165.125 L 50.000,165.000 L 48.887,165.125 L 47.831,165.495 L 46.883,166.091 L 46.091,166.883 L 45.495,167.831 L 45.125,168.887 L 45.000,170.000 L 44.875,168.887 L 44.505,167.831 L 43.909,166.883 L 43.117,166.091 L 42.169,165.495 L 41.113,165.125 L 40.000,165.000 L 38.887,165.125 L 37.831,165.495 L 36.883,166.091 L 36.091,166.883 L 35.495,167.831 L 35.125,168.887 L 35.000,170.000 L 34.875,168.887 L 34.505,167.831 L 33.909,166.883 L 33.117,166.091 L 32.169,165.495 L 31.113,165.125 L 30.000,165.000 L 28.887,165.125 L 27.831,165.495 L 26.883,166.091 L 26.091,166.883 L 25.495,167.831 L 25.125,168.887 L 25.000,170.000 L 24.875,168.887 L 24.505,167.831 L 23.909,166.883 L 23.117,166.091 L 22.169,165.495 L 21.113,165.125 L 20.000,165.000 L 18.887,165.125 L 17.831,165.495 L 16.883,166.091 L 16.091,166.883 L 15.495,167.831 L 15.125,168.887 L 15.000,170.000 L 14.875,168.887 L 14.505,167.831 L 13.909,166.883 L 13.117,166.091 L 12.169,165.495 L 11.113,165.125 L 10.000,165.000 L 8.887,165.125 L 7.831,165.495 L 6.883,166.091 L 6.091,166.883 L 5.495,167.831 L 5.125,168.887 L 5.000,170.000 L 4.969,169.440 L 4.875,168.887 L 4.719,168.349 L 4.505,167.831 L 4.234,167.340 L 3.909,166.883 L 3.536,166.464 L 3.117,166.091 L 2.660,165.766 L 2.169,165.495 L 1.651,165.281 L 1.113,165.125 L 0.560,165.031 L 0.000,165.000 L 1.113,164.875 L 2.169,164.505 L 3.117,163.909 L 3.909,163.117 L 4.505,162.169 L 4.875,161.113 L 5.000,160.000 L 4.875,158.887 L 4.505,157.831 L 3.909,156.883 L 3.117,156.091 L 2.169,155.495 L 1.113,155.125 L 0.000,155.000 L 1.113,154.875 L 2.169,154.505 L 3.117,153.909 L 3.909,153.117 L 4.505,152.169 L 4.875,151.113 L 5.000,150.000 L 4.875,148.887 L 4.505,147.831 L 3.909,146.883 L 3.117,146.091 L 2.169,145.495 L 1.113,145.125 L 0.000,145.000 L 1.113,144.875 L 2.169,144.505 L 3.117,143.909 L 3.909,143.117 L 4.505,142.169 L 4.875,141.113 L 5.000,140.000 L 4.875,138.887 L 4.505,137.831 L 3.909,136.883 L 3.117,136.091 L 2.169,135.495 L 1.113,135.125 L 0.000,135.000 L 1.113,134.875 L 2.169,134.505 L 3.117,133.909 L 3.909,133.117 L 4.505,132.169 L 4.875,131.113 L 5.000,130.000 L 4.875,128.887 L 4.505,127.831 L 3.909,126.883 L 3.117,126.091 L 2.169,125.495 L 1.113,125.125 L 0.000,125.000 L 1.113,124.875 L 2.169,124.505 L 3.117,123.909 L 3.909,123.117 L 4.505,122.169 L 4.875,121.113 L 5.000,120.000 L 4.875,118.887 L 4.505,117.831 L 3.909,116.883 L 3.117,116.091 L 2.169,115.495 L 1.113,115.125 L 0.000,115.000 L 1.113,114.875 L 2.169,114.505 L 3.117,113.909 L 3.909,113.117 L 4.505,112.169 L 4.875,111.113 L 5.000,110.000 L 4.875,108.887 L 4.505,107.831 L 3.909,106.883 L 3.117,106.091 L 2.169,105.495 L 1.113,105.125 L 0.000,105.000 L 1.113,104.875 L 2.169,104.505 L 3.117,103.909 L 3.909,103.117 L 4.505,102.169 L 4.875,101.113 L 5.000,100.000 L 4.875,98.887 L 4.505,97.831 L 3.909,96.883 L 3.117,96.091 L 2.169,95.495 L 1.113,95.125 L 0.000,95.000 L 1.113,94.875 L 2.169,94.505 L 3.117,93.909 L 3.909,93.117 L 4.505,92.169 L 4.875,91.113 L 5.000,90.000 L 4.875,88.887 L 4.505,87.831 L 3.909,86.883 L 3.117,86.091 L 2.169,85.495 L 1.113,85.125 L 0.000,85.000 L 1.113,84.875 L 2.169,84.505 L 3.117,83.909 L 3.909,83.117 L 4.505,82.169 L 4.875,81.113 L 5.000,80.000 L 4.875,78.887 L 4.505,77.831 L 3.909,76.883 L 3.117,76.091 L 2.169,75.495 L 1.113,75.125 L 0.000,75.000 L 1.113,74.875 L 2.169,74.505 L 3.117,73.909 L 3.909,73.117 L 4.505,72.169 L 4.875,71.113 L 5.000,70.000 L 4.875,68.887 L 4.505,67.831 L 3.909,66.883 L 3.117,66.091 L 2.169,65.495 L 1.113,65.125 L 0.000,65.000 L 1.113,64.875 L 2.169,64.505 L 3.117,63.909 L 3.909,63.117 L 4.505,62.169 L 4.875,61.113 L 5.000,60.000 L 4.875,58.887 L 4.505,57.831 L 3.909,56.883 L 3.117,56.091 L 2.169,55.495 L 1.113,55.125 L 0.000,55.000 L 1.113,54.875 L 2.169,54.505 L 3.117,53.909 L 3.909,53.117 L 4.505,52.169 L 4.875,51.113 L 5.000,50.000 L 4.875,48.887 L 4.505,47.831 L 3.909,46.883 L 3.117,46.091 L 2.169,45.495 L 1.113,45.125 L 0.000,45.000 L 1.113,44.875 L 2.169,44.505 L 3.117,43.909 L 3.909,43.117 L 4.505,42.169 L 4.875,41.113 L 5.000,40.000 L 4.875,38.887 L 4.505,37.831 L 3.909,36.883 L 3.117,36.091 L 2.169,35.495 L 1.113,35.125 L 0.000,35.000 L 1.113,34.875 L 2.169,34.505 L 3.117,33.909 L 3.909,33.117 L 4.505,32.169 L 4.875,31.113 L 5.000,30.000 L 4.875,28.887 L 4.505,27.831 L 3.909,26.883 L 3.117,26.091 L 2.169,25.495 L 1.113,25.125 L 0.000,25.000 L 1.113,24.875 L 2.169,24.505 L 3.117,23.909 L 3.909,23.117 L 4.505,22.169 L 4.875,21.113 L 5.000,20.000 L 4.875,18.887 L 4.505,17.831 L 3.909,16.883 L 3.117,16.091 L 2.169,15.495 L 1.113,15.125 L 0.000,15.000 L 1.113,14.875 L 2.169,14.505 L 3.117,13.909 L 3.909,13.117 L 4.505,12.169 L 4.875,11.113 L 5.000,10.000 L 4.875,8.887 L 4.505,7.831 L 3.909,6.883 L 3.117,6.091 L 2.169,5.495 L 1.113,5.125 L 0.000,5.000 L 0.560,4.969 L 1.113,4.875 L 1.651,4.719 L 2.169,4.505 L 2.660,4.234 L 3.117,3.909 L 3.536,3.536 L 3.909,3.117 L 4.234,2.660 L 4.505,2.169 L 4.719,1.651 L 4.875,1.113 L 4.969,0.560 L 5.000,0.000 Z"/></svg>
               <span class="stamp-card__content">
                 <span class="stamp-card__top">
-                  <span class="obj__num">05 CONTACT<br /><em>联系方法</em></span>
+                  <span class="obj__num"><span data-bind="cards.contact.title">05 CONTACT</span><br /><em data-bind="cards.contact.titleZh">联系方法</em></span>
                   <span class="contact-qr" role="button" tabindex="0" data-edit-media="wechatQr" data-lightbox="qr" aria-label="查看联系二维码">
-                    <span class="contact-qr__hint">扫码添加</span>
+                    <span class="contact-qr__hint" data-bind="cards.contact.qrHint">扫码添加</span>
                   </span>
                 </span>
                 <span class="contact-lines">
-                  <span>15004320356@qq.com</span>
-                  <span>183 7396 8105</span>
-                  <span>Changsha, China</span>
+                  <span data-bind="contact.email">15004320356@qq.com</span>
+                  <span data-bind="contact.phone">183 7396 8105</span>
+                  <span data-bind="contact.cityEn">CHANG SHA</span>
                 </span>
-                <span class="stamp-serial">ZF.12·2003</span>
+                <span class="stamp-serial" data-bind="cards.contact.serial">ZF.12·2003</span>
               </span>
             </span>
           </span>
@@ -201,7 +204,7 @@
       <button class="modal__close" data-close type="button" aria-label="Close">×</button>
       <div class="about-split">
         <div class="about-split__top">
-          <h2>ABOUT ME / 个人简介</h2>
+          <h2 data-bind="modalTitles.about">ABOUT ME / 个人简介</h2>
           <p data-bind="about.zh">对我来说，设计能把复杂想法变得更容易理解，化解限制，再找出满足创造欲的路径。我相信灵感藏在最平凡的地方，把这些想法变成可触摸的东西，是我一直好奇的事。</p>
         </div>
         <div class="about-split__bottom">
@@ -216,13 +219,16 @@
     <div class="modal__backdrop" data-close></div>
     <div class="modal__panel modal__panel--skills" role="dialog" aria-modal="true">
       <button class="modal__close modal__close--light" data-close type="button" aria-label="Close">×</button>
-      <h2>SKILLS / 技能标签</h2>
+      <h2 data-bind="modalTitles.skills">SKILLS / 技能标签</h2>
       <div class="skill-ovals">
-        <figure><div class="oval oval--1"></div><figcaption>MOTION</figcaption></figure>
-        <figure><div class="oval oval--2"></div><figcaption>IP DESIGN</figcaption></figure>
-        <figure><div class="oval oval--3"></div><figcaption>TYPOGRAPHY</figcaption></figure>
-        <figure><div class="oval oval--4"></div><figcaption>BRANDING</figcaption></figure>
-        <figure><div class="oval oval--5"></div><figcaption>POSTER</figcaption></figure>
+        <figure><div class="oval oval--1" data-edit-media="skill:0"></div><figcaption data-bind="skills.0.name">MOTION</figcaption></figure>
+        <figure><div class="oval oval--2" data-edit-media="skill:1"></div><figcaption data-bind="skills.1.name">IP DESIGN</figcaption></figure>
+        <figure><div class="oval oval--3" data-edit-media="skill:2"></div><figcaption data-bind="skills.2.name">TYPOGRAPHY</figcaption></figure>
+        <figure><div class="oval oval--4" data-edit-media="skill:3"></div><figcaption data-bind="skills.3.name">BRANDING</figcaption></figure>
+        <figure><div class="oval oval--5" data-edit-media="skill:4"></div><figcaption data-bind="skills.4.name">POSTER</figcaption></figure>
+      </div>
+      <div class="owner-list-actions" data-owner-only hidden>
+        <button type="button" data-list-add="skills">＋ 加技能</button>
       </div>
     </div>
   </div>
@@ -232,32 +238,32 @@
     <div class="modal__panel modal__panel--contact" role="dialog" aria-modal="true">
       <button class="modal__close" data-close type="button" aria-label="Close">×</button>
       <div class="contact-accordion" id="contactAccordion">
-        <button class="acc-card acc-card--wechat" type="button" data-acc="0">
-          <div class="acc-card__face"><div class="fake-qr" data-edit-media="wechatQr" data-lightbox="qr"></div><span>CONNECT</span></div>
-          <span class="acc-card__label">WECHAT</span>
-        </button>
-        <button class="acc-card acc-card--red" type="button" data-acc="1">
-          <div class="acc-card__face"><div class="fake-qr fake-qr--red" data-edit-media="rednoteQr" data-lightbox="qr"></div><span>INSPIRATION</span></div>
-          <span class="acc-card__label">REDNOTE</span>
-        </button>
-        <button class="acc-card acc-card--city is-open" type="button" data-acc="2">
+        <div class="acc-card acc-card--wechat" role="button" tabindex="0" data-acc="0">
+          <div class="acc-card__face"><div class="fake-qr" data-edit-media="wechatQr" data-lightbox="qr"></div><span data-bind="contactLabels.wechatFace">CONNECT</span></div>
+          <span class="acc-card__label" data-bind="contactLabels.wechat">WECHAT</span>
+        </div>
+        <div class="acc-card acc-card--red" role="button" tabindex="0" data-acc="1">
+          <div class="acc-card__face"><div class="fake-qr fake-qr--red" data-edit-media="rednoteQr" data-lightbox="qr"></div><span data-bind="contactLabels.redFace">INSPIRATION</span></div>
+          <span class="acc-card__label" data-bind="contactLabels.red">REDNOTE</span>
+        </div>
+        <div class="acc-card acc-card--city is-open" role="button" tabindex="0" data-acc="2">
           <div class="acc-card__face">
             <div class="city-stamp">
               <span class="city-stamp__city" data-bind="contact.city">长沙</span>
               <span class="city-stamp__en" data-bind="contact.cityEn">CHANG SHA</span>
-              <span class="city-stamp__note">CONNECT LOCALLY</span>
+              <span class="city-stamp__note" data-bind="contactLabels.cityNote">CONNECT LOCALLY</span>
             </div>
           </div>
-          <span class="acc-card__label">CITY</span>
-        </button>
-        <button class="acc-card acc-card--phone" type="button" data-acc="3">
-          <div class="acc-card__face"><span class="acc-icon">☎</span><span>183 7396 8105</span></div>
-          <span class="acc-card__label">PHONE</span>
-        </button>
-        <button class="acc-card acc-card--email" type="button" data-acc="4">
-          <div class="acc-card__face"><span class="acc-icon">@</span><span>15004320356@qq.com</span></div>
-          <span class="acc-card__label">EMAIL</span>
-        </button>
+          <span class="acc-card__label" data-bind="contactLabels.city">CITY</span>
+        </div>
+        <div class="acc-card acc-card--phone" role="button" tabindex="0" data-acc="3">
+          <div class="acc-card__face"><span class="acc-icon">☎</span><span data-bind="contact.phone">183 7396 8105</span></div>
+          <span class="acc-card__label" data-bind="contactLabels.phone">PHONE</span>
+        </div>
+        <div class="acc-card acc-card--email" role="button" tabindex="0" data-acc="4">
+          <div class="acc-card__face"><span class="acc-icon">@</span><span data-bind="contact.email">15004320356@qq.com</span></div>
+          <span class="acc-card__label" data-bind="contactLabels.email">EMAIL</span>
+        </div>
       </div>
     </div>
   </div>
@@ -266,23 +272,29 @@
     <div class="modal__backdrop" data-close></div>
     <div class="modal__panel modal__panel--resume" role="dialog" aria-modal="true">
       <button class="modal__close" data-close type="button" aria-label="Close">×</button>
-      <h2>RESUME / 简历</h2>
+      <h2 data-bind="modalTitles.resume">RESUME / 简历</h2>
       <div class="resume-grid">
         <div>
-          <h3>Experience</h3>
-          <ul>
-            <li><strong>2024 — Now</strong> Independent Designer · Brand &amp; Visual</li>
-            <li><strong>2022 — 2024</strong> Studio Associate · Packaging Systems</li>
+          <h3 data-bind="modalTitles.experience">Experience</h3>
+          <ul data-list="resume.experience">
+            <li><strong data-bind="resume.experience.0.when">2024 — Now</strong> <span data-bind="resume.experience.0.what">Independent Designer · Brand &amp; Visual</span></li>
+            <li><strong data-bind="resume.experience.1.when">2022 — 2024</strong> <span data-bind="resume.experience.1.what">Studio Associate · Packaging Systems</span></li>
           </ul>
+          <div class="owner-list-actions" data-owner-only hidden>
+            <button type="button" data-list-add="resume.experience">＋ 加经历</button>
+          </div>
         </div>
         <div>
-          <h3>Education</h3>
-          <ul>
-            <li><strong>2018 — 2022</strong> BFA Visual Communication · Fiction University</li>
+          <h3 data-bind="modalTitles.education">Education</h3>
+          <ul data-list="resume.education">
+            <li><strong data-bind="resume.education.0.when">2018 — 2022</strong> <span data-bind="resume.education.0.what">BFA Visual Communication · Fiction University</span></li>
           </ul>
+          <div class="owner-list-actions" data-owner-only hidden>
+            <button type="button" data-list-add="resume.education">＋ 加学历</button>
+          </div>
         </div>
       </div>
-      <p class="resume-note">CV PDF 占位 — 后续替换真实文件</p>
+      <p class="resume-note" data-bind="resume.note">CV PDF 占位 — 后续替换真实文件</p>
     </div>
   </div>
 
@@ -290,12 +302,15 @@
     <div class="modal__backdrop" data-close></div>
     <div class="modal__panel modal__panel--updates" role="dialog" aria-modal="true">
       <button class="modal__close" data-close type="button" aria-label="Close">×</button>
-      <h2>UPDATES</h2>
+      <h2 data-bind="modalTitles.updates">UPDATES</h2>
       <ul class="updates-list">
-        <li><time>2026.03</time><span>Open to full-time &amp; project collabs</span></li>
-        <li><time>2026.01</time><span>New packaging series in progress</span></li>
-        <li><time>2025.11</time><span>Website refresh — this board</span></li>
+        <li><time data-bind="updates.0.date">2026.03</time><span data-bind="updates.0.text">Open to full-time &amp; project collabs</span></li>
+        <li><time data-bind="updates.1.date">2026.01</time><span data-bind="updates.1.text">New packaging series in progress</span></li>
+        <li><time data-bind="updates.2.date">2025.11</time><span data-bind="updates.2.text">Website refresh — this board</span></li>
       </ul>
+      <div class="owner-list-actions" data-owner-only hidden>
+        <button type="button" data-list-add="updates">＋ 加一条</button>
+      </div>
     </div>
   </div>
 
@@ -303,16 +318,16 @@
     <button class="lightbox__backdrop" type="button" data-close-lightbox aria-label="关闭"></button>
     <figure class="lightbox__panel">
       <img id="qrLightboxImg" alt="联系二维码" />
-      <figcaption>扫码添加 · 再点空白处关闭</figcaption>
+      <figcaption data-bind="lightboxCaption">扫码添加 · 再点空白处关闭</figcaption>
     </figure>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js?v=cloud1"></script>
-  <script src="js/defaults.js"></script>
+  <script src="js/defaults.js?v=editAll2"></script>
   <script src="js/store.js?v=set1"></script>
-  <script src="js/render.js"></script>
-  <script src="js/main.js?v=stamp1"></script>
-  <script src="js/editor.js?v=stamp1"></script>
+  <script src="js/render.js?v=editAll2"></script>
+  <script src="js/main.js?v=editAll2"></script>
+  <script src="js/editor.js?v=editAll2"></script>
 </body>
 </html>

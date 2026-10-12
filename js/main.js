@@ -178,6 +178,7 @@
 
   document.querySelectorAll("[data-modal]").forEach((btn) => {
     btn.addEventListener("click", (e) => {
+      if (e.target.closest("[contenteditable='true'], .is-editable, [data-bind], [data-edit-media]")) return;
       if (e.target.closest("[data-lightbox], .id-link, .contact-qr, .id-photo")) {
         if (e.target.closest(".id-link") && window.DAWN_CONTENT?.resume?.cvUrl) {
           window.open(window.DAWN_CONTENT.resume.cvUrl, "_blank", "noopener");
@@ -217,10 +218,21 @@
 
   const accordion = document.getElementById("contactAccordion");
   if (accordion) {
+    const openAcc = (card) => {
+      accordion.querySelectorAll(".acc-card").forEach((c) => c.classList.remove("is-open"));
+      card.classList.add("is-open");
+    };
     accordion.querySelectorAll("[data-acc]").forEach((card) => {
-      card.addEventListener("click", () => {
-        accordion.querySelectorAll(".acc-card").forEach((c) => c.classList.remove("is-open"));
-        card.classList.add("is-open");
+      card.addEventListener("click", (e) => {
+        // 登录后点文字/二维码时只编辑，不切换卡片
+        if (e.target.closest("[contenteditable='true'], .is-editable, [data-edit-media], [data-bind]")) return;
+        openAcc(card);
+      });
+      card.addEventListener("keydown", (e) => {
+        if (e.key !== "Enter" && e.key !== " ") return;
+        if (e.target.closest("[contenteditable='true'], .is-editable")) return;
+        e.preventDefault();
+        openAcc(card);
       });
     });
   }

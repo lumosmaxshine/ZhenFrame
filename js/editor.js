@@ -3,11 +3,16 @@
     const keys = path.split(".");
     let cur = obj;
     keys.forEach((k, i) => {
-      if (i === keys.length - 1) cur[k] = value;
-      else {
-        if (!cur[k] || typeof cur[k] !== "object") cur[k] = {};
-        cur = cur[k];
+      const last = i === keys.length - 1;
+      const key = /^\d+$/.test(k) ? Number(k) : k;
+      if (last) {
+        cur[key] = value;
+        return;
       }
+      if (cur[key] == null || typeof cur[key] !== "object") {
+        cur[key] = /^\d+$/.test(keys[i + 1]) ? [] : {};
+      }
+      cur = cur[key];
     });
   };
 
@@ -34,17 +39,64 @@
     return content;
   };
 
+  const getPath = (obj, path) =>
+    String(path || "")
+      .split(".")
+      .reduce((o, k) => {
+        if (o == null) return o;
+        return o[/^\d+$/.test(k) ? Number(k) : k];
+      }, obj);
+
+  const syncSameBinds = (source) => {
+    const path = source.dataset.bind;
+    if (!path) return;
+    const text = source.innerText.replace(/\u00a0/g, " ");
+    document.querySelectorAll("[data-bind]").forEach((el) => {
+      if (el === source || el.dataset.bind !== path) return;
+      if (text.includes("\n")) {
+        el.innerHTML = text.replace(/\n/g, "<br />");
+      } else {
+        el.textContent = text;
+      }
+    });
+  };
+
+  const showOwnerControls = () => {
+    document.querySelectorAll("[data-owner-only]").forEach((el) => {
+      el.hidden = false;
+    });
+    document.querySelectorAll(".list-del").forEach((el) => {
+      el.hidden = false;
+    });
+  };
+
   const enableInline = () => {
+    if (!document.body.classList.contains("is-owner")) return;
     document.querySelectorAll("[data-bind], [data-work-field]").forEach((el) => {
       if (el.id === "brandMenuBtn") return;
       el.contentEditable = "true";
+      el.spellcheck = false;
       el.classList.add("is-editable");
-      el.addEventListener("mousedown", (e) => e.stopPropagation());
-      el.addEventListener("click", (e) => e.stopPropagation());
+      if (el.dataset.editBound === "1") return;
+      el.dataset.editBound = "1";
+      // 阻止点文字时打开弹窗 / 跳转，但不要 preventDefault，否则有的浏览器无法输入
+      el.addEventListener("mousedown", (e) => {
+        e.stopPropagation();
+      });
+      el.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (el.closest("a[href]")) e.preventDefault();
+      });
+      el.addEventListener("keydown", (e) => {
+        e.stopPropagation();
+      });
+      el.addEventListener("input", () => syncSameBinds(el));
+      el.addEventListener("blur", () => syncSameBinds(el));
     });
     document.querySelectorAll("[data-edit-media]").forEach((el) => {
       el.classList.add("is-swappable");
     });
+    showOwnerControls();
   };
 
   const say = (msg) => {
@@ -211,6 +263,83 @@
     window.DawnWorks?.refresh?.();
   };
 
+  const bindListActions = () => {
+    if (document.body.dataset.listActionsBound === "1") return;
+    document.body.dataset.listActionsBound = "1";
+    document.addEventListener("click", (e) => {
+      if (!document.body.classList.contains("is-owner")) return;
+      const addBtn = e.target.closest("[data-list-add]");
+      if (addBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        const content = harvest(window.DAWN_CONTENT || {});
+        const kind = addBtn.dataset.listAdd;
+        if (kind === "updates") {
+          content.updates = content.updates || [];
+          content.updates.push({ date: "2026.01", text: "新动态" });
+        } else if (kind === "resume.experience") {
+          content.resume = content.resume || {};
+          content.resume.experience = content.resume.experience || [];
+          content.resume.experience.push({ when: "时间", what: "经历说明" });
+        } else if (kind === "resume.education") {
+          content.resume = content.resume || {};
+          content.resume.education = content.resume.education || [];
+          content.resume.education.push({ when: "时间", what: "学校 / 专业" });
+        } else if (kind === "boardTags") {
+          content.boardTags = content.boardTags || [];
+          content.boardTags.push({ en: "NEW", zh: "新分类", image: "" });
+        } else if (kind === "skills") {
+          content.skills = content.skills || [];
+          content.skills.push({ name: "NEW SKILL", photo: "" });
+        }
+        applyContent(content);
+        say("已添加，到设置里点「保存到网上」才会公开");
+        return;
+      }
+      const delBtn = e.target.closest("[data-list-del]");
+      if (delBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        const spec = delBtn.dataset.listDel || "";
+        const cut = spec.lastIndexOf(":");
+        if (cut < 0) return;
+        const path = spec.slice(0, cut);
+        const idx = Number(spec.slice(cut + 1));
+        if (Number.isNaN(idx)) return;
+        if (!confirm("确定删除这一条？")) return;
+        const content = harvest(window.DAWN_CONTENT || {});
+        const arr = getPath(content, path);
+        if (!Array.isArray(arr)) return;
+        arr.splice(idx, 1);
+        applyContent(content);
+        say("已删除，到设置里点「保存到网上」才会公开");
+      }
+    });
+  };
+
+  const bindOwnerLinkGuard = () => {
+    if (document.body.dataset.linkGuardBound === "1") return;
+    document.body.dataset.linkGuardBound = "1";
+    document.addEventListener(
+      "click",
+      (e) => {
+        if (!document.body.classList.contains("is-owner")) return;
+        const link = e.target.closest("a.obj[href]");
+        if (!link) return;
+        // 登录编辑时：点文字/缩略图只改内容，不跳作品页；点空白处仍可进入
+        if (
+          e.target.closest(
+            "[data-bind], [data-edit-media], .is-editable, .thumb, .list-del, [data-list-add], .owner-list-actions"
+          )
+        ) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      },
+      true
+    );
+  };
+
   const renderHistory = async (box) => {
     if (!box) return;
     box.innerHTML = "";
@@ -308,12 +437,12 @@
     } else {
       auth.innerHTML = `
         <h3>编辑中</h3>
-        <p class="settings-muted">已登录。点页面文字可改，点头像/二维码可换图。</p>
+        <p class="settings-muted">已登录。点虚线框文字可改；点缩略图/头像/二维码可换图；列表旁 × 可删。改完点下方保存。</p>
         <div class="settings-actions">
           <button type="button" id="settingsSave">保存到网上</button>
           <button type="button" id="settingsLogout" class="is-ghost">退出登录</button>
         </div>
-        <a class="settings-link" href="admin.html">打开完整后台</a>`;
+        <a class="settings-link" href="admin.html">打开完整后台（增删更方便）</a>`;
       auth.querySelector("#settingsSave").addEventListener("click", async () => {
         try {
           say("保存中…");
@@ -337,8 +466,9 @@
 
   const showOwnerBar = () => {
     document.body.classList.add("is-owner");
-    // 不再用右下角大按钮；编辑入口在设置里
     document.getElementById("editorBar")?.remove();
+    bindListActions();
+    bindOwnerLinkGuard();
     enableInline();
     window.DawnWorks?.refresh?.();
   };
@@ -356,14 +486,30 @@
         if (!file) return;
         say("上传中…");
         try {
-          const url = await DawnStore.upload(file, slot.dataset.editMedia);
           const key = slot.dataset.editMedia;
-          window.DAWN_CONTENT.contact = window.DAWN_CONTENT.contact || {};
-          if (key === "portrait") window.DAWN_CONTENT.contact.portrait = url;
-          if (key === "wechatQr") window.DAWN_CONTENT.contact.wechatQr = url;
-          if (key === "rednoteQr") window.DAWN_CONTENT.contact.rednoteQr = url;
-          window.DawnRender?.apply(window.DAWN_CONTENT);
-          enableInline();
+          const folder = key.startsWith("boardTag:")
+            ? "board"
+            : key.startsWith("skill:")
+              ? "skills"
+              : key;
+          const url = await DawnStore.upload(file, folder);
+          const content = harvest(window.DAWN_CONTENT || {});
+          content.contact = content.contact || {};
+          if (key === "portrait") content.contact.portrait = url;
+          else if (key === "wechatQr") content.contact.wechatQr = url;
+          else if (key === "rednoteQr") content.contact.rednoteQr = url;
+          else if (key.startsWith("boardTag:")) {
+            const i = Number(key.split(":")[1]);
+            content.boardTags = content.boardTags || [];
+            content.boardTags[i] = content.boardTags[i] || { en: "", zh: "", image: "" };
+            content.boardTags[i].image = url;
+          } else if (key.startsWith("skill:")) {
+            const i = Number(key.split(":")[1]);
+            content.skills = content.skills || [];
+            content.skills[i] = content.skills[i] || { name: "", photo: "" };
+            content.skills[i].photo = url;
+          }
+          applyContent(content);
           say("图已换上，到设置里点「保存到网上」才会公开");
         } catch (err) {
           say(err.message || String(err));
