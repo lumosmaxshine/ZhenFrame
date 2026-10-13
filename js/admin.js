@@ -123,8 +123,7 @@
     <section class="card">
       <h3>简介弹窗</h3>
       ${field("标题", "modalTitles.about", content.modalTitles?.about)}
-      ${field("简介中文", "about.zh", content.about?.zh, true)}
-      ${field("简介英文", "about.en", content.about?.en, true)}
+      ${field("简介正文", "about.zh", content.about?.zh, true)}
     </section>
     <section class="card">
       <h3>动态 UPDATES</h3>

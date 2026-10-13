@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=editAll2" />
+  <link rel="stylesheet" href="css/main.css?v=color13" />
 </head>
 <body data-page="board">
   <div class="loader" id="loader" aria-hidden="true">
@@ -204,12 +204,8 @@
       <button class="modal__close" data-close type="button" aria-label="Close">×</button>
       <div class="about-split">
         <div class="about-split__top">
-          <h2 data-bind="modalTitles.about">ABOUT ME / 个人简介</h2>
+          <h2 data-bind="modalTitles.about">个人简介</h2>
           <p data-bind="about.zh">对我来说，设计能把复杂想法变得更容易理解，化解限制，再找出满足创造欲的路径。我相信灵感藏在最平凡的地方，把这些想法变成可触摸的东西，是我一直好奇的事。</p>
-        </div>
-        <div class="about-split__bottom">
-          <p data-bind="about.en">For me, design makes complex ideas easier to understand, overcomes limits, and opens room for creativity. Inspiration lives in ordinary things — turning them into something tangible is what keeps me curious.</p>
-          <div class="about-door" aria-hidden="true"></div>
         </div>
       </div>
     </div>
@@ -219,7 +215,7 @@
     <div class="modal__backdrop" data-close></div>
     <div class="modal__panel modal__panel--skills" role="dialog" aria-modal="true">
       <button class="modal__close modal__close--light" data-close type="button" aria-label="Close">×</button>
-      <h2 data-bind="modalTitles.skills">SKILLS / 技能标签</h2>
+      <h2 data-bind="modalTitles.skills">技能标签</h2>
       <div class="skill-ovals">
         <figure><div class="oval oval--1" data-edit-media="skill:0"></div><figcaption data-bind="skills.0.name">MOTION</figcaption></figure>
         <figure><div class="oval oval--2" data-edit-media="skill:1"></div><figcaption data-bind="skills.1.name">IP DESIGN</figcaption></figure>
@@ -324,7 +320,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js?v=cloud1"></script>
-  <script src="js/defaults.js?v=editAll2"></script>
+  <script src="js/defaults.js?v=color13"></script>
   <script src="js/store.js?v=set1"></script>
   <script src="js/render.js?v=editAll2"></script>
   <script src="js/main.js?v=editAll2"></script>

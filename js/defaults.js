@@ -60,8 +60,8 @@ window.DAWN_DEFAULTS = {
     email: "EMAIL",
   },
   modalTitles: {
-    about: "ABOUT ME / 个人简介",
-    skills: "SKILLS / 技能标签",
+    about: "个人简介",
+    skills: "技能标签",
     resume: "RESUME / 简历",
     updates: "UPDATES",
     experience: "Experience",
@@ -69,7 +69,7 @@ window.DAWN_DEFAULTS = {
   },
   about: {
     zh: "对我来说，设计能把复杂想法变得更容易理解，化解限制，再找出满足创造欲的路径。我相信灵感藏在最平凡的地方，把这些想法变成可触摸的东西，是我一直好奇的事。",
-    en: "For me, design makes complex ideas easier to understand, overcomes limits, and opens room for creativity. Inspiration lives in ordinary things — turning them into something tangible is what keeps me curious.",
+    en: "",
   },
   contact: {
     email: "15004320356@qq.com",
