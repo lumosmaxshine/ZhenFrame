@@ -61,8 +61,21 @@
     return "";
   };
 
+  const applyBoxes = (c) => {
+    const boxes = c.boxes || {};
+    document.querySelectorAll("[data-box]").forEach((el) => {
+      const size = boxes[el.dataset.box];
+      if (!size) return;
+      if (size.w) el.style.width = size.w;
+      else el.style.removeProperty("width");
+      if (size.h) el.style.height = size.h;
+      else el.style.removeProperty("height");
+    });
+  };
+
   const applyBoard = (c) => {
     applyBoundText(c);
+    applyBoxes(c);
     setHref("[data-bind-mailto]", c.contact?.email ? `mailto:${c.contact.email}` : "#");
 
     fillQr(document.querySelector(".qr-block:not(.qr-block--alt)"), c.contact?.wechatQr);

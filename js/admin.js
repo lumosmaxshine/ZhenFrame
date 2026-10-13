@@ -124,6 +124,16 @@
       <h3>简介弹窗</h3>
       ${field("标题", "modalTitles.about", content.modalTitles?.about)}
       ${field("简介正文", "about.zh", content.about?.zh, true)}
+      <h4>文本框大小（也可在网站上拖右下角）</h4>
+      <div class="row">
+        <div>${field("弹窗宽", "boxes.about.w", content.boxes?.about?.w)}</div>
+        <div>${field("弹窗高", "boxes.about.h", content.boxes?.about?.h)}</div>
+      </div>
+      <div class="row">
+        <div>${field("正文框宽", "boxes.aboutText.w", content.boxes?.aboutText?.w)}</div>
+        <div>${field("正文框高", "boxes.aboutText.h", content.boxes?.aboutText?.h)}</div>
+      </div>
+      <p class="hint">例如：520px　留空则用默认大小</p>
     </section>
     <section class="card">
       <h3>动态 UPDATES</h3>

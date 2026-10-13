@@ -29,6 +29,15 @@
     document.querySelectorAll("[data-bind]").forEach((el) => {
       setPath(content, el.dataset.bind, el.innerText.replace(/\u00a0/g, " ").trimEnd());
     });
+    content.boxes = content.boxes || {};
+    document.querySelectorAll("[data-box]").forEach((el) => {
+      const id = el.dataset.box;
+      if (!id) return;
+      content.boxes[id] = {
+        w: el.style.width || "",
+        h: el.style.height || "",
+      };
+    });
     const work = window.DawnWorks?.active?.();
     if (work) {
       document.querySelectorAll("[data-work-field]").forEach((el) => {
@@ -437,7 +446,7 @@
     } else {
       auth.innerHTML = `
         <h3>编辑中</h3>
-        <p class="settings-muted">已登录。点虚线框文字可改；点缩略图/头像/二维码可换图；列表旁 × 可删。改完点下方保存。</p>
+        <p class="settings-muted">已登录。点虚线框改字；拖文本框/弹窗右下角改大小；点图可换图；× 可删。改完点下方保存。</p>
         <div class="settings-actions">
           <button type="button" id="settingsSave">保存到网上</button>
           <button type="button" id="settingsLogout" class="is-ghost">退出登录</button>
