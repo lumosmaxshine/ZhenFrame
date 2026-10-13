@@ -599,13 +599,16 @@ a.obj {
 .obj--badge {
   width: 208px;
   min-width: 208px;
+  /* 不用暖棕投影，避免灰褐看起来偏红 */
+  filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.16));
 }
 
 .obj--badge .obj__body {
   width: 208px;
   min-height: 168px;
   padding: 1.2rem 1.05rem 1.1rem;
-  background: #b7aaa1;
+  background: #B7AAA1;
+  background-image: none;
   color: #2a2520;
   border-radius: 50% / 42%;
   display: flex;
@@ -1081,7 +1084,7 @@ body.is-owner .skill-ovals figure {
 }
 
 .modal__panel--skills {
-  background: #b7aaa1;
+  background: #B7AAA1;
   color: #2a2520;
   padding: 2.5rem 1.75rem 2rem;
 }
