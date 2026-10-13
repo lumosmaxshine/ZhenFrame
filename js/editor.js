@@ -45,6 +45,7 @@
       });
     }
     if (window.DawnWorks?.list) content.works = window.DawnWorks.list();
+    window.DawnLayout?.harvest?.(content);
     return content;
   };
 
@@ -106,6 +107,7 @@
       el.classList.add("is-swappable");
     });
     showOwnerControls();
+    window.DawnLayout?.enable?.();
   };
 
   const say = (msg) => {
@@ -267,6 +269,7 @@
   const applyContent = (content) => {
     window.DAWN_CONTENT = content;
     window.DawnRender?.apply(content);
+    window.DawnLayout?.apply?.(content);
     document.dispatchEvent(new CustomEvent("dawn:content", { detail: content }));
     if (document.body.classList.contains("is-owner")) enableInline();
     window.DawnWorks?.refresh?.();
@@ -446,7 +449,7 @@
     } else {
       auth.innerHTML = `
         <h3>编辑中</h3>
-        <p class="settings-muted">已登录。点虚线框改字；拖文本框/弹窗右下角改大小；点图可换图；× 可删。改完点下方保存。</p>
+        <p class="settings-muted">已登录。点虚线框改字；拖右下角改大小；拖文字旁 ✥ 可移动（有黑色对齐线）；点图可换图。改完点下方保存。</p>
         <div class="settings-actions">
           <button type="button" id="settingsSave">保存到网上</button>
           <button type="button" id="settingsLogout" class="is-ghost">退出登录</button>

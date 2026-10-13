@@ -76,6 +76,7 @@
   const applyBoard = (c) => {
     applyBoundText(c);
     applyBoxes(c);
+    window.DawnLayout?.apply?.(c);
     setHref("[data-bind-mailto]", c.contact?.email ? `mailto:${c.contact.email}` : "#");
 
     fillQr(document.querySelector(".qr-block:not(.qr-block--alt)"), c.contact?.wechatQr);

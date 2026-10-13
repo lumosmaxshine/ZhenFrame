@@ -79,6 +79,8 @@ window.DAWN_DEFAULTS = {
     resume: { w: "", h: "" },
     updates: { w: "", h: "" },
   },
+  /* 拖 ✥ 移动后的位置 */
+  moves: {},
   contact: {
     email: "15004320356@qq.com",
     phone: "183 7396 8105",

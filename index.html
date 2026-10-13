@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=box15" />
+  <link rel="stylesheet" href="css/main.css?v=move17" />
 </head>
 <body data-page="board">
   <div class="loader" id="loader" aria-hidden="true">
@@ -147,13 +147,13 @@
       <button class="obj obj--badge" data-modal="skills" data-px="0.15" data-py="0.56" style="--w: 208px; --px: 0.15; --py: 0.56;" type="button">
         <span class="peg" aria-hidden="true"></span>
         <span class="obj__sway">
-          <span class="obj__body">
-            <span class="obj__num"><span data-bind="cards.skills.title">04 SKILLS</span><br /><em data-bind="cards.skills.titleZh">技能标签</em></span>
+          <span class="obj__body" data-move-stage="skillsBoard">
+            <span class="obj__num" data-move-id="skillsBoard.title"><span data-bind="cards.skills.title">04 SKILLS</span><br /><em data-bind="cards.skills.titleZh">技能标签</em></span>
             <span class="pill-row">
-              <span data-bind="skills.0.name">MOTION</span><span data-bind="skills.1.name">IP DESIGN</span>
-              <span data-bind="skills.2.name">TYPOGRAPHY</span><span data-bind="skills.3.name">BRANDING</span>
+              <span data-bind="skills.0.name" data-move-id="skills.0.name">MOTION</span><span data-bind="skills.1.name" data-move-id="skills.1.name">IP DESIGN</span>
+              <span data-bind="skills.2.name" data-move-id="skills.2.name">TYPOGRAPHY</span><span data-bind="skills.3.name" data-move-id="skills.3.name">BRANDING</span>
             </span>
-            <span class="pill-row pill-row--solo"><span data-bind="skills.4.name">POSTER</span></span>
+            <span class="pill-row pill-row--solo"><span data-bind="skills.4.name" data-move-id="skills.4.name">POSTER</span></span>
           </span>
         </span>
       </button>
@@ -203,9 +203,9 @@
     <div class="modal__panel modal__panel--about" data-box="about" role="dialog" aria-modal="true">
       <button class="modal__close" data-close type="button" aria-label="Close">×</button>
       <div class="about-split">
-        <div class="about-split__top" data-box="aboutText">
-          <h2 data-bind="modalTitles.about">个人简介</h2>
-          <p data-bind="about.zh">对我来说，设计能把复杂想法变得更容易理解，化解限制，再找出满足创造欲的路径。我相信灵感藏在最平凡的地方，把这些想法变成可触摸的东西，是我一直好奇的事。</p>
+        <div class="about-split__top" data-box="aboutText" data-move-stage="aboutText">
+          <h2 data-bind="modalTitles.about" data-move-id="modalTitles.about">个人简介</h2>
+          <p data-bind="about.zh" data-move-id="about.zh">对我来说，设计能把复杂想法变得更容易理解，化解限制，再找出满足创造欲的路径。我相信灵感藏在最平凡的地方，把这些想法变成可触摸的东西，是我一直好奇的事。</p>
         </div>
       </div>
     </div>
@@ -213,15 +213,15 @@
 
   <div class="modal" id="modal-skills" hidden>
     <div class="modal__backdrop" data-close></div>
-    <div class="modal__panel modal__panel--skills" data-box="skills" role="dialog" aria-modal="true">
+    <div class="modal__panel modal__panel--skills" data-box="skills" data-move-stage="skillsModal" role="dialog" aria-modal="true">
       <button class="modal__close modal__close--light" data-close type="button" aria-label="Close">×</button>
-      <h2 data-bind="modalTitles.skills">技能标签</h2>
-      <div class="skill-ovals">
-        <figure><div class="oval oval--1" data-edit-media="skill:0"></div><figcaption data-bind="skills.0.name">MOTION</figcaption></figure>
-        <figure><div class="oval oval--2" data-edit-media="skill:1"></div><figcaption data-bind="skills.1.name">IP DESIGN</figcaption></figure>
-        <figure><div class="oval oval--3" data-edit-media="skill:2"></div><figcaption data-bind="skills.2.name">TYPOGRAPHY</figcaption></figure>
-        <figure><div class="oval oval--4" data-edit-media="skill:3"></div><figcaption data-bind="skills.3.name">BRANDING</figcaption></figure>
-        <figure><div class="oval oval--5" data-edit-media="skill:4"></div><figcaption data-bind="skills.4.name">POSTER</figcaption></figure>
+      <h2 data-bind="modalTitles.skills" data-move-id="modalTitles.skills">技能标签</h2>
+      <div class="skill-ovals" data-move-stage="skillOvals">
+        <figure data-move-id="skillFigure.0"><div class="oval oval--1" data-edit-media="skill:0"></div><figcaption data-bind="skills.0.name">MOTION</figcaption></figure>
+        <figure data-move-id="skillFigure.1"><div class="oval oval--2" data-edit-media="skill:1"></div><figcaption data-bind="skills.1.name">IP DESIGN</figcaption></figure>
+        <figure data-move-id="skillFigure.2"><div class="oval oval--3" data-edit-media="skill:2"></div><figcaption data-bind="skills.2.name">TYPOGRAPHY</figcaption></figure>
+        <figure data-move-id="skillFigure.3"><div class="oval oval--4" data-edit-media="skill:3"></div><figcaption data-bind="skills.3.name">BRANDING</figcaption></figure>
+        <figure data-move-id="skillFigure.4"><div class="oval oval--5" data-edit-media="skill:4"></div><figcaption data-bind="skills.4.name">POSTER</figcaption></figure>
       </div>
       <div class="owner-list-actions" data-owner-only hidden>
         <button type="button" data-list-add="skills">＋ 加技能</button>
@@ -296,9 +296,9 @@
 
   <div class="modal" id="modal-updates" hidden>
     <div class="modal__backdrop" data-close></div>
-    <div class="modal__panel modal__panel--updates" data-box="updates" role="dialog" aria-modal="true">
+    <div class="modal__panel modal__panel--updates" data-box="updates" data-move-stage="updatesModal" role="dialog" aria-modal="true">
       <button class="modal__close" data-close type="button" aria-label="Close">×</button>
-      <h2 data-bind="modalTitles.updates">UPDATES</h2>
+      <h2 data-bind="modalTitles.updates" data-move-id="modalTitles.updates">UPDATES</h2>
       <ul class="updates-list">
         <li><time data-bind="updates.0.date">2026.03</time><span data-bind="updates.0.text">Open to full-time &amp; project collabs</span></li>
         <li><time data-bind="updates.1.date">2026.01</time><span data-bind="updates.1.text">New packaging series in progress</span></li>
@@ -320,10 +320,11 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js?v=cloud1"></script>
-  <script src="js/defaults.js?v=box15"></script>
+  <script src="js/defaults.js?v=move17"></script>
   <script src="js/store.js?v=set1"></script>
-  <script src="js/render.js?v=box15"></script>
+  <script src="js/render.js?v=move17"></script>
+  <script src="js/layout.js?v=move17"></script>
   <script src="js/main.js?v=editAll2"></script>
-  <script src="js/editor.js?v=box15"></script>
+  <script src="js/editor.js?v=move17"></script>
 </body>
 </html>

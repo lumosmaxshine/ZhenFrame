@@ -1103,6 +1103,88 @@ body.is-owner [data-box="aboutText"] {
   max-width: 100%;
 }
 
+/* 可移动文本框 + 黑色对齐参考线 */
+.is-move-stage {
+  position: relative;
+}
+
+.is-move-stage.has-moves .pill-row--free,
+body.is-owner .is-move-stage .pill-row--free {
+  display: contents;
+}
+
+.is-move-stage.has-moves,
+body.is-owner .obj--badge .obj__body.is-move-stage {
+  min-height: 168px;
+}
+
+.skill-ovals.is-move-stage {
+  position: relative;
+  min-height: 160px;
+}
+
+.align-guides {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+  overflow: hidden;
+}
+
+.align-guide {
+  position: absolute;
+  background: #1a1a1a;
+  pointer-events: none;
+}
+
+.align-guide--h {
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+
+.align-guide--v {
+  top: 0;
+  bottom: 0;
+  width: 1px;
+}
+
+.is-movable {
+  position: relative;
+}
+
+.move-handle {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  z-index: 6;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 11px;
+  line-height: 22px;
+  cursor: grab;
+  display: none;
+}
+
+body.is-owner .move-handle {
+  display: block;
+}
+
+.move-handle:active,
+.is-dragging .move-handle {
+  cursor: grabbing;
+}
+
+.is-dragging {
+  outline: 1px solid #1a1a1a !important;
+  z-index: 8 !important;
+}
+
 .about-split__bottom,
 .about-door {
   display: none;
