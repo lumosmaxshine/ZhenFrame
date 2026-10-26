@@ -6,6 +6,26 @@
   let activeIndex = 0;
   let slideIndex = 0;
   let bound = false;
+  let filter = "all";
+
+  const laneOf = (p) => {
+    if (p?.lane === "image" || p?.lane === "video" || p?.lane === "both") return p.lane;
+    const media = mediaOf(p);
+    const hasVideo = media.some((m) => m.kind === "video");
+    const hasImage = media.some((m) => m.kind === "image");
+    if (hasVideo && hasImage) return "both";
+    if (hasVideo) return "video";
+    return "image";
+  };
+
+  const visibleIndexes = () =>
+    projects
+      .map((p, i) => i)
+      .filter((i) => {
+        if (filter === "all") return true;
+        const lane = laneOf(projects[i]);
+        return lane === filter || lane === "both";
+      });
 
   const modal = document.getElementById("modal-project");
   const galleryMain = document.getElementById("galleryMain");
@@ -52,18 +72,32 @@
   };
 
   const renderList = () => {
-    list.innerHTML = projects
-      .map(
-        (p, i) => `
+    const indexes = visibleIndexes();
+    if (!indexes.length) {
+      list.innerHTML = `<p class="works-empty">这一类暂时还没有作品</p>`;
+      return;
+    }
+    list.innerHTML = indexes
+      .map((i) => {
+        const p = projects[i];
+        return `
       <button class="work-row" type="button" data-index="${i}">
         <span class="work-row__year">${p.year || ""}</span>
         <span class="work-row__name">${p.name || ""}</span>
         <span class="work-row__cat">${p.category || ""}</span>
         <span class="work-row__type">${p.type || ""}</span>
         <span class="work-row__preview" style="${previewStyle(p)}" aria-hidden="true"></span>
-      </button>`
-      )
+      </button>`;
+      })
       .join("");
+  };
+
+  const syncFilters = () => {
+    document.querySelectorAll("#worksFilters [data-filter]").forEach((btn) => {
+      const on = btn.dataset.filter === filter;
+      btn.classList.toggle("is-on", on);
+      btn.setAttribute("aria-selected", on ? "true" : "false");
+    });
   };
 
   const paintSlides = (project) => {
@@ -115,6 +149,13 @@
   const bindOnce = () => {
     if (bound) return;
     bound = true;
+    document.getElementById("worksFilters")?.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-filter]");
+      if (!btn) return;
+      filter = btn.dataset.filter || "all";
+      syncFilters();
+      renderList();
+    });
     list.addEventListener("click", (e) => {
       const row = e.target.closest("[data-index]");
       if (!row) return;
@@ -151,6 +192,7 @@
   const start = (works) => {
     projects = works || [];
     bindOnce();
+    syncFilters();
     renderList();
   };
 

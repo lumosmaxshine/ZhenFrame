@@ -306,6 +306,12 @@
           <div>${field("品类", `work.${w.id}.category`, w.category)}</div>
           <div>${field("类型", `work.${w.id}.type`, w.type)}</div>
         </div>
+        <label>栏目（图片 / 视频）</label>
+        <select data-path="work.${w.id}.lane">
+          <option value="image" ${w.lane === "image" || !w.lane ? "selected" : ""}>图片相关</option>
+          <option value="video" ${w.lane === "video" ? "selected" : ""}>视频相关</option>
+          <option value="both" ${w.lane === "both" ? "selected" : ""}>两个栏目都显示</option>
+        </select>
         ${field("简介", `work.${w.id}.desc`, w.desc, true)}
         <div class="media-grid">
           ${(w.media || [])
