@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=edit20" />
+  <link rel="stylesheet" href="css/main.css?v=edit21" />
 </head>
 <body data-page="board">
   <div class="loader" id="loader" aria-hidden="true">
@@ -55,19 +55,19 @@
 
       <div class="sidebar__hint">
         <p data-bind="hintTitle">Object Interface</p>
-        <p data-bind="hintHover">�?Hover for details</p>
-        <p data-bind="hintClick">�?Click to unfold</p>
+        <p data-bind="hintHover">→ Hover for details</p>
+        <p data-bind="hintClick">→ Click to unfold</p>
       </div>
 
       <p class="sidebar__manifesto" data-bind="manifesto">BRANDS / OBJECTS<br />STORIES &amp;<br />IMAGE SYSTEMS.</p>
 
       <footer class="sidebar__foot">
         <div class="qr-row">
-          <button class="qr-block" type="button" data-edit-media="wechatQr" data-lightbox="qr" aria-label="微信二维�?></button>
+          <button class="qr-block" type="button" data-edit-media="wechatQr" data-lightbox="qr" aria-label="微信二维码"></button>
           <button class="qr-block qr-block--alt" type="button" data-edit-media="rednoteQr" data-lightbox="qr" aria-label="小红书二维码"></button>
         </div>
         <p class="sidebar__connect" data-bind="connectLabel">CONNECT &amp; FOLLOW</p>
-        <p class="sidebar__cta" data-bind="cta">Discover my works �?let's cooperate.</p>
+        <p class="sidebar__cta" data-bind="cta">Discover my works — let's cooperate.</p>
       </footer>
     </aside>
 
@@ -79,9 +79,9 @@
         <span class="obj__sway">
           <span class="obj__body">
             <span class="obj__num" data-bind="cards.about.num">01</span>
-            <span class="obj__title"><span data-bind="cards.about.title">ABOUT ME</span><br /><em data-bind="cards.about.titleZh">个人简�?/em></span>
+            <span class="obj__title"><span data-bind="cards.about.title">ABOUT ME</span><br /><em data-bind="cards.about.titleZh">个人简介</em></span>
             <span class="obj__desc" data-bind="cards.about.desc">Know more about my background and vision.</span>
-            <span class="obj__arrow">�?/span>
+            <span class="obj__arrow">→</span>
           </span>
         </span>
       </button>
@@ -98,7 +98,7 @@
               <span class="sleeve__glare" aria-hidden="true"></span>
               <span class="obj__paper">
                 <span class="obj__num" data-bind="cards.works.num">02</span>
-                <span class="obj__title"><span data-bind="cards.works.title">SELECTED WORKS</span><br /><em data-bind="cards.works.titleZh">精选作�?/em></span>
+                <span class="obj__title"><span data-bind="cards.works.title">SELECTED WORKS</span><br /><em data-bind="cards.works.titleZh">精选作品</em></span>
                 <span class="obj__rule" aria-hidden="true"></span>
                 <span class="obj__desc" data-bind="cards.works.desc">A selection of projects in branding, packaging, poster &amp; more.</span>
                 <ul class="work-list">
@@ -109,7 +109,7 @@
                   <li><span><span data-bind="boardTags.4.en">EDITORIAL</span> <em data-bind="boardTags.4.zh">编辑设计</em></span><span class="thumb thumb--4" data-edit-media="boardTag:4" title="换缩略图"></span></li>
                 </ul>
                 <div class="owner-list-actions" data-owner-only hidden>
-                  <button type="button" data-list-add="boardTags">�?加分�?/button>
+                  <button type="button" data-list-add="boardTags">＋ 加分类</button>
                 </div>
               </span>
             </span>
@@ -125,10 +125,10 @@
               <span class="leather-badge__window">
                 <span class="id-head">
                   <span class="obj__num" data-bind="cards.resume.num">03 ABOUT ME</span>
-                  <span class="id-zh" data-bind="cards.resume.titleZh">简�?br />信息</span>
+                  <span class="id-zh" data-bind="cards.resume.titleZh">简介<br />信息</span>
                 </span>
                 <span class="id-row">
-                  <span class="id-photo" data-edit-media="portrait" title="证件�?></span>
+                  <span class="id-photo" data-edit-media="portrait" title="证件照"></span>
                   <span class="id-meta">
                     <span data-bind="cards.resume.meta1">Work experience</span>
                     <span data-bind="cards.resume.meta2">Education</span>
@@ -136,7 +136,7 @@
                 </span>
                 <span class="id-foot">
                   <span class="id-link" data-bind="cards.resume.link">VIEW CV</span>
-                  <span class="id-arrow" aria-hidden="true">�?/span>
+                  <span class="id-arrow" aria-hidden="true">→</span>
                 </span>
               </span>
             </span>
@@ -148,7 +148,7 @@
         <span class="peg" aria-hidden="true"></span>
         <span class="obj__sway">
           <span class="obj__body" data-move-stage="skillsBoard">
-            <span class="obj__num" data-move-id="skillsBoard.title"><span data-bind="cards.skills.title">04 SKILLS</span><br /><em data-bind="cards.skills.titleZh">技能标�?/em></span>
+            <span class="obj__num" data-move-id="skillsBoard.title"><span data-bind="cards.skills.title">04 SKILLS</span><br /><em data-bind="cards.skills.titleZh">技能标签</em></span>
             <span class="pill-row">
               <span data-bind="skills.0.name" data-move-id="skills.0.name">MOTION</span><span data-bind="skills.1.name" data-move-id="skills.1.name">IP DESIGN</span>
               <span data-bind="skills.2.name" data-move-id="skills.2.name">TYPOGRAPHY</span><span data-bind="skills.3.name" data-move-id="skills.3.name">BRANDING</span>
@@ -167,7 +167,7 @@
               <span class="stamp-card__content">
                 <span class="stamp-card__top">
                   <span class="obj__num"><span data-bind="cards.contact.title">05 CONTACT</span><br /><em data-bind="cards.contact.titleZh">联系方法</em></span>
-                  <span class="contact-qr" role="button" tabindex="0" data-edit-media="wechatQr" data-lightbox="qr" aria-label="查看联系二维�?>
+                  <span class="contact-qr" role="button" tabindex="0" data-edit-media="wechatQr" data-lightbox="qr" aria-label="查看联系二维码">
                     <span class="contact-qr__hint" data-bind="cards.contact.qrHint">扫码添加</span>
                   </span>
                 </span>
@@ -204,8 +204,8 @@
       <button class="modal__close" data-close type="button" aria-label="Close">×</button>
       <div class="about-split">
         <div class="about-split__top" data-box="aboutText" data-move-stage="aboutText">
-          <h2 data-bind="modalTitles.about" data-move-id="modalTitles.about">个人简�?/h2>
-          <p data-bind="about.zh" data-move-id="about.zh">对我来说，设计能把复杂想法变得更容易理解，化解限制，再找出满足创造欲的路径。我相信灵感藏在最平凡的地方，把这些想法变成可触摸的东西，是我一直好奇的事�?/p>
+          <h2 data-bind="modalTitles.about" data-move-id="modalTitles.about">个人简介</h2>
+          <p data-bind="about.zh" data-move-id="about.zh">对我来说，设计能把复杂想法变得更容易理解，化解限制，再找出满足创造欲的路径。我相信灵感藏在最平凡的地方，把这些想法变成可触摸的东西，是我一直好奇的事。</p>
         </div>
       </div>
     </div>
@@ -215,7 +215,7 @@
     <div class="modal__backdrop" data-close></div>
     <div class="modal__panel modal__panel--skills" data-box="skills" data-move-stage="skillsModal" role="dialog" aria-modal="true">
       <button class="modal__close modal__close--light" data-close type="button" aria-label="Close">×</button>
-      <h2 data-bind="modalTitles.skills" data-move-id="modalTitles.skills">技能标�?/h2>
+      <h2 data-bind="modalTitles.skills" data-move-id="modalTitles.skills">技能标签</h2>
       <div class="skill-ovals" data-move-stage="skillOvals">
         <figure data-move-id="skillFigure.0"><div class="oval oval--1" data-edit-media="skill:0"></div><figcaption data-bind="skills.0.name">MOTION</figcaption></figure>
         <figure data-move-id="skillFigure.1"><div class="oval oval--2" data-edit-media="skill:1"></div><figcaption data-bind="skills.1.name">IP DESIGN</figcaption></figure>
@@ -224,7 +224,7 @@
         <figure data-move-id="skillFigure.4"><div class="oval oval--5" data-edit-media="skill:4"></div><figcaption data-bind="skills.4.name">POSTER</figcaption></figure>
       </div>
       <div class="owner-list-actions" data-owner-only hidden>
-        <button type="button" data-list-add="skills">�?加技�?/button>
+        <button type="button" data-list-add="skills">＋ 加技能</button>
       </div>
     </div>
   </div>
@@ -253,7 +253,7 @@
           <span class="acc-card__label" data-bind="contactLabels.city">CITY</span>
         </div>
         <div class="acc-card acc-card--phone" role="button" tabindex="0" data-acc="3">
-          <div class="acc-card__face"><span class="acc-icon">�?/span><span data-bind="contact.phone">183 7396 8105</span></div>
+          <div class="acc-card__face"><span class="acc-icon">☎</span><span data-bind="contact.phone">183 7396 8105</span></div>
           <span class="acc-card__label" data-bind="contactLabels.phone">PHONE</span>
         </div>
         <div class="acc-card acc-card--email" role="button" tabindex="0" data-acc="4">
@@ -268,29 +268,29 @@
     <div class="modal__backdrop" data-close></div>
     <div class="modal__panel modal__panel--resume" data-box="resume" role="dialog" aria-modal="true">
       <button class="modal__close" data-close type="button" aria-label="Close">×</button>
-      <h2 data-bind="modalTitles.resume">RESUME / 简�?/h2>
+      <h2 data-bind="modalTitles.resume">RESUME / 简历</h2>
       <div class="resume-grid">
         <div>
           <h3 data-bind="modalTitles.experience">Experience</h3>
           <ul data-list="resume.experience">
-            <li><strong data-bind="resume.experience.0.when">2024 �?Now</strong> <span data-bind="resume.experience.0.what">Independent Designer · Brand &amp; Visual</span></li>
-            <li><strong data-bind="resume.experience.1.when">2022 �?2024</strong> <span data-bind="resume.experience.1.what">Studio Associate · Packaging Systems</span></li>
+            <li><strong data-bind="resume.experience.0.when">2024 — Now</strong> <span data-bind="resume.experience.0.what">Independent Designer · Brand &amp; Visual</span></li>
+            <li><strong data-bind="resume.experience.1.when">2022 — 2024</strong> <span data-bind="resume.experience.1.what">Studio Associate · Packaging Systems</span></li>
           </ul>
           <div class="owner-list-actions" data-owner-only hidden>
-            <button type="button" data-list-add="resume.experience">�?加经�?/button>
+            <button type="button" data-list-add="resume.experience">＋ 加经历</button>
           </div>
         </div>
         <div>
           <h3 data-bind="modalTitles.education">Education</h3>
           <ul data-list="resume.education">
-            <li><strong data-bind="resume.education.0.when">2018 �?2022</strong> <span data-bind="resume.education.0.what">BFA Visual Communication · Fiction University</span></li>
+            <li><strong data-bind="resume.education.0.when">2018 — 2022</strong> <span data-bind="resume.education.0.what">BFA Visual Communication · Fiction University</span></li>
           </ul>
           <div class="owner-list-actions" data-owner-only hidden>
-            <button type="button" data-list-add="resume.education">�?加学�?/button>
+            <button type="button" data-list-add="resume.education">＋ 加学历</button>
           </div>
         </div>
       </div>
-      <p class="resume-note" data-bind="resume.note">CV PDF 占位 �?后续替换真实文件</p>
+      <p class="resume-note" data-bind="resume.note">CV PDF 占位 — 后续替换真实文件</p>
     </div>
   </div>
 
@@ -302,10 +302,10 @@
       <ul class="updates-list">
         <li><time data-bind="updates.0.date">2026.03</time><span data-bind="updates.0.text">Open to full-time &amp; project collabs</span></li>
         <li><time data-bind="updates.1.date">2026.01</time><span data-bind="updates.1.text">New packaging series in progress</span></li>
-        <li><time data-bind="updates.2.date">2025.11</time><span data-bind="updates.2.text">Website refresh �?this board</span></li>
+        <li><time data-bind="updates.2.date">2025.11</time><span data-bind="updates.2.text">Website refresh — this board</span></li>
       </ul>
       <div class="owner-list-actions" data-owner-only hidden>
-        <button type="button" data-list-add="updates">�?加一�?/button>
+        <button type="button" data-list-add="updates">＋ 加一条</button>
       </div>
     </div>
   </div>
@@ -313,19 +313,19 @@
   <div class="lightbox" id="qrLightbox" hidden>
     <button class="lightbox__backdrop" type="button" data-close-lightbox aria-label="关闭"></button>
     <figure class="lightbox__panel">
-      <img id="qrLightboxImg" alt="联系二维�? />
-      <figcaption data-bind="lightboxCaption">扫码添加 · 再点空白处关�?/figcaption>
+      <img id="qrLightboxImg" alt="联系二维码" />
+      <figcaption data-bind="lightboxCaption">扫码添加 · 再点空白处关闭</figcaption>
     </figure>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js?v=cloud1"></script>
-  <script src="js/defaults.js?v=edit20"></script>
+  <script src="js/defaults.js?v=edit21"></script>
   <script src="js/store.js?v=set1"></script>
   <script src="js/render.js?v=move17"></script>
-  <script src="js/layout.js?v=edit20"></script>
-  <script src="js/shortcuts.js?v=edit20"></script>
+  <script src="js/layout.js?v=edit21"></script>
+  <script src="js/shortcuts.js?v=edit21"></script>
   <script src="js/main.js?v=editAll2"></script>
-  <script src="js/editor.js?v=edit20"></script>
+  <script src="js/editor.js?v=edit21"></script>
 </body>
 </html>
