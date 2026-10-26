@@ -547,20 +547,30 @@
     }
   };
 
-  // 拖右下角改大小后也记入撤回栈
+  // 拖右下角改大小：记下尺寸，并同步到移动数据，避免再移动时被旧宽高覆盖
   document.addEventListener("mouseup", () => {
     if (!document.body.classList.contains("is-owner")) return;
     const content = window.DAWN_CONTENT;
     if (!content) return;
+    let changed = false;
     document.querySelectorAll("[data-box]").forEach((el) => {
       const id = el.dataset.box;
       if (!id) return;
+      const w = el.style.width || (el.offsetWidth ? `${Math.round(el.offsetWidth)}px` : "");
+      const h = el.style.height || (el.offsetHeight ? `${Math.round(el.offsetHeight)}px` : "");
       content.boxes = content.boxes || {};
-      content.boxes[id] = {
-        w: el.style.width || "",
-        h: el.style.height || "",
-      };
+      const prev = content.boxes[id] || {};
+      if (prev.w !== w || prev.h !== h) changed = true;
+      content.boxes[id] = { w, h };
+      if (el.classList.contains("is-moved")) {
+        el.dataset.moveW = String(Math.round(el.offsetWidth || 0));
+        el.dataset.moveH = String(Math.round(el.offsetHeight || 0));
+      }
     });
+    if (changed) {
+      window.DawnLayout?.harvest?.(content);
+      window.DawnHistory?.push?.(content);
+    }
   });
 
   const bindMediaClicks = () => {

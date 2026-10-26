@@ -86,10 +86,10 @@
   };
 
   const nearResizeCorner = (e, el) => {
-    const box = el.closest("[data-box]");
+    const box = el.closest("[data-box]") || (el.matches?.("[data-box]") ? el : null);
     if (!box) return false;
     const r = box.getBoundingClientRect();
-    return e.clientX >= r.right - 22 && e.clientY >= r.bottom - 22;
+    return e.clientX >= r.right - 28 && e.clientY >= r.bottom - 28;
   };
 
   const snapMove = (stage, el, left, top, ignoreEls = []) => {
@@ -155,7 +155,9 @@
     lockStageSize(stage);
     stage.classList.add("has-moves");
     stage.querySelectorAll(".pill-row").forEach((row) => row.classList.add("pill-row--free"));
-    const box = size || (el.classList.contains("is-moved") ? null : relBox(el, stage));
+    const already = el.classList.contains("is-moved");
+    // 已移动过的元素：移动时只改位置，保留用户拖大的宽高，避免内容被挤没
+    const box = size || (already ? null : relBox(el, stage));
     el.classList.add("is-moved");
     el.style.position = "absolute";
     el.style.left = `${left}px`;
@@ -165,13 +167,16 @@
     if (box && box.width > 0) {
       el.style.width = `${Math.ceil(box.width)}px`;
       el.dataset.moveW = String(Math.ceil(box.width));
-    } else if (el.dataset.moveW) {
+    } else if (!already && el.dataset.moveW) {
       el.style.width = `${el.dataset.moveW}px`;
     }
     if (box && box.height > 0) {
-      el.style.minHeight = `${Math.ceil(box.height)}px`;
-      el.dataset.moveH = String(Math.ceil(box.height));
-    } else if (el.dataset.moveH) {
+      const h = Math.ceil(box.height);
+      el.style.height = `${h}px`;
+      el.style.minHeight = `${h}px`;
+      el.dataset.moveH = String(h);
+    } else if (!already && el.dataset.moveH) {
+      el.style.height = `${el.dataset.moveH}px`;
       el.style.minHeight = `${el.dataset.moveH}px`;
     }
   };
@@ -229,11 +234,15 @@
       itemsIn(stage).forEach((el) => {
         const id = moveIdOf(el);
         if (!id || !el.classList.contains("is-moved")) return;
+        const w = String(Math.round(el.offsetWidth || 0) || el.dataset.moveW || "");
+        const h = String(Math.round(el.offsetHeight || 0) || el.dataset.moveH || "");
+        if (w) el.dataset.moveW = w;
+        if (h) el.dataset.moveH = h;
         content.moves[id] = {
           l: `${((el.offsetLeft / sw) * 100).toFixed(2)}%`,
           t: `${((el.offsetTop / sh) * 100).toFixed(2)}%`,
-          w: el.dataset.moveW || String(el.offsetWidth || ""),
-          h: el.dataset.moveH || String(el.offsetHeight || ""),
+          w,
+          h,
         };
       });
     });
