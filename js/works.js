@@ -65,12 +65,6 @@
   const projYear = document.getElementById("projYear");
   const projDesc = document.getElementById("projDesc");
 
-  const mediaOf = (p) => {
-    const list = p?.media || [];
-    const real = list.filter((m) => (m.kind === "image" || m.kind === "video") && m.src);
-    return real;
-  };
-
   const previewStyle = (p) => {
     const first = mediaOf(p)[0];
     if (first?.kind === "image") return `background-image:url('${first.src}');background-size:cover;background-position:center`;
