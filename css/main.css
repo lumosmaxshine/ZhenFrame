@@ -1185,6 +1185,58 @@ body.is-owner .move-handle {
   z-index: 8 !important;
 }
 
+.is-multi-selected {
+  outline: 1px dashed rgba(196, 92, 74, 0.85) !important;
+  outline-offset: 2px;
+}
+
+.marquee-box {
+  position: absolute;
+  z-index: 35;
+  border: 1px dashed #1a1a1a;
+  background: rgba(26, 26, 26, 0.06);
+  pointer-events: none;
+}
+
+.group-select-chrome {
+  position: absolute;
+  z-index: 36;
+  border: 1px dashed rgba(196, 92, 74, 0.9);
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+.group-move-handle {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  z-index: 37;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 12px;
+  line-height: 24px;
+  cursor: grab;
+  pointer-events: auto;
+}
+
+.group-move-handle:active {
+  cursor: grabbing;
+}
+
+body.is-owner .is-move-stage {
+  cursor: crosshair;
+}
+
+body.is-owner .is-move-stage .is-movable,
+body.is-owner .is-move-stage .move-handle {
+  cursor: grab;
+}
+
 .about-split__bottom,
 .about-door {
   display: none;

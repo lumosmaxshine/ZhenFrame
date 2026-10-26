@@ -449,7 +449,7 @@
     } else {
       auth.innerHTML = `
         <h3>编辑中</h3>
-        <p class="settings-muted">已登录。点虚线框改字；拖右下角改大小；拖文字旁 ✥ 可移动（有黑色对齐线）；点图可换图。改完点下方保存。</p>
+        <p class="settings-muted">已登录。点字改内容；空白处拖框可多选；选中后拖 ✥ 一起移动（黑色对齐线）；右下角改大小。改完点下方保存。</p>
         <div class="settings-actions">
           <button type="button" id="settingsSave">保存到网上</button>
           <button type="button" id="settingsLogout" class="is-ghost">退出登录</button>
