@@ -84,7 +84,13 @@ window.DAWN_DEFAULTS = {
   shortcuts: {
     save: "Control+s",
     undo: "Control+z",
-    redo: "Control+y",
+    redo: "Control+Shift+z",
+    settings: "Control+,",
+    help: "Control+/",
+    escape: "Escape",
+    bold: "Control+b",
+    italic: "Control+i",
+    preview: "Control+Shift+p",
   },
   workLanes: [
     { id: "all", label: "全部", system: true },

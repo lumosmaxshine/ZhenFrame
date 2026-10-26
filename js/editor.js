@@ -456,39 +456,47 @@
           <button type="button" id="settingsSave">保存到网上</button>
           <button type="button" id="settingsLogout" class="is-ghost">退出登录</button>
         </div>
-        <h3>快捷键</h3>
+        <h3>快捷键（可自定义）</h3>
+        <p class="settings-muted">和常见网站后台一样：保存、撤回、重做。点「改键」后按下你想要的组合即可。也可按 <kbd>Ctrl</kbd>+<kbd>/</kbd> 看完整说明。</p>
         <div class="settings-shortcuts" id="settingsShortcuts"></div>
+        <div class="settings-actions" style="margin-top:0.5rem">
+          <button type="button" id="settingsShortcutHelp" class="is-ghost">查看说明</button>
+          <button type="button" id="settingsShortcutReset" class="is-ghost">恢复默认快捷键</button>
+        </div>
         <a class="settings-link" href="admin.html">打开完整后台（增删栏目更方便）</a>`;
       const fillShortcuts = () => {
         const box = auth.querySelector("#settingsShortcuts");
         if (!box || !window.DawnShortcuts) return;
         const m = DawnShortcuts.getMap();
-        const rows = [
-          ["save", "保存到网上"],
-          ["undo", "撤回排版"],
-          ["redo", "重做排版"],
-        ];
+        const rows = DawnShortcuts.catalog();
         box.innerHTML = rows
           .map(
-            ([k, label]) => `
-          <div class="settings-shortcut-row">
-            <span>${label}</span>
-            <code>${m[k] || ""}</code>
-            <button type="button" data-rebind="${k}">改键</button>
+            (row) => `
+          <div class="settings-shortcut-row" title="${row.tip || ""}">
+            <span>${row.label}</span>
+            <code>${DawnShortcuts.pretty(m[row.id] || "")}</code>
+            <button type="button" data-rebind="${row.id}">改键</button>
           </div>`
           )
           .join("");
         box.querySelectorAll("[data-rebind]").forEach((btn) => {
           btn.addEventListener("click", () => {
-            say("请按下新的快捷键组合…");
+            say("请按下新的快捷键组合…（Esc 取消改键）");
+            btn.textContent = "按下…";
             const once = (ev) => {
+              if (ev.key === "Escape") {
+                document.removeEventListener("keydown", once, true);
+                say("已取消改键");
+                fillShortcuts();
+                return;
+              }
               ev.preventDefault();
               ev.stopPropagation();
-              const combo = DawnShortcuts.comboFromEvent(ev);
               if (/^Control$|^Alt$|^Shift$|^Meta$/i.test(ev.key)) return;
+              const combo = DawnShortcuts.comboFromEvent(ev);
               DawnShortcuts.setShortcut(btn.dataset.rebind, combo);
               document.removeEventListener("keydown", once, true);
-              say(`已设为 ${combo}`);
+              say(`「${rows.find((r) => r.id === btn.dataset.rebind)?.label || ""}」已设为 ${DawnShortcuts.pretty(combo)}`);
               fillShortcuts();
             };
             document.addEventListener("keydown", once, true);
@@ -496,6 +504,12 @@
         });
       };
       fillShortcuts();
+      auth.querySelector("#settingsShortcutHelp")?.addEventListener("click", () => DawnShortcuts.showHelp());
+      auth.querySelector("#settingsShortcutReset")?.addEventListener("click", () => {
+        DawnShortcuts.resetAll();
+        fillShortcuts();
+        say("快捷键已恢复默认");
+      });
 
       auth.querySelector("#settingsSave").addEventListener("click", saveToCloud);
       auth.querySelector("#settingsLogout").addEventListener("click", async () => {
@@ -533,6 +547,7 @@
     if (document.body.dataset.saveShortcutBound !== "1") {
       document.body.dataset.saveShortcutBound = "1";
       document.addEventListener("dawn:shortcut-save", () => saveToCloud());
+      document.addEventListener("dawn:shortcut-settings", () => openSettings());
     }
     // 按住 Alt 时提示可框选
     if (document.body.dataset.altMarqueeBound !== "1") {

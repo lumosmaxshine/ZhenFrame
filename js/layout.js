@@ -518,5 +518,12 @@
     });
   };
 
-  window.DawnLayout = { apply, enable, harvest };
+  const clearSelectionAll = () => {
+    stages().forEach((stage) => {
+      clearSelection(stage);
+      updateGroupChrome(stage);
+    });
+  };
+
+  window.DawnLayout = { apply, enable, harvest, clearSelectionAll };
 })();
