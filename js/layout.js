@@ -1,5 +1,5 @@
 (() => {
-  const SNAP = 6;
+  const SNAP = 8;
   const GUIDE_COLOR = "#1a1a1a";
   /** @type {WeakMap<Element, Set<Element>>} */
   const selectedByStage = new WeakMap();
@@ -17,7 +17,11 @@
     [...stage.querySelectorAll("[data-move-id], [data-bind], [data-move-item]")].filter((el) => {
       if (el.closest("[data-move-stage]") !== stage) return false;
       if (el.id === "brandMenuBtn") return false;
-      if (el.matches(".list-del, .move-handle, .modal__close, button, .marquee-box, .group-move-handle, .align-guides, .align-guide")) {
+      if (
+        el.matches(
+          ".list-del, .move-handle, .modal__close, button, .marquee-box, .group-move-handle, .align-guides, .align-guide, .group-select-chrome"
+        )
+      ) {
         return false;
       }
       if (el.parentElement?.closest("[data-bind]")?.closest("[data-move-stage]") === stage) {
@@ -39,6 +43,13 @@
       g.setAttribute("aria-hidden", "true");
       stage.appendChild(g);
     }
+  };
+
+  const lockStageSize = (stage) => {
+    if (stage.dataset.sizeLocked === "1") return;
+    const h = Math.max(stage.getBoundingClientRect().height, 140);
+    stage.style.minHeight = `${Math.ceil(h)}px`;
+    stage.dataset.sizeLocked = "1";
   };
 
   const clearGuides = (stage) => {
@@ -74,11 +85,18 @@
     };
   };
 
+  const nearResizeCorner = (e, el) => {
+    const box = el.closest("[data-box]");
+    if (!box) return false;
+    const r = box.getBoundingClientRect();
+    return e.clientX >= r.right - 22 && e.clientY >= r.bottom - 22;
+  };
+
   const snapMove = (stage, el, left, top, ignoreEls = []) => {
     const ignore = new Set(ignoreEls);
     const sr = stage.getBoundingClientRect();
-    const w = el.offsetWidth;
-    const h = el.offsetHeight;
+    const w = el.offsetWidth || el.getBoundingClientRect().width;
+    const h = el.offsetHeight || el.getBoundingClientRect().height;
     let L = left;
     let T = top;
     const guides = [];
@@ -124,30 +142,49 @@
       guides.push({ type: "h", pos: bestY.guide });
     }
 
-    L = Math.max(0, Math.min(L, sr.width - w));
-    T = Math.max(0, Math.min(T, sr.height - h));
+    // 只软限制，避免把内容挤没；舞台不够高时自动加高
+    if (T + h > sr.height - 4) {
+      stage.style.minHeight = `${Math.ceil(T + h + 16)}px`;
+    }
+    L = Math.max(-8, Math.min(L, Math.max(8, sr.width - w * 0.3)));
+    T = Math.max(-8, T);
     return { left: L, top: T, guides };
   };
 
-  const placeAbsolute = (el, stage, left, top) => {
+  const placeAbsolute = (el, stage, left, top, size) => {
+    lockStageSize(stage);
+    stage.classList.add("has-moves");
+    stage.querySelectorAll(".pill-row").forEach((row) => row.classList.add("pill-row--free"));
+    const box = size || (el.classList.contains("is-moved") ? null : relBox(el, stage));
     el.classList.add("is-moved");
     el.style.position = "absolute";
     el.style.left = `${left}px`;
     el.style.top = `${top}px`;
     el.style.margin = "0";
     el.style.zIndex = "4";
+    if (box && box.width > 0) {
+      el.style.width = `${Math.ceil(box.width)}px`;
+      el.dataset.moveW = String(Math.ceil(box.width));
+    } else if (el.dataset.moveW) {
+      el.style.width = `${el.dataset.moveW}px`;
+    }
+    if (box && box.height > 0) {
+      el.style.minHeight = `${Math.ceil(box.height)}px`;
+      el.dataset.moveH = String(Math.ceil(box.height));
+    } else if (el.dataset.moveH) {
+      el.style.minHeight = `${el.dataset.moveH}px`;
+    }
   };
 
   const ensureAbsolute = (el, stage) => {
     if (el.classList.contains("is-moved")) return;
     const box = relBox(el, stage);
-    placeAbsolute(el, stage, box.left, box.top);
+    placeAbsolute(el, stage, box.left, box.top, box);
   };
 
   const applyOne = (el, stage, pos) => {
     if (!pos || (pos.l == null && pos.t == null && pos.left == null && pos.top == null)) return;
     ensureStageStyle(stage);
-    stage.classList.add("has-moves");
     const sr = stage.getBoundingClientRect();
     let left;
     let top;
@@ -161,7 +198,12 @@
     } else {
       top = parseFloat(pos.top ?? pos.t) || 0;
     }
-    placeAbsolute(el, stage, left, top);
+    if (pos.w) el.dataset.moveW = String(parseFloat(pos.w) || "");
+    if (pos.h) el.dataset.moveH = String(parseFloat(pos.h) || "");
+    placeAbsolute(el, stage, left, top, {
+      width: parseFloat(pos.w) || 0,
+      height: parseFloat(pos.h) || 0,
+    });
   };
 
   const apply = (content) => {
@@ -190,6 +232,8 @@
         content.moves[id] = {
           l: `${((el.offsetLeft / sw) * 100).toFixed(2)}%`,
           t: `${((el.offsetTop / sh) * 100).toFixed(2)}%`,
+          w: el.dataset.moveW || String(el.offsetWidth || ""),
+          h: el.dataset.moveH || String(el.offsetHeight || ""),
         };
       });
     });
@@ -199,6 +243,7 @@
   const noteSaved = () => {
     window.DAWN_CONTENT = window.DAWN_CONTENT || {};
     harvest(window.DAWN_CONTENT);
+    window.DawnHistory?.push?.(window.DAWN_CONTENT);
     const say = document.getElementById("settingsStatus");
     if (say) say.textContent = "位置已记下，到设置里点「保存到网上」才会公开";
   };
@@ -268,7 +313,6 @@
 
   const startGroupDrag = (stage, e, leadEl = null) => {
     ensureStageStyle(stage);
-    stage.classList.add("has-moves");
     const selected = [...getSelected(stage)].filter((el) => stage.contains(el));
     if (!selected.length && leadEl) selected.push(leadEl);
     if (!selected.length) return;
@@ -280,20 +324,15 @@
     selected.forEach((el) => el.classList.add("is-dragging"));
 
     const onMove = (ev) => {
-      const dx = ev.clientX - startX;
-      const dy = ev.clientY - startY;
       let guides = [];
-      origins.forEach(({ el, l, t }, i) => {
-        if (i === 0) {
-          const snapped = snapMove(stage, el, l + dx, t + dy, selected);
-          const odx = snapped.left - l;
-          const ody = snapped.top - t;
-          origins.forEach(({ el: other, l: ol, t: ot }) => {
-            placeAbsolute(other, stage, ol + odx, ot + ody);
-          });
-          guides = snapped.guides;
-        }
+      const { el, l, t } = origins[0];
+      const snapped = snapMove(stage, el, l + (ev.clientX - startX), t + (ev.clientY - startY), selected);
+      const odx = snapped.left - l;
+      const ody = snapped.top - t;
+      origins.forEach(({ el: other, l: ol, t: ot }) => {
+        placeAbsolute(other, stage, ol + odx, ot + ody);
       });
+      guides = snapped.guides;
       showGuides(stage, guides);
       updateGroupChrome(stage);
     };
@@ -315,7 +354,7 @@
     const handle = document.createElement("button");
     handle.type = "button";
     handle.className = "move-handle";
-    handle.title = "拖这里移动；按住 Ctrl 可多选";
+    handle.title = "拖这里移动；Ctrl 点击多选；Alt+拖空白处框选";
     handle.setAttribute("aria-label", "移动");
     handle.textContent = "✥";
     el.classList.add("is-movable");
@@ -341,7 +380,6 @@
       }
 
       ensureStageStyle(stage);
-      stage.classList.add("has-moves");
       ensureAbsolute(el, stage);
 
       const startX = e.clientX;
@@ -374,10 +412,16 @@
     stage.addEventListener("mousedown", (e) => {
       if (!document.body.classList.contains("is-owner")) return;
       if (e.button !== 0) return;
-      if (e.target.closest(".move-handle, .group-move-handle, [contenteditable='true'], .is-editable, [data-edit-media], .list-del, button, a, input, textarea")) {
+      // 右下角留给改大小，不要抢
+      if (nearResizeCorner(e, stage)) return;
+      if (
+        e.target.closest(
+          ".move-handle, .group-move-handle, [contenteditable='true'], .is-editable, [data-edit-media], .list-del, button, a, input, textarea"
+        )
+      ) {
         return;
       }
-      // 点在可移动块上：单击选中；Ctrl 加减选
+
       const hit = e.target.closest(".is-movable, [data-move-id], [data-move-item]");
       if (hit && itemsIn(stage).includes(hit)) {
         if (e.ctrlKey || e.metaKey) {
@@ -386,6 +430,12 @@
         } else if (!getSelected(stage).has(hit)) {
           setSelection(stage, [hit]);
         }
+        return;
+      }
+
+      // 只有按住 Alt 才框选，避免和拖大小、点空白冲突
+      if (!e.altKey) {
+        if (!e.shiftKey && !e.ctrlKey && !e.metaKey) clearSelection(stage);
         return;
       }
 
@@ -442,16 +492,19 @@
     if (!document.body.classList.contains("is-owner")) return;
     stages().forEach((stage) => {
       ensureStageStyle(stage);
-      stage.querySelectorAll(".pill-row").forEach((row) => row.classList.add("pill-row--free"));
       itemsIn(stage).forEach((el) => {
         if (!el.dataset.moveId) el.dataset.moveId = moveIdOf(el);
         attachHandle(el);
       });
-      stage.querySelectorAll(".skill-ovals > figure").forEach((fig, i) => {
+      stage.querySelectorAll(".skill-ovals > figure, :scope > figure").forEach((fig, i) => {
         if (!fig.dataset.moveId) fig.dataset.moveId = `skillFigure.${i}`;
         fig.dataset.moveItem = "1";
         attachHandle(fig);
       });
+      // 只有已经自由排版过，才摊平 pill 行
+      if (stage.classList.contains("has-moves")) {
+        stage.querySelectorAll(".pill-row").forEach((row) => row.classList.add("pill-row--free"));
+      }
       attachMarquee(stage);
     });
   };

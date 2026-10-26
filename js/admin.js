@@ -287,11 +287,38 @@
       ${field("邮箱底栏", "contactLabels.email", content.contactLabels?.email)}
     </section>`;
 
+  const laneOptions = (current) => {
+    const lanes = (content.workLanes || []).filter((l) => l.id !== "all");
+    const opts = lanes
+      .map((l) => `<option value="${esc(l.id)}" ${current === l.id ? "selected" : ""}>${esc(l.label || l.id)}</option>`)
+      .join("");
+    return `${opts}<option value="both" ${current === "both" ? "selected" : ""}>全部栏目都显示</option>`;
+  };
+
   const worksPanel = () => `
     <section class="card">
       <h3>作品页头图文</h3>
       ${field("标题", "worksHero.title", content.worksHero?.title)}
       ${field("简介", "worksHero.desc", content.worksHero?.desc, true)}
+    </section>
+    <section class="card">
+      <h3>作品栏目（网站上方按钮）</h3>
+      <p class="hint">可改名称、增减栏目。「全部」是系统自带，不能删。</p>
+      ${(content.workLanes || [])
+        .map(
+          (l, i) => `
+        <div class="row row--with-del">
+          <div>${field("栏目ID", `workLanes.${i}.id`, l.id)}</div>
+          <div>${field("显示名称", `workLanes.${i}.label`, l.label)}</div>
+          ${
+            l.system || l.id === "all"
+              ? `<span class="hint">系统</span>`
+              : `<button type="button" class="btn btn--danger btn--tiny" data-del-item="workLanes:${i}">删</button>`
+          }
+        </div>`
+        )
+        .join("")}
+      <button class="btn btn--ghost" type="button" id="addLane">＋ 加栏目</button>
     </section>
     ${(content.works || [])
       .map(
@@ -306,11 +333,9 @@
           <div>${field("品类", `work.${w.id}.category`, w.category)}</div>
           <div>${field("类型", `work.${w.id}.type`, w.type)}</div>
         </div>
-        <label>栏目（图片 / 视频）</label>
+        <label>所属栏目</label>
         <select data-path="work.${w.id}.lane">
-          <option value="image" ${w.lane === "image" || !w.lane ? "selected" : ""}>图片相关</option>
-          <option value="video" ${w.lane === "video" ? "selected" : ""}>视频相关</option>
-          <option value="both" ${w.lane === "both" ? "selected" : ""}>两个栏目都显示</option>
+          ${laneOptions(w.lane || "image")}
         </select>
         ${field("简介", `work.${w.id}.desc`, w.desc, true)}
         <div class="media-grid">
@@ -358,6 +383,12 @@
     content.about = content.about || {};
     content.worksHero = content.worksHero || {};
     content.works = content.works || [];
+    content.workLanes = content.workLanes || [
+      { id: "all", label: "全部", system: true },
+      { id: "image", label: "图片" },
+      { id: "video", label: "视频" },
+    ];
+    content.shortcuts = content.shortcuts || { save: "Control+s", undo: "Control+z", redo: "Control+y" };
   };
 
   const drawPanel = () => {
@@ -437,6 +468,10 @@
     const idx = Number(spec.slice(cut + 1));
     const arr = getPath(content, path);
     if (!Array.isArray(arr) || Number.isNaN(idx)) return;
+    if (path === "workLanes" && (arr[idx]?.system || arr[idx]?.id === "all")) {
+      say("「全部」不能删除");
+      return;
+    }
     arr.splice(idx, 1);
   };
 
@@ -490,6 +525,13 @@
         drawPanel();
       }
     }
+    if (t.id === "addLane") {
+      collectFields();
+      content.workLanes = content.workLanes || [];
+      const id = `lane-${Date.now().toString(36).slice(-4)}`;
+      content.workLanes.push({ id, label: "新栏目" });
+      drawPanel();
+    }
     if (t.id === "addWork") {
       collectFields();
       content.works.unshift({
@@ -498,6 +540,7 @@
         name: "新项目",
         category: "",
         type: "Brand design",
+        lane: "image",
         color: "#c45c4a",
         side: "",
         desc: "",

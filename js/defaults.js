@@ -81,6 +81,16 @@ window.DAWN_DEFAULTS = {
   },
   /* 拖 ✥ 移动后的位置 */
   moves: {},
+  shortcuts: {
+    save: "Control+s",
+    undo: "Control+z",
+    redo: "Control+y",
+  },
+  workLanes: [
+    { id: "all", label: "全部", system: true },
+    { id: "image", label: "图片" },
+    { id: "video", label: "视频" },
+  ],
   contact: {
     email: "15004320356@qq.com",
     phone: "183 7396 8105",

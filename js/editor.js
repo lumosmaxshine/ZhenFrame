@@ -268,11 +268,13 @@
 
   const applyContent = (content) => {
     window.DAWN_CONTENT = content;
+    window.DawnShortcuts?.loadMap?.(content);
     window.DawnRender?.apply(content);
     window.DawnLayout?.apply?.(content);
     document.dispatchEvent(new CustomEvent("dawn:content", { detail: content }));
     if (document.body.classList.contains("is-owner")) enableInline();
     window.DawnWorks?.refresh?.();
+    window.DawnHistory?.push?.(content);
   };
 
   const bindListActions = () => {
@@ -449,24 +451,53 @@
     } else {
       auth.innerHTML = `
         <h3>编辑中</h3>
-        <p class="settings-muted">已登录。点字改内容；空白处拖框可多选；选中后拖 ✥ 一起移动（黑色对齐线）；右下角改大小。改完点下方保存。</p>
+        <p class="settings-muted">点字改内容；拖 ✥ 移动；按住 Alt 再拖空白处框选；Ctrl 点可多选；右下角拖边改大小。改完点保存或按快捷键。</p>
         <div class="settings-actions">
           <button type="button" id="settingsSave">保存到网上</button>
           <button type="button" id="settingsLogout" class="is-ghost">退出登录</button>
         </div>
-        <a class="settings-link" href="admin.html">打开完整后台（增删更方便）</a>`;
-      auth.querySelector("#settingsSave").addEventListener("click", async () => {
-        try {
-          say("保存中…");
-          const next = harvest(window.DAWN_CONTENT || {});
-          await DawnStore.save(next);
-          say("已发布，并留下一份历史");
-          renderHistory(wrap.querySelector("#settingsHistory"));
-        } catch (err) {
-          say(err.message || String(err));
-          alert(err.message || "保存失败");
-        }
-      });
+        <h3>快捷键</h3>
+        <div class="settings-shortcuts" id="settingsShortcuts"></div>
+        <a class="settings-link" href="admin.html">打开完整后台（增删栏目更方便）</a>`;
+      const fillShortcuts = () => {
+        const box = auth.querySelector("#settingsShortcuts");
+        if (!box || !window.DawnShortcuts) return;
+        const m = DawnShortcuts.getMap();
+        const rows = [
+          ["save", "保存到网上"],
+          ["undo", "撤回排版"],
+          ["redo", "重做排版"],
+        ];
+        box.innerHTML = rows
+          .map(
+            ([k, label]) => `
+          <div class="settings-shortcut-row">
+            <span>${label}</span>
+            <code>${m[k] || ""}</code>
+            <button type="button" data-rebind="${k}">改键</button>
+          </div>`
+          )
+          .join("");
+        box.querySelectorAll("[data-rebind]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            say("请按下新的快捷键组合…");
+            const once = (ev) => {
+              ev.preventDefault();
+              ev.stopPropagation();
+              const combo = DawnShortcuts.comboFromEvent(ev);
+              if (/^Control$|^Alt$|^Shift$|^Meta$/i.test(ev.key)) return;
+              DawnShortcuts.setShortcut(btn.dataset.rebind, combo);
+              document.removeEventListener("keydown", once, true);
+              say(`已设为 ${combo}`);
+              fillShortcuts();
+            };
+            document.addEventListener("keydown", once, true);
+          });
+        });
+      };
+      fillShortcuts();
+
+      auth.querySelector("#settingsSave").addEventListener("click", saveToCloud);
       auth.querySelector("#settingsLogout").addEventListener("click", async () => {
         await DawnStore.logout();
         location.reload();
@@ -476,14 +507,61 @@
     renderHistory(wrap.querySelector("#settingsHistory"));
   };
 
+  const saveToCloud = async () => {
+    try {
+      say("保存中…");
+      const next = harvest(window.DAWN_CONTENT || {});
+      next.shortcuts = window.DawnShortcuts?.getMap?.() || next.shortcuts;
+      await DawnStore.save(next);
+      say("已发布，并留下一份历史");
+      const hist = document.querySelector("#settingsHistory");
+      if (hist) renderHistory(hist);
+    } catch (err) {
+      say(err.message || String(err));
+      alert(err.message || "保存失败");
+    }
+  };
+
   const showOwnerBar = () => {
     document.body.classList.add("is-owner");
     document.getElementById("editorBar")?.remove();
     bindListActions();
     bindOwnerLinkGuard();
     enableInline();
+    window.DawnShortcuts?.bind?.();
     window.DawnWorks?.refresh?.();
+    if (document.body.dataset.saveShortcutBound !== "1") {
+      document.body.dataset.saveShortcutBound = "1";
+      document.addEventListener("dawn:shortcut-save", () => saveToCloud());
+    }
+    // 按住 Alt 时提示可框选
+    if (document.body.dataset.altMarqueeBound !== "1") {
+      document.body.dataset.altMarqueeBound = "1";
+      const syncAlt = (e) => {
+        document.querySelectorAll(".is-move-stage").forEach((s) => {
+          s.classList.toggle("is-marquee-ready", !!e.altKey);
+        });
+      };
+      window.addEventListener("keydown", syncAlt);
+      window.addEventListener("keyup", syncAlt);
+    }
   };
+
+  // 拖右下角改大小后也记入撤回栈
+  document.addEventListener("mouseup", () => {
+    if (!document.body.classList.contains("is-owner")) return;
+    const content = window.DAWN_CONTENT;
+    if (!content) return;
+    document.querySelectorAll("[data-box]").forEach((el) => {
+      const id = el.dataset.box;
+      if (!id) return;
+      content.boxes = content.boxes || {};
+      content.boxes[id] = {
+        w: el.style.width || "",
+        h: el.style.height || "",
+      };
+    });
+  });
 
   const bindMediaClicks = () => {
     document.addEventListener(
@@ -569,8 +647,7 @@
   const boot = async () => {
     try {
       const content = await DawnStore.load();
-      window.DawnRender?.apply(content);
-      document.dispatchEvent(new CustomEvent("dawn:content", { detail: content }));
+      applyContent(content);
     } catch (err) {
       console.warn(err);
     }

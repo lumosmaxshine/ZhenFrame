@@ -7,9 +7,15 @@
   let slideIndex = 0;
   let bound = false;
   let filter = "all";
+  let lanes = [];
+
+  const mediaOf = (p) => {
+    const list = p?.media || [];
+    return list.filter((m) => (m.kind === "image" || m.kind === "video") && m.src);
+  };
 
   const laneOf = (p) => {
-    if (p?.lane === "image" || p?.lane === "video" || p?.lane === "both") return p.lane;
+    if (p?.lane) return p.lane;
     const media = mediaOf(p);
     const hasVideo = media.some((m) => m.kind === "video");
     const hasImage = media.some((m) => m.kind === "image");
@@ -26,6 +32,28 @@
         const lane = laneOf(projects[i]);
         return lane === filter || lane === "both";
       });
+
+  const renderFilters = () => {
+    const box = document.getElementById("worksFilters");
+    if (!box) return;
+    const list =
+      lanes?.length > 0
+        ? lanes
+        : [
+            { id: "all", label: "全部", system: true },
+            { id: "image", label: "图片" },
+            { id: "video", label: "视频" },
+          ];
+    if (!list.some((l) => l.id === filter)) filter = "all";
+    box.innerHTML = list
+      .map(
+        (l) =>
+          `<button type="button" class="works-filter${l.id === filter ? " is-on" : ""}" data-filter="${l.id}" role="tab" aria-selected="${
+            l.id === filter ? "true" : "false"
+          }">${l.label || l.id}</button>`
+      )
+      .join("");
+  };
 
   const modal = document.getElementById("modal-project");
   const galleryMain = document.getElementById("galleryMain");
@@ -93,11 +121,7 @@
   };
 
   const syncFilters = () => {
-    document.querySelectorAll("#worksFilters [data-filter]").forEach((btn) => {
-      const on = btn.dataset.filter === filter;
-      btn.classList.toggle("is-on", on);
-      btn.setAttribute("aria-selected", on ? "true" : "false");
-    });
+    renderFilters();
   };
 
   const paintSlides = (project) => {
@@ -189,15 +213,21 @@
     });
   };
 
-  const start = (works) => {
-    projects = works || [];
+  const start = (content) => {
+    if (Array.isArray(content)) {
+      projects = content;
+      lanes = window.DAWN_CONTENT?.workLanes || window.DAWN_DEFAULTS?.workLanes || [];
+    } else {
+      projects = content?.works || [];
+      lanes = content?.workLanes || window.DAWN_DEFAULTS?.workLanes || [];
+    }
     bindOnce();
     syncFilters();
     renderList();
   };
 
-  document.addEventListener("dawn:content", (e) => start(e.detail.works));
-  if (window.DAWN_CONTENT?.works) start(window.DAWN_CONTENT.works);
+  document.addEventListener("dawn:content", (e) => start(e.detail));
+  if (window.DAWN_CONTENT) start(window.DAWN_CONTENT);
 
   window.DawnWorks = {
     list: () => projects,

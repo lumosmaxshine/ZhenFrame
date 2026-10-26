@@ -1087,6 +1087,8 @@ body.is-owner [data-box] {
   min-height: 100px;
   outline: 1px dashed rgba(196, 92, 74, 0.45);
   outline-offset: -1px;
+  position: relative;
+  z-index: 2;
 }
 
 body.is-owner .modal__panel[data-box] {
@@ -1228,13 +1230,13 @@ body.is-owner .move-handle {
   cursor: grabbing;
 }
 
-body.is-owner .is-move-stage {
-  cursor: crosshair;
-}
-
 body.is-owner .is-move-stage .is-movable,
 body.is-owner .is-move-stage .move-handle {
   cursor: grab;
+}
+
+body.is-owner .is-move-stage.is-marquee-ready {
+  cursor: crosshair;
 }
 
 .about-split__bottom,
@@ -2179,6 +2181,32 @@ body[data-page="works"] {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+}
+
+.settings-shortcut-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0.4rem 0;
+  font-size: 0.85rem;
+}
+
+.settings-shortcut-row code {
+  font-size: 0.78rem;
+  background: rgba(0, 0, 0, 0.06);
+  padding: 0.2rem 0.45rem;
+  border-radius: 6px;
+}
+
+.settings-shortcut-row button {
+  font: inherit;
+  font-size: 0.78rem;
+  padding: 0.25rem 0.55rem;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
 }
 
 .settings-actions .is-ghost {
